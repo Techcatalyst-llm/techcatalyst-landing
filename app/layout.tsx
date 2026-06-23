@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Rubik } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin", "cyrillic"] });
+const rubik = Rubik({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techcatalyst.ru'),
@@ -33,7 +37,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Yandex Metrika ID - можно изменить через переменную окружения
 const YM_ID = process.env.NEXT_PUBLIC_YM_ID || "102447006";
 
 export default function RootLayout({
@@ -42,11 +45,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} antialiased`}>
+    <html lang="ru" className="scroll-smooth">
+      <body className={`${rubik.className} antialiased`}>
         {children}
-        
-        {/* Yandex.Metrika counter */}
         <Script id="yandex-metrika" strategy="afterInteractive">
           {`
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -63,14 +64,12 @@ export default function RootLayout({
             });
           `}
         </Script>
-        
-        {/* Noscript fallback for Yandex.Metrika */}
         <noscript>
           <div>
-            <img 
+            <img
               src={`https://mc.yandex.ru/watch/${YM_ID}`}
-              style={{ position: "absolute", left: "-9999px" }} 
-              alt="" 
+              style={{ position: "absolute", left: "-9999px" }}
+              alt=""
             />
           </div>
         </noscript>

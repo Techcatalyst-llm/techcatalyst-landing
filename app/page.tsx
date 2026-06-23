@@ -1,1173 +1,942 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { ChevronRight, Code, Zap, Shield, Users, Star, ArrowRight, Play, Check, X, Menu, Sparkles, Cpu, Clock, RussianRuble, Rocket, GitBranch, Globe, BarChart, Brain, Network, Layers, Server, CreditCard, MessageSquare, Smartphone, FileText, TrendingUp, Lock, Mail, Send, Linkedin } from 'lucide-react';
-import { trackCTAClick, trackPricingSelect, trackPlatformView, trackMobileMenuToggle } from '@/lib/analytics';
+import { useEffect, useState } from 'react';
+import {
+  ArrowRight,
+  BadgeCheck,
+  BookOpen,
+  Brain,
+  Building2,
+  Check,
+  ChevronRight,
+  Clock3,
+  Code2,
+  CreditCard,
+  Globe,
+  Menu,
+  MessageSquare,
+  Network,
+  Server,
+  ShieldCheck,
+  Smartphone,
+  Wallet,
+  X,
+  Zap,
+} from 'lucide-react';
+import { trackCTAClick, trackMobileMenuToggle, trackPlatformView, trackPricingSelect } from '@/lib/analytics';
 import ApplicationModal from '@/components/Modal/ApplicationModal';
 
+type Language = 'en' | 'ru';
+type ModelTab = 'all' | 'text' | 'multimodal' | 'image';
+
+const navItems = [
+  { href: '#features', key: 'features' },
+  { href: '#models', key: 'models' },
+  { href: '#integration', key: 'integration' },
+  { href: '#pricing', key: 'pricing' },
+  { href: '#reviews', key: 'reviews' },
+] as const;
+
+const translations = {
+  en: {
+    brand: 'Tech Catalyst',
+    nav: {
+      features: 'Features',
+      models: 'Models',
+      integration: 'Integration',
+      pricing: 'Pricing',
+      reviews: 'Reviews',
+      docs: 'Documentation',
+      start: 'Start free',
+      language: 'RU',
+    },
+    hero: {
+      kicker: 'Unified AI API platform',
+      title: 'One API for ChatGPT, Claude, Gemini, Grok and 100+ AI models.',
+      lead:
+        'Single endpoint, OpenAI-compatible SDK, payment in rubles and stable access without VPN. Switch providers by changing one parameter.',
+      primary: 'Create free account',
+      secondary: 'Open documentation',
+      panelTitle: 'Why teams switch',
+      bullets: [
+        'Works with existing OpenAI SDK flows',
+        'Automatic provider failover in one route',
+        'Transparent usage billing for teams and companies',
+      ],
+    },
+    stats: {
+      models: 'AI models',
+      providers: 'Providers',
+      latency: 'Low-friction launch',
+      billing: 'Payment in rubles',
+    },
+    sections: {
+      features: 'Platform capabilities',
+      featuresTitle: 'A consistent operating layer for all major AI providers.',
+      featuresLead:
+        'The landing now follows the same design system as Guard, and the product story is presented with the same visual discipline: clear typography, compact cards and focused calls to action.',
+      integration: 'Integration',
+      integrationTitle: 'Connect in minutes, keep freedom to switch models later.',
+      integrationLead:
+        'You keep the SDK, auth pattern and product logic you already use. Tech Catalyst changes the routing layer, not your architecture.',
+      models: 'Model catalog',
+      modelsTitle: 'Route requests across text, multimodal and image models.',
+      modelsLead:
+        'Use one endpoint for different providers and compare quality, latency and cost without rewriting application code.',
+      pricing: 'Pricing',
+      pricingTitle: 'Simple commercial model for individuals and business teams.',
+      pricingLead:
+        'Retail access stays pay-as-you-go. Legal entities can work through invoice, contract and reporting.',
+      reviews: 'Customer fit',
+      reviewsTitle: 'Built for developers, product teams and internal AI platforms.',
+      reviewsLead:
+        'The service is positioned for production usage, rapid prototyping and managed enterprise procurement.',
+      ctaTitle: 'Need a working setup instead of another model catalog?',
+      ctaLead:
+        'Launch with one API key, keep model optionality and scale billing, controls and procurement on the same platform.',
+    },
+    features: [
+      {
+        title: 'Unified API',
+        text: 'One API key and one endpoint with OpenAI-compatible semantics.',
+        icon: <Code2 className="h-5 w-5" />,
+      },
+      {
+        title: 'Automatic failover',
+        text: 'Requests can move to backup providers when one route degrades.',
+        icon: <ShieldCheck className="h-5 w-5" />,
+      },
+      {
+        title: 'No VPN required',
+        text: 'Stable access for Russian teams with direct connectivity and local billing.',
+        icon: <Globe className="h-5 w-5" />,
+      },
+      {
+        title: 'Team controls',
+        text: 'Centralized limits, budgets, keys and organizational access policies.',
+        icon: <Building2 className="h-5 w-5" />,
+      },
+      {
+        title: 'Usage accounting',
+        text: 'Track tokens, spend and provider mix from a single commercial layer.',
+        icon: <Wallet className="h-5 w-5" />,
+      },
+      {
+        title: 'Production routing',
+        text: 'Move between models for quality, latency or economics without changing product code.',
+        icon: <Network className="h-5 w-5" />,
+      },
+    ],
+    steps: [
+      {
+        title: 'Create an account',
+        text: 'Get an API key and access to the dashboard without changing your workflow.',
+      },
+      {
+        title: 'Point your SDK to Tech Catalyst',
+        text: 'Set the base URL and keep your existing request format.',
+      },
+      {
+        title: 'Switch models by parameter',
+        text: 'Compare providers inside the same product path and pricing model.',
+      },
+    ],
+    tabs: {
+      all: 'All',
+      text: 'Text',
+      multimodal: 'Multimodal',
+      image: 'Image',
+      per: 'per 1M tokens',
+    },
+    pricing: {
+      personalTitle: 'For individuals',
+      personalItems: [
+        'Cards and flexible top-up flows',
+        'Transparent pay-as-you-go pricing',
+        'No mandatory subscription',
+        'Fast testing for personal projects',
+      ],
+      businessTitle: 'For legal entities',
+      businessItems: [
+        'Invoice-based payment',
+        'Contract and closing documents',
+        'Support for procurement workflows',
+        'Shared billing and team management',
+      ],
+      viewPrice: 'Open full price list',
+      contactSales: 'Talk to sales',
+    },
+    channels: {
+      docsTitle: 'Documentation',
+      docsText: 'API reference, product details and downloadable materials for technical and procurement review.',
+      chatTitle: 'Web and Telegram access',
+      chatText: 'Try the platform without full integration and route adoption through a lighter evaluation flow.',
+      docsButton: 'View docs',
+      chatButton: 'Request access',
+    },
+    testimonials: [
+      {
+        quote:
+          'We stopped rebuilding integrations for every provider. The API layer became boring, which is exactly what we needed.',
+        author: 'Product team, internal AI tools',
+      },
+      {
+        quote:
+          'Model switching went from a roadmap task to a config decision. That changed how quickly we test new ideas.',
+        author: 'Founder, B2B SaaS',
+      },
+      {
+        quote:
+          'Finance and procurement finally got a commercial flow that matched how engineering wanted to consume models.',
+        author: 'Operations lead, enterprise client',
+      },
+    ],
+    footer: {
+      note: 'Unified API for 100+ AI models',
+      rights: '© 2026 Tech Catalyst. All rights reserved.',
+    },
+  },
+  ru: {
+    brand: 'Tech Catalyst',
+    nav: {
+      features: 'Возможности',
+      models: 'Модели',
+      integration: 'Интеграция',
+      pricing: 'Тарифы',
+      reviews: 'Кому подходит',
+      docs: 'Документация',
+      start: 'Начать бесплатно',
+      language: 'EN',
+    },
+    hero: {
+      kicker: 'Единая AI API-платформа',
+      title: 'Один API для ChatGPT, Claude, Gemini, Grok и 100+ AI-моделей.',
+      lead:
+        'Один эндпоинт, совместимость с OpenAI SDK, оплата в рублях и стабильный доступ без VPN. Переключение между провайдерами меняется одним параметром.',
+      primary: 'Создать бесплатный аккаунт',
+      secondary: 'Открыть документацию',
+      panelTitle: 'Почему команды переходят',
+      bullets: [
+        'Работает с существующими сценариями на OpenAI SDK',
+        'Автоматический failover между провайдерами',
+        'Прозрачный учёт потребления для команд и компаний',
+      ],
+    },
+    stats: {
+      models: 'Моделей ИИ',
+      providers: 'Провайдеров',
+      latency: 'Быстрый старт',
+      billing: 'Оплата в рублях',
+    },
+    sections: {
+      features: 'Возможности платформы',
+      featuresTitle: 'Единый операционный слой для всех основных AI-провайдеров.',
+      featuresLead:
+        'Лендинг теперь следует тому же дизайн-языку, что и Guard: чистая типографика, компактные карточки, спокойные акценты и понятные CTA.',
+      integration: 'Интеграция',
+      integrationTitle: 'Подключение за минуты, свобода переключения моделей сохраняется.',
+      integrationLead:
+        'Вы оставляете привычный SDK, авторизацию и продуктовую логику. Tech Catalyst меняет слой маршрутизации, а не вашу архитектуру.',
+      models: 'Каталог моделей',
+      modelsTitle: 'Маршрутизируйте запросы между текстовыми, мультимодальными и image-моделями.',
+      modelsLead:
+        'Один endpoint для разных провайдеров позволяет сравнивать качество, latency и стоимость без переписывания кода.',
+      pricing: 'Тарифы',
+      pricingTitle: 'Простая коммерческая модель для частных пользователей и корпоративных команд.',
+      pricingLead:
+        'Розничный доступ остаётся pay-as-you-go. Юридические лица работают по счёту, договору и с закрывающими документами.',
+      reviews: 'Кому подходит',
+      reviewsTitle: 'Платформа для разработчиков, продуктовых команд и внутренних AI-платформ.',
+      reviewsLead:
+        'Сервис позиционируется для production-использования, быстрых экспериментов и закупки в корпоративном контуре.',
+      ctaTitle: 'Нужна рабочая схема, а не ещё один каталог моделей?',
+      ctaLead:
+        'Запускайтесь с одним API-ключом, сохраняйте свободу выбора моделей и масштабируйте биллинг, контроль и закупку в одной платформе.',
+    },
+    features: [
+      {
+        title: 'Единый API',
+        text: 'Один API-ключ и один endpoint с OpenAI-совместимой семантикой.',
+        icon: <Code2 className="h-5 w-5" />,
+      },
+      {
+        title: 'Автоматический failover',
+        text: 'Запросы уходят на резервных провайдеров при деградации одного маршрута.',
+        icon: <ShieldCheck className="h-5 w-5" />,
+      },
+      {
+        title: 'Без VPN',
+        text: 'Стабильный доступ для российских команд и локальная коммерческая модель.',
+        icon: <Globe className="h-5 w-5" />,
+      },
+      {
+        title: 'Управление командой',
+        text: 'Централизованные лимиты, бюджеты, ключи и организационные политики доступа.',
+        icon: <Building2 className="h-5 w-5" />,
+      },
+      {
+        title: 'Учёт потребления',
+        text: 'Токены, расходы и mix провайдеров отслеживаются в едином коммерческом слое.',
+        icon: <Wallet className="h-5 w-5" />,
+      },
+      {
+        title: 'Production routing',
+        text: 'Меняйте модели ради качества, скорости или экономики без изменений продуктового кода.',
+        icon: <Network className="h-5 w-5" />,
+      },
+    ],
+    steps: [
+      {
+        title: 'Создайте аккаунт',
+        text: 'Получите API-ключ и доступ в кабинет без смены рабочего процесса.',
+      },
+      {
+        title: 'Направьте SDK в Tech Catalyst',
+        text: 'Укажите base URL и сохраните привычный формат запросов.',
+      },
+      {
+        title: 'Переключайте модели параметром',
+        text: 'Сравнивайте провайдеров внутри одного продуктового контура и тарифной модели.',
+      },
+    ],
+    tabs: {
+      all: 'Все',
+      text: 'Текст',
+      multimodal: 'Мультимодальные',
+      image: 'Изображения',
+      per: 'за 1M токенов',
+    },
+    pricing: {
+      personalTitle: 'Для физических лиц',
+      personalItems: [
+        'Карты и гибкое пополнение баланса',
+        'Прозрачный pay-as-you-go',
+        'Без обязательной подписки',
+        'Быстрый запуск личных проектов',
+      ],
+      businessTitle: 'Для юридических лиц',
+      businessItems: [
+        'Оплата по счёту',
+        'Договор и закрывающие документы',
+        'Поддержка закупочного контура',
+        'Общий биллинг и управление командой',
+      ],
+      viewPrice: 'Открыть полный прайс-лист',
+      contactSales: 'Связаться с продажами',
+    },
+    channels: {
+      docsTitle: 'Документация',
+      docsText: 'API-справка, продуктовые материалы и документы для технической и закупочной проверки.',
+      chatTitle: 'Веб и Telegram-доступ',
+      chatText: 'Платформу можно оценить до полной интеграции и провести более лёгкий pilot flow.',
+      docsButton: 'Открыть docs',
+      chatButton: 'Запросить доступ',
+    },
+    testimonials: [
+      {
+        quote:
+          'Мы перестали пересобирать интеграции под каждого провайдера. API-слой стал скучным, а это именно то, что было нужно.',
+        author: 'Продуктовая команда, internal AI tools',
+      },
+      {
+        quote:
+          'Переключение моделей стало не roadmap-задачей, а вопросом конфигурации. Скорость проверки гипотез заметно выросла.',
+        author: 'Основатель, B2B SaaS',
+      },
+      {
+        quote:
+          'Финансы и закупка наконец получили коммерческий поток, который совпадает с тем, как инженеры хотят потреблять модели.',
+        author: 'Операционный руководитель, enterprise-клиент',
+      },
+    ],
+    footer: {
+      note: 'Единый API для 100+ AI-моделей',
+      rights: '© 2026 Tech Catalyst. Все права защищены.',
+    },
+  },
+} as const;
+
+const models = [
+  { name: 'GPT-5', type: 'text' as const, provider: 'OpenAI', price: '$1.25 / $10.00' },
+  { name: 'Claude 4 Sonnet', type: 'text' as const, provider: 'Anthropic', price: '$3.00 / $15.00' },
+  { name: 'Gemini 2.5 Pro', type: 'multimodal' as const, provider: 'Google', price: '$1.25 / $10.00' },
+  { name: 'Grok 4', type: 'text' as const, provider: 'xAI', price: '$3.00 / $15.00' },
+  { name: 'DeepSeek V3', type: 'text' as const, provider: 'DeepSeek', price: '$0.27 / $1.10' },
+  { name: 'GPT-Image', type: 'image' as const, provider: 'OpenAI', price: 'on request' },
+  { name: 'Claude 4 Opus', type: 'multimodal' as const, provider: 'Anthropic', price: '$15.00 / $75.00' },
+  { name: 'Imagen', type: 'image' as const, provider: 'Google', price: 'on request' },
+];
+
+const codeSample = `from openai import OpenAI
+
+client = OpenAI(
+    api_key="tc_live_xxx",
+    base_url="https://techcatalyst.ru/api/v1",
+)
+
+response = client.chat.completions.create(
+    model="anthropic/claude-sonnet-4",
+    messages=[{"role": "user", "content": "Summarize this task"}],
+)
+
+print(response.choices[0].message.content)`;
+
+function Wrap({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return <div className={`mx-auto max-w-[1140px] px-6 max-sm:px-[18px] ${className}`}>{children}</div>;
+}
+
 export default function TechCatalystLanding() {
+  const [language, setLanguage] = useState<Language>('ru');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('all');
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  const [scrolled, setScrolled] = useState(false);
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [activeTab, setActiveTab] = useState<ModelTab>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSource, setModalSource] = useState('unknown');
-  const [language, setLanguage] = useState<'en' | 'ru'>('en');
 
-  // Load language from localStorage on mount
   useEffect(() => {
-    const savedLang = localStorage.getItem('techcatalyst_lang') as 'en' | 'ru' | null;
+    const savedLang = localStorage.getItem('techcatalyst_lang') as Language | null;
     if (savedLang === 'en' || savedLang === 'ru') {
       setLanguage(savedLang);
     }
   }, []);
 
-  // Save language to localStorage when it changes
   useEffect(() => {
     localStorage.setItem('techcatalyst_lang', language);
   }, [language]);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const t = translations[language];
 
-  // Auto-rotate testimonials
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % 3);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  const stats = [
+    { number: '100+', label: t.stats.models, icon: <Brain className="h-5 w-5" /> },
+    { number: '12+', label: t.stats.providers, icon: <Server className="h-5 w-5" /> },
+    { number: '1 day', label: t.stats.latency, icon: <Clock3 className="h-5 w-5" /> },
+    { number: 'RUB', label: t.stats.billing, icon: <CreditCard className="h-5 w-5" /> },
+  ];
 
-  // Track mobile menu toggle
-  const handleMobileMenuToggle = () => {
-    const newState = !isMenuOpen;
-    setIsMenuOpen(newState);
-    trackMobileMenuToggle(newState);
-  };
+  const filteredModels =
+    activeTab === 'all' ? models : models.filter((model) => model.type === activeTab);
 
-  // Track platform tab change
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    trackPlatformView(tab);
-  };
-
-  // Handle CTA click with modal
   const handleCTAClick = (source: string) => {
     trackCTAClick(source);
     setModalSource(source);
     setIsModalOpen(true);
   };
 
-  // Handle pricing plan selection
   const handlePricingClick = (planName: string) => {
     trackPricingSelect(planName);
     setModalSource(`pricing_${planName.toLowerCase()}`);
     setIsModalOpen(true);
   };
 
-  // Translations
-  const t = {
-    en: {
-      nav: {
-        features: "Features",
-        models: "Models & Pricing",
-        api: "API",
-        testimonials: "Testimonials",
-        priceList: "Price List",
-        startFree: "Start Free"
-      },
-      hero: {
-        badge: "Unified AI API Platform",
-        title: "ChatGPT, Claude, Gemini, Grok",
-        titleHighlight: "and 100+ AI models in one API",
-        description: "Single API key, single endpoint. Works without VPN. Switch between models by changing one parameter. Automatic failover included.",
-        startFree: "Start Free",
-        exploreDocs: "Explore Documentation"
-      },
-      stats: {
-        models: "AI Models",
-        providers: "Providers",
-        uptime: "Uptime",
-        payRubles: "Pay-as-you-go"
-      },
-      features: {
-        title: "Everything you need in",
-        titleHighlight: "one platform",
-        subtitle: "Single API, multiple models. Works without VPN. Built for developers and teams.",
-        unifiedApi: {
-          title: "Unified API",
-          desc: "One API key, one endpoint. Compatible with OpenAI SDK. Switch models by changing one parameter."
-        },
-        failover: {
-          title: "Automatic Failover",
-          desc: "Automatic switching to backup provider if one is unavailable. Guaranteed continuous service."
-        },
-        noVpn: {
-          title: "No VPN Required",
-          desc: "Direct access without VPN. Stable and fast connection with global infrastructure."
-        },
-        payRubles: {
-          title: "Flexible Payment",
-          desc: "Multiple payment methods available. Transparent pay-as-you-go pricing. No hidden fees."
-        },
-        team: {
-          title: "Team Collaboration",
-          desc: "Centralized billing, individual limits, role management. Perfect for corporate clients."
-        },
-        compliance: {
-          title: "Enterprise Ready",
-          desc: "Legal transparency with contracts and EDI for legal entities. Secure and compliant infrastructure."
-        }
-      },
-      api: {
-        title: "Get started in",
-        titleHighlight: "3 steps",
-        subtitle: "Simple integration, maximum flexibility",
-        step1: {
-          title: "Get API Key",
-          desc: "Sign up for free and get your API key. No credit card required. Start testing immediately."
-        },
-        step2: {
-          title: "Integrate SDK",
-          desc: "Use OpenAI-compatible SDK. Just change the base URL. Works with Python, JavaScript, and more."
-        },
-        step3: {
-          title: "Switch Models",
-          desc: "Change models by updating the model parameter. Test different models without changing your code."
-        },
-        codeExample: "Example: Python",
-        copyCode: "Copy code"
-      },
-      models: {
-        title: "Choose from",
-        titleHighlight: "100+ models",
-        subtitle: "Transparent pay-as-you-go pricing. No subscriptions, no hidden fees.",
-        allModels: "All Models",
-        textModels: "Text Models",
-        multimodal: "Multimodal",
-        imageGen: "Image Generation",
-        viewAll: "View All Models & Prices",
-        perTokens: "per 1M tokens"
-      },
-      devices: {
-        title: "Access from any",
-        titleHighlight: "device",
-        subtitle: "Try models without API integration",
-        webChat: {
-          title: "Web Chat",
-          desc: "Try any model directly in your browser. No registration required for testing.",
-          button: "Try Web Chat"
-        },
-        telegram: {
-          title: "Telegram Bot",
-          desc: "Chat with AI models directly in Telegram. Quick access from your phone.",
-          button: "Try Telegram Bot"
-        }
-      },
-      pricing: {
-        title: "Simple and transparent",
-        titleHighlight: "pricing",
-        subtitle: "Pay-as-you-go. No subscriptions. No hidden fees.",
-        individuals: {
-          title: "For Individuals",
-          card: "Credit and debit cards",
-          sbp: "Multiple payment methods",
-          instant: "Instant top-up",
-          noMin: "No minimum payment"
-        },
-        business: {
-          title: "For Legal Entities",
-          badge: "FOR BUSINESS",
-          invoice: "Payment by invoice",
-          contract: "Contract and closing documents",
-          edi: "EDI (Electronic Document Interchange)",
-          team: "Team management and analytics",
-          contactSales: "Contact Sales"
-        },
-        pricingNote: "Retail prices per 1M tokens (input/output). Enterprise plans have special terms.",
-        viewPricing: "View full pricing table"
-      },
-      testimonials: {
-        title: "Trusted by",
-        titleHighlight: "developers",
-        subtitle: "See what our users say about Tech Catalyst",
-        startFree: "Start Free"
-      },
-      cta: {
-        title: "Ready to start building with",
-        titleHighlight: "Tech Catalyst?",
-        subtitle: "Join hundreds of developers and companies using Tech Catalyst to access 100+ AI models with one API",
-        startFree: "Start Free",
-        noCard: "No credit card required • 24/7 Support"
-      },
-      footer: {
-        tagline: "Unified API for 100+ AI models",
-        product: "Product",
-        company: "Company",
-        legal: "Legal",
-        contacts: "Contacts",
-        copyright: "© 2026 Tech Catalyst. All rights reserved."
-      }
-    },
-    ru: {
-      nav: {
-        features: "Возможности",
-        models: "Модели и цены",
-        api: "API",
-        testimonials: "Отзывы",
-        priceList: "Прайс-лист",
-        startFree: "Начать бесплатно"
-      },
-      hero: {
-        badge: "Единая платформа AI API",
-        title: "ChatGPT, Claude, Gemini, Grok",
-        titleHighlight: "и 100+ моделей ИИ в одном API",
-        description: "Один API-ключ, один эндпоинт. Оплата в рублях. Работает без VPN. Переключение между моделями изменением одного параметра. Автоматическая отказоустойчивость включена.",
-        startFree: "Начать бесплатно",
-        exploreDocs: "Изучить документацию"
-      },
-      stats: {
-        models: "Моделей ИИ",
-        providers: "Провайдеров",
-        uptime: "Время работы",
-        payRubles: "Оплата в рублях"
-      },
-      features: {
-        title: "Всё необходимое в",
-        titleHighlight: "одной платформе",
-        subtitle: "Единый API, множество моделей. Оплата в рублях. Работает без VPN. Создано для разработчиков и команд.",
-        unifiedApi: {
-          title: "Единый API",
-          desc: "Один API-ключ, один эндпоинт. Совместимо с OpenAI SDK. Переключение моделей изменением одного параметра."
-        },
-        failover: {
-          title: "Автоматическая отказоустойчивость",
-          desc: "Автоматическое переключение на резервного провайдера при недоступности одного. Гарантированное непрерывное обслуживание."
-        },
-        noVpn: {
-          title: "Без VPN",
-          desc: "Прямой доступ без VPN через инфраструктуру в России. Стабильное и быстрое соединение."
-        },
-        payRubles: {
-          title: "Оплата в рублях",
-          desc: "Оплата картами российских банков, СБП. Без иностранных посредников. Прозрачное ценообразование по факту использования."
-        },
-        team: {
-          title: "Командная работа",
-          desc: "Централизованный биллинг, индивидуальные лимиты, управление ролями. Идеально для корпоративных клиентов."
-        },
-        compliance: {
-          title: "Соответствие ФЗ-152",
-          desc: "Модели размещены на серверах в России. Юридическая прозрачность с договорами и ЭДО для юридических лиц."
-        }
-      },
-      api: {
-        title: "Начните за",
-        titleHighlight: "3 шага",
-        subtitle: "Простая интеграция, максимальная гибкость",
-        step1: {
-          title: "Получите API-ключ",
-          desc: "Зарегистрируйтесь бесплатно и получите API-ключ. Без кредитной карты. Начните тестирование сразу."
-        },
-        step2: {
-          title: "Интегрируйте SDK",
-          desc: "Используйте совместимый с OpenAI SDK. Просто измените базовый URL. Работает с Python, JavaScript и другими."
-        },
-        step3: {
-          title: "Переключайте модели",
-          desc: "Меняйте модели, обновляя параметр model. Тестируйте разные модели без изменения кода."
-        },
-        codeExample: "Пример: Python",
-        copyCode: "Скопировать код"
-      },
-      models: {
-        title: "Выберите из",
-        titleHighlight: "100+ моделей",
-        subtitle: "Прозрачное ценообразование по факту использования. Без подписок, без скрытых комиссий.",
-        allModels: "Все модели",
-        textModels: "Текстовые модели",
-        multimodal: "Мультимодальные",
-        imageGen: "Генерация изображений",
-        viewAll: "Посмотреть все модели и цены",
-        perTokens: "за 1M токенов"
-      },
-      devices: {
-        title: "Доступ с любого",
-        titleHighlight: "устройства",
-        subtitle: "Попробуйте модели без интеграции API",
-        webChat: {
-          title: "Веб-чат",
-          desc: "Попробуйте любую модель прямо в браузере. Регистрация не требуется для тестирования.",
-          button: "Попробовать веб-чат"
-        },
-        telegram: {
-          title: "Telegram-бот",
-          desc: "Общайтесь с моделями ИИ прямо в Telegram. Быстрый доступ с телефона.",
-          button: "Попробовать Telegram-бот"
-        }
-      },
-      pricing: {
-        title: "Простое и прозрачное",
-        titleHighlight: "ценообразование",
-        subtitle: "Оплата по факту использования. Без подписок. Без скрытых комиссий.",
-        individuals: {
-          title: "Для физических лиц",
-          card: "Карты российских банков",
-          sbp: "СБП (Система быстрых платежей)",
-          instant: "Мгновенное пополнение",
-          noMin: "Без минимального платежа"
-        },
-        business: {
-          title: "Для юридических лиц",
-          badge: "ДЛЯ БИЗНЕСА",
-          invoice: "Оплата по счету",
-          contract: "Договор и закрывающие документы",
-          edi: "ЭДО (Электронный документооборот)",
-          team: "Управление командой и аналитика",
-          contactSales: "Связаться с продажами"
-        },
-        pricingNote: "Розничные цены за 1M токенов (вход/выход). Для Enterprise действуют специальные условия.",
-        viewPricing: "Посмотреть полную таблицу цен"
-      },
-      testimonials: {
-        title: "Нам доверяют",
-        titleHighlight: "разработчики",
-        subtitle: "Посмотрите, что говорят наши пользователи о Tech Catalyst",
-        startFree: "Начать бесплатно"
-      },
-      cta: {
-        title: "Готовы начать работу с",
-        titleHighlight: "Tech Catalyst?",
-        subtitle: "Присоединяйтесь к сотням разработчиков и компаний, использующих Tech Catalyst для доступа к 100+ моделям ИИ через один API",
-        startFree: "Начать бесплатно",
-        noCard: "Без кредитной карты • Поддержка 24/7"
-      },
-      footer: {
-        tagline: "Единый API для 100+ моделей ИИ",
-        product: "Продукт",
-        company: "Компания",
-        legal: "Правовая информация",
-        contacts: "Контакты",
-        copyright: "© 2026 Tech Catalyst. Все права защищены."
-      }
-    }
+  const handleTabChange = (tab: ModelTab) => {
+    setActiveTab(tab);
+    trackPlatformView(tab);
   };
 
-  const translations = t[language];
-  const USD_TO_RUB = 80;
-  const priceListLabel = language === 'ru' ? 'Прайс-лист: ' : 'Price list: ';
-  const formatUsd = (value: number) => `$${value.toFixed(2)}`;
-  const formatRub = (value: number) => {
-    const [whole, fraction] = value.toFixed(2).split('.');
-    const spaced = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return `₽${spaced}.${fraction}`;
+  const handleMenuToggle = () => {
+    const nextState = !isMenuOpen;
+    setIsMenuOpen(nextState);
+    trackMobileMenuToggle(nextState);
   };
-  const formatPrice = (input: number, output: number) => (
-    language === 'ru'
-      ? `${formatRub(input * USD_TO_RUB)} / ${formatRub(output * USD_TO_RUB)}`
-      : `${formatUsd(input)} / ${formatUsd(output)}`
-  );
-
-  const models = [
-    {
-      name: 'GPT-5.2',
-      provider: 'OpenAI',
-      price: formatPrice(2.63, 21.0),
-      context: '128K tokens',
-      description: language === 'ru'
-        ? `Последняя модель GPT с улучшенным рассуждением • ${priceListLabel}gpt-5.2`
-        : `Latest GPT model with enhanced reasoning • ${priceListLabel}gpt-5.2`
-    },
-    {
-      name: 'Claude Sonnet 4.5',
-      provider: 'Anthropic',
-      price: formatPrice(4.5, 22.5),
-      context: '200K tokens',
-      description: language === 'ru'
-        ? `Лучшая для сложных рассуждений и анализа • ${priceListLabel}claude-sonnet-4-5-20250929`
-        : `Best for complex reasoning and analysis • ${priceListLabel}claude-sonnet-4-5-20250929`
-    },
-    {
-      name: 'DeepSeek V3.2',
-      provider: 'DeepSeek',
-      price: formatPrice(0.42, 0.63),
-      context: '64K tokens',
-      description: language === 'ru'
-        ? `Самая экономичная топовая модель • ${priceListLabel}deepseek-reasoner`
-        : `Most cost-effective top-tier model • ${priceListLabel}deepseek-reasoner`
-    },
-    {
-      name: 'Gemini 3 Flash',
-      provider: 'Google',
-      price: formatPrice(0.75, 4.5),
-      context: '1M tokens',
-      description: language === 'ru'
-        ? `Быстрая и доступная для больших объемов задач • ${priceListLabel}gemini-3-flash-preview`
-        : `Fast and affordable for high-volume tasks • ${priceListLabel}gemini-3-flash-preview`
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: "Alex Petrov",
-      role: language === 'ru' ? "CTO, TechStart" : "CTO, TechStart",
-      content: language === 'ru' 
-        ? "Tech Catalyst сэкономил нам недели разработки. Я могу тестировать гипотезы с разными моделями, просто меняя одну строчку в конфиге. Автоматическая отказоустойчивость — это спасение."
-        : "Tech Catalyst saved us weeks of development time. I can test hypotheses with different models just by changing one line in the config. The automatic failover is a lifesaver.",
-      avatar: "👨‍💻"
-    },
-    {
-      name: "Maria Ivanova",
-      role: language === 'ru' ? "Ведущий разработчик, StartupHub" : "Lead Developer, StartupHub",
-      content: language === 'ru'
-        ? "Переход на Tech Catalyst сэкономил нам недели разработки. Один ключ, один эндпоинт, максимальная простота. Оплата в рублях без посредников — именно то, что нам нужно."
-        : "Switching to Tech Catalyst saved us weeks of development. One key, one endpoint, maximum simplicity. Simple payment process without intermediaries is exactly what we needed.",
-      avatar: "👩‍💼"
-    },
-    {
-      name: "Dmitry Sokolov",
-      role: language === 'ru' ? "Основатель, Indie Dev" : "Founder, Indie Dev",
-      content: language === 'ru'
-        ? "Главное для нас — возможность работать с юрлицами и получать закрывающие документы. Tech Catalyst решил все наши проблемы с соответствием ФЗ-152."
-        : "The main thing for us is the ability to work with legal entities and receive closing documents. Tech Catalyst solved all our compliance and legal requirements.",
-      avatar: "👨‍💼"
-    }
-  ];
-
-  const stats = [
-    { number: "100+", label: translations.stats.models, icon: <Brain className="w-6 h-6" /> },
-    { number: "55", label: translations.stats.providers, icon: <Layers className="w-6 h-6" /> },
-    { number: "99.9%", label: translations.stats.uptime, icon: <Server className="w-6 h-6" /> },
-    { number: language === 'ru' ? "₽" : "$", label: translations.stats.payRubles, icon: language === 'ru' ? <RussianRuble className="w-6 h-6" /> : <CreditCard className="w-6 h-6" /> }
-  ];
-
-  // Generate stable random positions for background particles
-  const backgroundParticles = useMemo(() => {
-    return Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      animationDelay: Math.random() * 10,
-      animationDuration: 10 + Math.random() * 20
-    }));
-  }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Animated background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20" />
-        <div className="absolute inset-0">
-          {backgroundParticles.map((particle) => (
-            <div
-              key={particle.id}
-              className="absolute animate-float"
-              style={{
-                left: `${particle.left}%`,
-                top: `${particle.top}%`,
-                animationDelay: `${particle.animationDelay}s`,
-                animationDuration: `${particle.animationDuration}s`
-              }}
-            >
-              <div className="w-1 h-1 bg-white/20 rounded-full blur-sm" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10' : ''}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <Layers className="w-8 h-8 text-purple-500" />
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Tech Catalyst
-              </span>
-            </div>
-            
-            <div className="hidden md:flex items-center space-x-6">
-              <a href="#features" className="hover:text-purple-400 transition-colors">{translations.nav.features}</a>
-              <a href="#models" className="hover:text-purple-400 transition-colors">{translations.nav.models}</a>
-              <a href="#api" className="hover:text-purple-400 transition-colors">{translations.nav.api}</a>
-              <a href="#testimonials" className="hover:text-purple-400 transition-colors">{translations.nav.testimonials}</a>
-              <a href="/pl_10_1_2026.pdf" className="hover:text-purple-400 transition-colors" target="_blank" rel="noreferrer">
-                {translations.nav.priceList}
-              </a>
-              
-              {/* Language Toggle */}
-              <div className="flex items-center space-x-2 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
-                <span className={`text-xs ${language === 'en' ? 'text-purple-400 font-semibold' : 'text-gray-400'}`}>EN</span>
-                <button
-                  onClick={() => setLanguage(language === 'en' ? 'ru' : 'en')}
-                  className={`relative w-10 h-5 rounded-full transition-colors duration-300 ${
-                    language === 'ru' ? 'bg-purple-500' : 'bg-gray-600'
-                  }`}
-                >
-                  <span
-                    className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
-                      language === 'ru' ? 'translate-x-5' : 'translate-x-0'
-                    }`}
-                  />
-                </button>
-                <span className={`text-xs ${language === 'ru' ? 'text-purple-400 font-semibold' : 'text-gray-400'}`}>RU</span>
-              </div>
-
-              <button 
-                onClick={() => handleCTAClick('header_start_free')}
-                className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
-              >
-                {translations.nav.startFree}
-              </button>
-            </div>
-
-            <button className="md:hidden" onClick={handleMobileMenuToggle}>
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/10">
-            <div className="px-4 py-6 space-y-4">
-              <a href="#features" className="block hover:text-purple-400 transition-colors">{translations.nav.features}</a>
-              <a href="#models" className="block hover:text-purple-400 transition-colors">{translations.nav.models}</a>
-              <a href="#api" className="block hover:text-purple-400 transition-colors">{translations.nav.api}</a>
-              <a href="#testimonials" className="block hover:text-purple-400 transition-colors">{translations.nav.testimonials}</a>
-              <a href="/pl_10_1_2026.pdf" className="block hover:text-purple-400 transition-colors" target="_blank" rel="noreferrer">
-                {translations.nav.priceList}
-              </a>
-              
-              {/* Language Toggle Mobile */}
-              <div className="flex items-center justify-between py-2">
-                <span className="text-sm text-gray-400">{language === 'ru' ? 'Язык' : 'Language'}</span>
-                <div className="flex items-center space-x-2">
-                  <span className={`text-xs ${language === 'en' ? 'text-purple-400 font-semibold' : 'text-gray-400'}`}>EN</span>
-                  <button
-                    onClick={() => setLanguage(language === 'en' ? 'ru' : 'en')}
-                    className={`relative w-10 h-5 rounded-full transition-colors duration-300 ${
-                      language === 'ru' ? 'bg-purple-500' : 'bg-gray-600'
-                    }`}
-                  >
-                    <span
-                      className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
-                        language === 'ru' ? 'translate-x-5' : 'translate-x-0'
-                      }`}
-                    />
-                  </button>
-                  <span className={`text-xs ${language === 'ru' ? 'text-purple-400 font-semibold' : 'text-gray-400'}`}>RU</span>
-                </div>
-              </div>
-
-              <button 
-                onClick={() => handleCTAClick('mobile_menu_start_free')}
-                className="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg"
-              >
-                {translations.nav.startFree}
-              </button>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 pt-16">
-        <div className="max-w-7xl mx-auto text-center z-10">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-500/30 rounded-full px-4 py-2 mb-6">
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span className="text-sm text-purple-300">{translations.hero.badge}</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            {translations.hero.title}
-            <span className="block bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent animate-gradient">
-              {translations.hero.titleHighlight}
+    <>
+      <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-md">
+        <Wrap className="flex min-h-[68px] items-center gap-6 py-3 max-sm:min-h-[58px]">
+          <a href="#" className="flex items-center gap-2 text-lg font-bold tracking-[-0.01em] text-[#222]">
+            <span className="text-blue">▲</span>
+            <span>
+              {t.brand} <span className="text-blue">AI</span>
             </span>
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            {translations.hero.description}
-          </p>
+          </a>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <button 
-              onClick={() => handleCTAClick('hero_start_free')}
-              className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30"
-            >
-              {translations.hero.startFree}
-              <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button 
-              onClick={() => trackCTAClick('hero_explore_docs')}
-              className="group px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl font-semibold text-lg hover:bg-white/20 transition-all"
-            >
-              <Code className="inline-block mr-2 w-5 h-5" />
-              {translations.hero.exploreDocs}
-            </button>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            {stats.map((stat, index) => (
-              <div key={index} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-all">
-                <div className="flex items-center justify-center mb-2 text-purple-400">
-                  {stat.icon}
-                </div>
-                <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
-              </div>
+          <nav className="ml-auto hidden items-center gap-6 md:flex">
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+                {t.nav[item.key]}
+              </a>
             ))}
-          </div>
-        </div>
+            <a href="https://docs.techcatalyst.ru" className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+              {t.nav.docs}
+            </a>
+          </nav>
 
-        {/* Floating 3D elements */}
-        <div className="absolute top-1/4 left-10 animate-float-slow">
-          <div className="w-20 h-20 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl backdrop-blur-sm transform rotate-12" />
-        </div>
-        <div className="absolute bottom-1/4 right-10 animate-float-slow" style={{ animationDelay: '2s' }}>
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-full backdrop-blur-sm" />
-        </div>
-      </section>
+          <button
+            type="button"
+            onClick={() => setLanguage(language === 'ru' ? 'en' : 'ru')}
+            className="hidden rounded-full border border-line bg-soft px-3.5 py-2 text-[13px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue md:inline-flex"
+          >
+            {t.nav.language}
+          </button>
 
-      {/* Features Section */}
-      <section id="features" className="relative py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {translations.features.title}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> {translations.features.titleHighlight}</span>
-            </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              {translations.features.subtitle}
-            </p>
-          </div>
+          <button
+            type="button"
+            onClick={() => handleCTAClick('header_start')}
+            className="hidden rounded-full bg-blue px-5 py-2.5 text-[14.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta md:inline-flex"
+          >
+            {t.nav.start}
+          </button>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Network className="w-8 h-8" />,
-                title: translations.features.unifiedApi.title,
-                description: translations.features.unifiedApi.desc,
-                gradient: "from-blue-500 to-cyan-400"
-              },
-              {
-                icon: <Zap className="w-8 h-8" />,
-                title: translations.features.failover.title,
-                description: translations.features.failover.desc,
-                gradient: "from-purple-500 to-pink-500"
-              },
-              {
-                icon: <Shield className="w-8 h-8" />,
-                title: translations.features.noVpn.title,
-                description: translations.features.noVpn.desc,
-                gradient: "from-orange-500 to-red-500"
-              },
-              {
-                icon: <CreditCard className="w-8 h-8" />,
-                title: translations.features.payRubles.title,
-                description: translations.features.payRubles.desc,
-                gradient: "from-green-500 to-emerald-400"
-              },
-              {
-                icon: <Users className="w-8 h-8" />,
-                title: translations.features.team.title,
-                description: translations.features.team.desc,
-                gradient: "from-indigo-500 to-purple-500"
-              },
-              {
-                icon: <Server className="w-8 h-8" />,
-                title: translations.features.compliance.title,
-                description: translations.features.compliance.desc,
-                gradient: "from-red-500 to-pink-500"
-              }
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className="group relative p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20"
-                onMouseEnter={() => setHoveredCard(index)}
-                onMouseLeave={() => setHoveredCard(null)}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity`} />
-                <div className={`inline-flex p-3 bg-gradient-to-br ${feature.gradient} rounded-xl mb-4`}>
-                  {feature.icon}
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">{feature.title}</h3>
-                <p className="text-gray-300">{feature.description}</p>
+          <button
+            type="button"
+            onClick={handleMenuToggle}
+            className="ml-auto inline-flex rounded-full border border-line p-2 text-ink md:hidden"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </Wrap>
+
+        {isMenuOpen ? (
+          <div className="border-t border-line bg-white md:hidden">
+            <Wrap className="flex flex-col gap-4 py-4">
+              {navItems.map((item) => (
+                <a key={item.href} href={item.href} className="text-[15px] font-medium text-muted" onClick={() => setIsMenuOpen(false)}>
+                  {t.nav[item.key]}
+                </a>
+              ))}
+              <a href="https://docs.techcatalyst.ru" className="text-[15px] font-medium text-muted">
+                {t.nav.docs}
+              </a>
+              <div className="flex gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setLanguage(language === 'ru' ? 'en' : 'ru')}
+                  className="rounded-full border border-line bg-soft px-4 py-2 text-[13px] font-semibold text-ink"
+                >
+                  {t.nav.language}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleCTAClick('mobile_start')}
+                  className="rounded-full bg-blue px-5 py-2 text-[13px] font-semibold text-white"
+                >
+                  {t.nav.start}
+                </button>
               </div>
-            ))}
+            </Wrap>
           </div>
-        </div>
-      </section>
+        ) : null}
+      </header>
 
-      {/* How it Works */}
-      <section id="api" className="relative py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {translations.api.title}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> {translations.api.titleHighlight}</span>
-            </h2>
-            <p className="text-xl text-gray-300">{translations.api.subtitle}</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connection lines */}
-            <div className="hidden md:block absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-purple-500/50 to-pink-500/50 -translate-y-1/2" />
-            
-            {[
-              {
-                step: "01",
-                title: translations.api.step1.title,
-                description: translations.api.step1.desc,
-                icon: <Lock className="w-8 h-8" />
-              },
-              {
-                step: "02",
-                title: translations.api.step2.title,
-                description: translations.api.step2.desc,
-                icon: <Code className="w-8 h-8" />
-              },
-              {
-                step: "03",
-                title: translations.api.step3.title,
-                description: translations.api.step3.desc,
-                icon: <GitBranch className="w-8 h-8" />
-              }
-            ].map((step, index) => (
-              <div key={index} className="relative">
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all">
-                  <div className="absolute -top-4 left-8 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-bold px-3 py-1 rounded-full">
-                    {language === 'ru' ? 'ШАГ' : 'STEP'} {step.step}
-                  </div>
-                  <div className="inline-flex p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl mb-4">
-                    {step.icon}
-                  </div>
-                  <h3 className="text-2xl font-semibold mb-3">{step.title}</h3>
-                  <p className="text-gray-300">{step.description}</p>
-                </div>
+      <main>
+        <section
+          className="overflow-hidden py-24 pb-[84px] max-md:py-12 max-md:pb-11"
+          style={{
+            background:
+              'radial-gradient(900px 460px at 82% -12%, rgba(24,55,218,.07), transparent 60%), #fff',
+          }}
+        >
+          <Wrap className="grid grid-cols-[1.05fr_1fr] items-center gap-14 max-md:grid-cols-1">
+            <div>
+              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+                {t.hero.kicker}
+              </span>
+              <h1 className="mb-5 text-[clamp(34px,4.5vw,56px)] font-bold leading-[1.12] tracking-[-.02em] text-[#222]">
+                {t.hero.title}
+              </h1>
+              <p className="max-w-[660px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.hero.lead}</p>
+              <div className="mb-7 mt-8 flex flex-wrap gap-3.5">
+                <button
+                  type="button"
+                  onClick={() => handleCTAClick('hero_primary')}
+                  className="inline-flex items-center gap-2 rounded-full bg-blue px-7 py-[13px] text-[15.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
+                >
+                  {t.hero.primary}
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+                <a
+                  href="https://docs.techcatalyst.ru"
+                  onClick={() => trackCTAClick('hero_docs')}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-[13px] text-[15.5px] font-semibold text-ink transition-all duration-200 hover:border-blue hover:text-blue"
+                >
+                  {t.hero.secondary}
+                </a>
               </div>
-            ))}
-          </div>
-
-          {/* Code Example */}
-          <div className="mt-16 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">{translations.api.codeExample}</h3>
-              <button className="text-sm text-purple-400 hover:text-purple-300">{translations.api.copyCode}</button>
+              <div className="flex flex-wrap gap-2.5">
+                {t.hero.bullets.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-line bg-soft px-3.5 py-1.5 text-[13.5px] font-medium text-muted before:mr-[7px] before:align-[1px] before:text-[9px] before:text-green before:content-['●']"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
-            <pre className="bg-black/50 rounded-lg p-4 overflow-x-auto">
-              <code className="text-sm text-gray-300">
-{`from openai import OpenAI
 
-client = OpenAI(
-    base_url="https://techcatalyst.ru/api/v1",
-    api_key="your-techcatalyst-key"
-)
+            <div className="rounded-panel border border-line bg-white p-6 shadow-panel">
+              <div className="mb-5 flex items-center justify-between">
+                <div>
+                  <div className="text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+                    API Snapshot
+                  </div>
+                  <div className="mt-1 text-[28px] font-semibold tracking-[-.02em] text-[#222]">
+                    {t.hero.panelTitle}
+                  </div>
+                </div>
+                <div className="rounded-full bg-soft px-3 py-1 text-[12px] font-semibold text-blue">
+                  OpenAI-compatible
+                </div>
+              </div>
 
-response = client.chat.completions.create(
-    model="gpt-5.2",  # Change model here
-    messages=[{"role": "user", "content": "Hello!"}]
-)`}
-              </code>
-            </pre>
-          </div>
-        </div>
-      </section>
+              <div className="rounded-card border border-line bg-soft p-5">
+                <pre className="overflow-x-auto font-mono text-[13px] leading-6 text-[#394150]">
+                  <code>{codeSample}</code>
+                </pre>
+              </div>
 
-      {/* Models & Pricing */}
-      <section id="models" className="relative py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {translations.models.title}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> {translations.models.titleHighlight}</span>
+              <div className="mt-5 grid gap-3">
+                {[
+                  { label: 'Route', value: 'OpenAI, Anthropic, Google, xAI, DeepSeek' },
+                  { label: 'Billing', value: language === 'ru' ? 'Рубли, invoice, команда' : 'Rubles, invoice, team billing' },
+                  { label: 'Use case', value: language === 'ru' ? 'Prod, prototype, internal platform' : 'Prod, prototype, internal platform' },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-start justify-between gap-4 rounded-card border border-line bg-white px-4 py-3">
+                    <span className="text-[13px] font-semibold uppercase tracking-[.1em] text-dim">{item.label}</span>
+                    <span className="text-right text-[14px] text-ink">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Wrap>
+        </section>
+
+        <section className="pb-6">
+          <Wrap className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {stats.map((stat) => (
+              <article key={stat.label} className="rounded-card border border-line bg-white p-6 shadow-card">
+                <div className="mb-4 inline-flex rounded-full bg-soft p-3 text-blue">{stat.icon}</div>
+                <div className="text-[30px] font-semibold tracking-[-.03em] text-[#222]">{stat.number}</div>
+                <div className="mt-1 text-[14px] text-muted">{stat.label}</div>
+              </article>
+            ))}
+          </Wrap>
+        </section>
+
+        <section id="features" className="py-20">
+          <Wrap>
+            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+              {t.sections.features}
+            </span>
+            <h2 className="mb-3.5 max-w-[780px] text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
+              {t.sections.featuresTitle}
             </h2>
-            <p className="text-xl text-gray-300">{translations.models.subtitle}</p>
-          </div>
+            <p className="max-w-[720px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.featuresLead}</p>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              {['all', 'text', 'multimodal', 'image'].map((tab) => (
+            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {t.features.map((feature) => (
+                <article key={feature.title} className="rounded-card border border-line bg-white p-7 shadow-card transition-all duration-300 hover:-translate-y-[3px]">
+                  <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">{feature.icon}</div>
+                  <h3 className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">{feature.title}</h3>
+                  <p className="mt-3 text-[15px] leading-7 text-muted">{feature.text}</p>
+                </article>
+              ))}
+            </div>
+          </Wrap>
+        </section>
+
+        <section id="integration" className="bg-soft py-20">
+          <Wrap className="grid grid-cols-[0.98fr_1.02fr] gap-8 max-lg:grid-cols-1">
+            <div>
+              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+                {t.sections.integration}
+              </span>
+              <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
+                {t.sections.integrationTitle}
+              </h2>
+              <p className="max-w-[620px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.integrationLead}</p>
+
+              <div className="mt-8 space-y-4">
+                {t.steps.map((step, index) => (
+                  <div key={step.title} className="rounded-card border border-line bg-white p-5 shadow-card">
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue text-sm font-semibold text-white">
+                        {index + 1}
+                      </div>
+                      <h3 className="text-[20px] font-semibold tracking-[-.02em] text-[#222]">{step.title}</h3>
+                    </div>
+                    <p className="text-[15px] leading-7 text-muted">{step.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-panel border border-line bg-white p-7 shadow-panel">
+              <div className="mb-5 flex items-center gap-3">
+                <div className="inline-flex rounded-full bg-soft p-3 text-blue">
+                  <BadgeCheck className="h-5 w-5" />
+                </div>
+                <div>
+                  <div className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">Migration fit</div>
+                  <div className="text-[14px] text-muted">
+                    {language === 'ru' ? 'Тот же SDK-паттерн, другой routing layer' : 'Same SDK pattern, different routing layer'}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                {[
+                  {
+                    title: language === 'ru' ? 'Сохраняете' : 'Keep',
+                    items: [
+                      language === 'ru' ? 'формат сообщений' : 'message format',
+                      language === 'ru' ? 'SDK и клиентские обвязки' : 'SDK and client wrappers',
+                      language === 'ru' ? 'продуктовую логику' : 'product logic',
+                    ],
+                  },
+                  {
+                    title: language === 'ru' ? 'Получаете' : 'Gain',
+                    items: [
+                      language === 'ru' ? 'маршрутизацию между провайдерами' : 'cross-provider routing',
+                      language === 'ru' ? 'единый биллинг' : 'single billing layer',
+                      language === 'ru' ? 'контур для команд и юрлиц' : 'team and enterprise controls',
+                    ],
+                  },
+                ].map((column) => (
+                  <div key={column.title} className="rounded-card border border-line bg-soft p-5">
+                    <div className="text-[15px] font-semibold uppercase tracking-[.1em] text-blue">{column.title}</div>
+                    <ul className="mt-4 space-y-3 text-[15px] text-muted">
+                      {column.items.map((item) => (
+                        <li key={item} className="flex items-start gap-3">
+                          <Check className="mt-0.5 h-4 w-4 text-green" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Wrap>
+        </section>
+
+        <section id="models" className="py-20">
+          <Wrap>
+            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+              {t.sections.models}
+            </span>
+            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
+              {t.sections.modelsTitle}
+            </h2>
+            <p className="max-w-[720px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.modelsLead}</p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              {(['all', 'text', 'multimodal', 'image'] as const).map((tab) => (
                 <button
                   key={tab}
+                  type="button"
                   onClick={() => handleTabChange(tab)}
-                  className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                  className={`rounded-full border px-4 py-2 text-[14px] font-semibold transition-all ${
                     activeTab === tab
-                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                      ? 'border-blue bg-blue text-white shadow-cta'
+                      : 'border-line bg-white text-ink hover:border-blue hover:text-blue'
                   }`}
                 >
-                  {tab === 'all' && translations.models.allModels}
-                  {tab === 'text' && translations.models.textModels}
-                  {tab === 'multimodal' && translations.models.multimodal}
-                  {tab === 'image' && translations.models.imageGen}
+                  {t.tabs[tab]}
                 </button>
               ))}
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              {models.map((model, index) => (
-                <div key={index} className="bg-black/50 rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all">
-                  <div className="flex justify-between items-start mb-4">
+            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {filteredModels.map((model) => (
+                <article key={model.name} className="rounded-card border border-line bg-white p-6 shadow-card">
+                  <div className="text-[12px] font-semibold uppercase tracking-[.12em] text-blue">{model.provider}</div>
+                  <h3 className="mt-3 text-[22px] font-semibold tracking-[-.02em] text-[#222]">{model.name}</h3>
+                  <div className="mt-6 flex items-end justify-between gap-3">
                     <div>
-                      <h3 className="text-xl font-semibold mb-1">{model.name}</h3>
-                      <p className="text-sm text-gray-400">{model.provider}</p>
+                      <div className="text-[15px] font-semibold text-ink">{model.price}</div>
+                      <div className="mt-1 text-[13px] text-dim">{t.tabs.per}</div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-lg font-bold text-purple-400">{model.price}</div>
-                      <div className="text-xs text-gray-500">{translations.models.perTokens}</div>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 text-sm mb-3">{model.description}</p>
-                  <div className="flex items-center gap-4 text-sm text-gray-400">
-                    <span className="flex items-center gap-1">
-                      <Cpu className="w-4 h-4" />
-                      {model.context}
+                    <span className="rounded-full border border-line bg-soft px-3 py-1 text-[12px] font-medium text-muted">
+                      {t.tabs[model.type]}
                     </span>
                   </div>
-                </div>
+                </article>
               ))}
             </div>
+          </Wrap>
+        </section>
 
-            <div className="mt-8 text-center">
-              <a
-                href="/pl_10_1_2026.pdf"
-                onClick={() => trackCTAClick('view_all_models')}
-                className="inline-flex px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-all"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {translations.models.viewAll}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Access from Devices */}
-      <section className="relative py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {translations.devices.title}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> {translations.devices.titleHighlight}</span>
+        <section id="pricing" className="bg-soft py-20">
+          <Wrap>
+            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+              {t.sections.pricing}
+            </span>
+            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
+              {t.sections.pricingTitle}
             </h2>
-            <p className="text-xl text-gray-300">{translations.devices.subtitle}</p>
-          </div>
+            <p className="max-w-[720px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.pricingLead}</p>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all">
-              <div className="inline-flex p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl mb-4">
-                <Globe className="w-8 h-8" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">{translations.devices.webChat.title}</h3>
-              <p className="text-gray-300 mb-6">
-                {translations.devices.webChat.desc}
-              </p>
-              <button 
-                onClick={() => handleCTAClick('try_web_chat')}
-                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition-all"
-              >
-                {translations.devices.webChat.button}
-              </button>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all">
-              <div className="inline-flex p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl mb-4">
-                <MessageSquare className="w-8 h-8" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">{translations.devices.telegram.title}</h3>
-              <p className="text-gray-300 mb-6">
-                {translations.devices.telegram.desc}
-              </p>
-              <button 
-                onClick={() => handleCTAClick('try_telegram_bot')}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all"
-              >
-                {translations.devices.telegram.button}
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Payment Methods */}
-      <section id="pricing" className="relative py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {translations.pricing.title}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> {translations.pricing.titleHighlight}</span>
-            </h2>
-            <p className="text-xl text-gray-300">{translations.pricing.subtitle}</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <div className="inline-flex p-3 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl mb-4">
-                <CreditCard className="w-8 h-8" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">{translations.pricing.individuals.title}</h3>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{translations.pricing.individuals.card}</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{translations.pricing.individuals.sbp}</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{translations.pricing.individuals.instant}</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{translations.pricing.individuals.noMin}</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-purple-500 shadow-2xl shadow-purple-500/30 rounded-2xl p-8 relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-semibold">
-                {translations.pricing.business.badge}
-              </div>
-              <div className="inline-flex p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl mb-4">
-                <FileText className="w-8 h-8" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">{translations.pricing.business.title}</h3>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{translations.pricing.business.invoice}</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{translations.pricing.business.contract}</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{translations.pricing.business.edi}</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{translations.pricing.business.team}</span>
-                </li>
-              </ul>
-              <button 
-                onClick={() => handleCTAClick('contact_sales')}
-                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all"
-              >
-                {translations.pricing.business.contactSales}
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-12 text-center">
-            <p className="text-gray-400">
-              {translations.pricing.pricingNote}
-              <a
-                href="/pl_10_1_2026.pdf"
-                onClick={() => trackCTAClick('view_pricing_table')}
-                className="text-purple-400 hover:text-purple-300 ml-2"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {translations.pricing.viewPricing}
-              </a>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section id="testimonials" className="relative py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {translations.testimonials.title}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> {translations.testimonials.titleHighlight}</span>
-            </h2>
-            <p className="text-xl text-gray-300">{translations.testimonials.subtitle}</p>
-          </div>
-
-          <div className="relative max-w-4xl mx-auto">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 md:p-12">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex space-x-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+            <div className="mt-10 grid gap-5 lg:grid-cols-2">
+              <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
+                <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
+                  <CreditCard className="h-5 w-5" />
+                </div>
+                <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">{t.pricing.personalTitle}</h3>
+                <ul className="mt-5 space-y-3 text-[15px] text-muted">
+                  {t.pricing.personalItems.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <Check className="mt-0.5 h-4 w-4 text-green" />
+                      <span>{item}</span>
+                    </li>
                   ))}
+                </ul>
+                <a
+                  href="/pl_10_1_2026.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackCTAClick('price_list_personal')}
+                  className="mt-7 inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+                >
+                  {t.pricing.viewPrice}
+                  <ChevronRight className="h-4 w-4" />
+                </a>
+              </article>
+
+              <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
+                <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
+                  <Building2 className="h-5 w-5" />
                 </div>
-                <div className="flex space-x-2">
-                  {testimonials.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setCurrentTestimonial(i)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        currentTestimonial === i ? 'bg-purple-400 w-8' : 'bg-white/30'
-                      }`}
-                    />
+                <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">{t.pricing.businessTitle}</h3>
+                <ul className="mt-5 space-y-3 text-[15px] text-muted">
+                  {t.pricing.businessItems.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <Check className="mt-0.5 h-4 w-4 text-green" />
+                      <span>{item}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
+                <button
+                  type="button"
+                  onClick={() => handlePricingClick('enterprise')}
+                  className="mt-7 inline-flex items-center gap-2 rounded-full bg-blue px-5 py-3 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
+                >
+                  {t.pricing.contactSales}
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </article>
+            </div>
+          </Wrap>
+        </section>
+
+        <section className="py-20">
+          <Wrap className="grid gap-5 lg:grid-cols-2">
+            <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
+              <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
+                <BookOpen className="h-5 w-5" />
               </div>
+              <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">{t.channels.docsTitle}</h3>
+              <p className="mt-3 text-[15px] leading-7 text-muted">{t.channels.docsText}</p>
+              <a
+                href="https://docs.techcatalyst.ru"
+                onClick={() => trackCTAClick('channel_docs')}
+                className="mt-7 inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+              >
+                {t.channels.docsButton}
+                <ChevronRight className="h-4 w-4" />
+              </a>
+            </article>
 
-              <blockquote className="text-xl md:text-2xl text-gray-200 mb-8">
-                "{testimonials[currentTestimonial].content}"
-              </blockquote>
+            <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
+              <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
+                <Smartphone className="h-5 w-5" />
+              </div>
+              <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">{t.channels.chatTitle}</h3>
+              <p className="mt-3 text-[15px] leading-7 text-muted">{t.channels.chatText}</p>
+              <button
+                type="button"
+                onClick={() => handleCTAClick('channel_chat')}
+                className="mt-7 inline-flex items-center gap-2 rounded-full bg-blue px-5 py-3 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
+              >
+                {t.channels.chatButton}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </article>
+          </Wrap>
+        </section>
 
-              <div className="flex items-center">
-                <div className="text-4xl mr-4">{testimonials[currentTestimonial].avatar}</div>
-                <div>
-                  <div className="font-semibold">{testimonials[currentTestimonial].name}</div>
-                  <div className="text-gray-400">{testimonials[currentTestimonial].role}</div>
-                </div>
+        <section id="reviews" className="bg-soft py-20">
+          <Wrap>
+            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+              {t.sections.reviews}
+            </span>
+            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
+              {t.sections.reviewsTitle}
+            </h2>
+            <p className="max-w-[720px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.reviewsLead}</p>
+
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+              {t.testimonials.map((item) => (
+                <article key={item.quote} className="rounded-card border border-line bg-white p-7 shadow-card">
+                  <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
+                    <MessageSquare className="h-5 w-5" />
+                  </div>
+                  <p className="text-[16px] leading-7 text-ink">“{item.quote}”</p>
+                  <div className="mt-5 text-[14px] font-medium text-muted">{item.author}</div>
+                </article>
+              ))}
+            </div>
+          </Wrap>
+        </section>
+
+        <section className="py-20">
+          <Wrap>
+            <div className="rounded-panel border border-line bg-white p-8 shadow-panel sm:p-10">
+              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+                Launch
+              </span>
+              <h2 className="max-w-[820px] text-[clamp(30px,3.8vw,46px)] font-semibold leading-[1.15] tracking-[-.02em] text-[#222]">
+                {t.sections.ctaTitle}
+              </h2>
+              <p className="mt-4 max-w-[720px] text-[17px] leading-8 text-muted">{t.sections.ctaLead}</p>
+              <div className="mt-8 flex flex-wrap gap-3.5">
+                <button
+                  type="button"
+                  onClick={() => handleCTAClick('final_cta')}
+                  className="inline-flex items-center gap-2 rounded-full bg-blue px-7 py-[13px] text-[15.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
+                >
+                  {t.nav.start}
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+                <a
+                  href="/pl_10_1_2026.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackCTAClick('final_price_list')}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-[13px] text-[15.5px] font-semibold text-ink transition-all duration-200 hover:border-blue hover:text-blue"
+                >
+                  {t.pricing.viewPrice}
+                </a>
               </div>
             </div>
+          </Wrap>
+        </section>
+      </main>
+
+      <footer className="border-t border-line bg-soft py-[38px] text-[14.5px] text-dim">
+        <Wrap className="flex flex-wrap items-center justify-between gap-[18px]">
+          <div>
+            <div className="font-semibold text-ink">{t.brand}</div>
+            <div className="mt-1">{t.footer.note}</div>
           </div>
-
-          {/* CTA after testimonials */}
-          <div className="mt-12 text-center">
-            <button 
-              onClick={() => handleCTAClick('testimonials_start_free')}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
-            >
-              {translations.testimonials.startFree}
-              <ArrowRight className="inline-block ml-2 w-5 h-5" />
-            </button>
+          <div className="flex flex-wrap items-center gap-4">
+            <a href="mailto:info@2rm.ru" className="text-blue hover:underline">
+              info@2rm.ru
+            </a>
+            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-blue hover:underline">
+              Telegram
+            </a>
+            <span>{t.footer.rights}</span>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="relative py-24 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            {translations.cta.title}
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent"> {translations.cta.titleHighlight}</span>
-          </h2>
-          <p className="text-xl text-gray-300 mb-8">
-            {translations.cta.subtitle}
-          </p>
-          <button 
-            onClick={() => handleCTAClick('footer_start_free')}
-            className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30"
-          >
-            {translations.cta.startFree}
-            <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
-          <p className="mt-4 text-gray-400">{translations.cta.noCard}</p>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="relative border-t border-white/10 py-12 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Layers className="w-8 h-8 text-purple-500" />
-                <span className="text-xl font-bold">Tech Catalyst</span>
-              </div>
-              <p className="text-gray-400">{translations.footer.tagline}</p>
-            </div>
-
-            <div id="contacts">
-              <h4 className="font-semibold mb-4">{translations.footer.contacts}</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <a href="mailto:info@2rm.ru" className="inline-flex items-center gap-2 hover:text-white transition-colors">
-                    <Mail className="w-4 h-4" />
-                    info@2rm.ru
-                  </a>
-                </li>
-                <li className="flex flex-wrap items-center gap-2">
-                  <span>Ivan Borisov (CTO) —</span>
-                  <a href="https://t.me/pillardev" className="inline-flex items-center gap-2 hover:text-white transition-colors" target="_blank" rel="noreferrer">
-                    <Send className="w-4 h-4" />
-                    @pillardev
-                  </a>
-                  <a href="https://www.linkedin.com/in/borisov-ivan/" className="inline-flex items-center gap-2 hover:text-white transition-colors" target="_blank" rel="noreferrer">
-                    <Linkedin className="w-4 h-4" />
-                    LinkedIn
-                  </a>
-                </li>
-                <li className="flex flex-wrap items-center gap-2">
-                  <span>Vit Kit (COO) —</span>
-                  <a href="https://t.me/masterofunreal" className="inline-flex items-center gap-2 hover:text-white transition-colors" target="_blank" rel="noreferrer">
-                    <Send className="w-4 h-4" />
-                    @masterofunreal
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">{translations.footer.product}</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#features" className="hover:text-white transition-colors">{translations.nav.features}</a></li>
-                <li><a href="#models" className="hover:text-white transition-colors">{translations.nav.models}</a></li>
-                <li><a href="#api" className="hover:text-white transition-colors">{translations.nav.api}</a></li>
-                <li>
-                  <a href="/pl_10_1_2026.pdf" className="hover:text-white transition-colors" target="_blank" rel="noreferrer">
-                    {translations.nav.priceList}
-                  </a>
-                </li>
-              </ul>
-            </div>
-            
-          </div>
-          
-          <div className="pt-8 border-t border-white/10 text-center text-gray-400">
-            <p>{translations.footer.copyright}</p>
-          </div>
-        </div>
+        </Wrap>
       </footer>
 
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-30px) rotate(10deg); }
-        }
-        
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        
-        .animate-float {
-          animation: float 10s ease-in-out infinite;
-        }
-        
-        .animate-float-slow {
-          animation: float-slow 15s ease-in-out infinite;
-        }
-        
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 5s ease infinite;
-        }
-      `}</style>
-
-      {/* Application Modal */}
-      <ApplicationModal 
+      <ApplicationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         source={modalSource}
         language={language}
       />
-    </div>
+    </>
   );
 }

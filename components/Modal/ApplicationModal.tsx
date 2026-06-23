@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 
 interface ApplicationModalProps {
@@ -10,46 +10,53 @@ interface ApplicationModalProps {
   language?: 'en' | 'ru';
 }
 
-export default function ApplicationModal({ isOpen, onClose, source = 'unknown', language = 'en' }: ApplicationModalProps) {
+export default function ApplicationModal({
+  isOpen,
+  onClose,
+  source = 'unknown',
+  language = 'en',
+}: ApplicationModalProps) {
   const t = {
     en: {
-      title: "Get started with",
-      subtitle: "Create your free account and start using 100+ AI models with one API key",
-      name: "Name *",
-      email: "Email *",
-      telegram: "Telegram (optional)",
-      useCase: "Tell us about your use case",
+      title: 'Get started with',
+      highlight: 'Tech Catalyst',
+      subtitle: 'Create your free account and tell us what you want to build.',
+      name: 'Name *',
+      email: 'Email *',
+      telegram: 'Telegram',
+      useCase: 'Use case',
       placeholder: {
-        name: "John",
-        email: "john@example.com",
-        telegram: "@username",
-        useCase: "What are you planning to build? What AI models are you interested in? Any specific requirements?"
+        name: 'John',
+        email: 'john@example.com',
+        telegram: '@username',
+        useCase: 'Describe the product, expected traffic, target models or procurement constraints.',
       },
-      submitting: "Submitting...",
-      submit: "Create Free Account",
-      success: "✅ Application submitted successfully! We'll contact you soon.",
-      error: "❌ An error occurred. Please try again.",
-      agreement: "By clicking the button, you agree to our Terms of Service and Privacy Policy"
+      submitting: 'Submitting...',
+      submit: 'Create free account',
+      success: "Application submitted. We'll contact you soon.",
+      error: 'Request failed. Please try again.',
+      agreement: 'By clicking the button, you agree to the service terms and privacy policy.',
     },
     ru: {
-      title: "Начните работу с",
-      subtitle: "Создайте бесплатный аккаунт и начните использовать 100+ моделей ИИ с одним API-ключом",
-      name: "Имя *",
-      email: "Email *",
-      telegram: "Telegram (необязательно)",
-      useCase: "Расскажите о вашем случае использования",
+      title: 'Начните работу с',
+      highlight: 'Tech Catalyst',
+      subtitle: 'Создайте бесплатный аккаунт и коротко опишите ваш сценарий использования.',
+      name: 'Имя *',
+      email: 'Email *',
+      telegram: 'Telegram',
+      useCase: 'Сценарий использования',
       placeholder: {
-        name: "Иван",
-        email: "ivan@example.com",
-        telegram: "@username",
-        useCase: "Что вы планируете создать? Какие модели ИИ вас интересуют? Есть ли особые требования?"
+        name: 'Иван',
+        email: 'ivan@example.com',
+        telegram: '@username',
+        useCase: 'Опишите продукт, ожидаемую нагрузку, интересующие модели или требования закупки.',
       },
-      submitting: "Отправка...",
-      submit: "Создать бесплатный аккаунт",
-      success: "✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
-      error: "❌ Произошла ошибка. Пожалуйста, попробуйте еще раз.",
-      agreement: "Нажимая кнопку, вы соглашаетесь с нашими Условиями использования и Политикой конфиденциальности"
-    }
+      submitting: 'Отправка...',
+      submit: 'Создать бесплатный аккаунт',
+      success: 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.',
+      error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
+      agreement: 'Нажимая кнопку, вы соглашаетесь с условиями сервиса и политикой конфиденциальности.',
+    },
   };
 
   const translations = t[language];
@@ -57,18 +64,13 @@ export default function ApplicationModal({ isOpen, onClose, source = 'unknown', 
     firstName: '',
     email: '',
     telegram: '',
-    mvpDescription: ''
+    mvpDescription: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
+    document.body.style.overflow = isOpen ? 'hidden' : 'unset';
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -76,10 +78,7 @@ export default function ApplicationModal({ isOpen, onClose, source = 'unknown', 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -88,40 +87,28 @@ export default function ApplicationModal({ isOpen, onClose, source = 'unknown', 
     setSubmitStatus('idle');
 
     try {
-      // Отправка данных на сервер
       const response = await fetch('/api/submit-application', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          source
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, source }),
       });
-
-      const result = await response.json();
 
       if (response.ok) {
         setSubmitStatus('success');
-        
-        // Очистка формы через 2 секунды после успешной отправки
         setTimeout(() => {
           setFormData({
             firstName: '',
             email: '',
             telegram: '',
-            mvpDescription: ''
+            mvpDescription: '',
           });
-          onClose();
           setSubmitStatus('idle');
-        }, 2000);
+          onClose();
+        }, 1600);
       } else {
-        console.error('Server error:', result.error);
         setSubmitStatus('error');
       }
-    } catch (error) {
-      console.error('Ошибка при отправке формы:', error);
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -132,55 +119,45 @@ export default function ApplicationModal({ isOpen, onClose, source = 'unknown', 
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      
-      {/* Modal */}
-      <div className="relative bg-black/90 border border-white/20 rounded-2xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto backdrop-blur-xl">
-        {/* Close button */}
+      <div className="absolute inset-0 bg-[rgba(49,49,49,.46)] backdrop-blur-sm" onClick={onClose} />
+
+      <div className="relative w-full max-w-[560px] rounded-panel border border-line bg-white p-7 shadow-panel sm:p-8">
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/10 transition-colors"
+          className="absolute right-4 top-4 inline-flex rounded-full border border-line bg-soft p-2 text-muted transition-colors hover:border-blue hover:text-blue"
+          aria-label="Close"
         >
-          <X className="w-5 h-5" />
+          <X className="h-5 w-5" />
         </button>
 
-        {/* Header */}
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold mb-2">
-            {translations.title}
-            <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> Tech Catalyst</span>
+        <div className="mb-6 pr-10">
+          <div className="mb-3 text-[13px] font-semibold uppercase tracking-[.12em] text-blue">Launch request</div>
+          <h3 className="text-[30px] font-semibold leading-[1.15] tracking-[-.02em] text-[#222]">
+            {translations.title} <span className="text-blue">{translations.highlight}</span>
           </h3>
-          <p className="text-gray-400">
-            {translations.subtitle}
-          </p>
+          <p className="mt-3 text-[15px] leading-7 text-muted">{translations.subtitle}</p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-1">
-                {translations.name}
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all"
-                placeholder={translations.placeholder.name}
-              />
-            </div>
+          <div>
+            <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-ink">
+              {translations.name}
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
+              placeholder={translations.placeholder.name}
+            />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+            <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink">
               {translations.email}
             </label>
             <input
@@ -190,13 +167,13 @@ export default function ApplicationModal({ isOpen, onClose, source = 'unknown', 
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all"
+              className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
               placeholder={translations.placeholder.email}
             />
           </div>
 
           <div>
-            <label htmlFor="telegram" className="block text-sm font-medium text-gray-300 mb-1">
+            <label htmlFor="telegram" className="mb-1.5 block text-sm font-medium text-ink">
               {translations.telegram}
             </label>
             <input
@@ -205,13 +182,13 @@ export default function ApplicationModal({ isOpen, onClose, source = 'unknown', 
               name="telegram"
               value={formData.telegram}
               onChange={handleChange}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all"
+              className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
               placeholder={translations.placeholder.telegram}
             />
           </div>
 
           <div>
-            <label htmlFor="mvpDescription" className="block text-sm font-medium text-gray-300 mb-1">
+            <label htmlFor="mvpDescription" className="mb-1.5 block text-sm font-medium text-ink">
               {translations.useCase}
             </label>
             <textarea
@@ -220,40 +197,32 @@ export default function ApplicationModal({ isOpen, onClose, source = 'unknown', 
               value={formData.mvpDescription}
               onChange={handleChange}
               rows={4}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all resize-none"
+              className="w-full resize-none rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
               placeholder={translations.placeholder.useCase}
             />
           </div>
 
-          {/* Status messages */}
-          {submitStatus === 'success' && (
-            <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300">
+          {submitStatus === 'success' ? (
+            <div className="rounded-[16px] border border-[#cce9cc] bg-[#f5fcf5] px-4 py-3 text-sm text-[#256b25]">
               {translations.success}
             </div>
-          )}
+          ) : null}
 
-          {submitStatus === 'error' && (
-            <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300">
+          {submitStatus === 'error' ? (
+            <div className="rounded-[16px] border border-[#f2c8cf] bg-[#fff6f8] px-4 py-3 text-sm text-danger">
               {translations.error}
             </div>
-          )}
+          ) : null}
 
-          {/* Submit button */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
-              isSubmitting
-                ? 'bg-gray-600 cursor-not-allowed'
-                : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transform hover:scale-105'
-            }`}
+            className="inline-flex w-full items-center justify-center rounded-full bg-blue px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta disabled:cursor-not-allowed disabled:bg-[#97a2e3] disabled:shadow-none"
           >
             {isSubmitting ? translations.submitting : translations.submit}
           </button>
 
-          <p className="text-xs text-gray-400 text-center">
-            {translations.agreement}
-          </p>
+          <p className="text-center text-xs leading-5 text-dim">{translations.agreement}</p>
         </form>
       </div>
     </div>
