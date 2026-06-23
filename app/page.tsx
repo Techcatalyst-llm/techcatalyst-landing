@@ -51,17 +51,17 @@ const translations = {
       language: 'RU',
     },
     hero: {
-      kicker: 'Unified AI API platform',
-      title: 'One API for ChatGPT, Claude, Gemini, Grok and 100+ AI models.',
+      kicker: 'LLM-Gate for products and teams',
+      title: 'LLM-Gate: one API for ChatGPT, Claude, Gemini, Grok and 100+ AI models.',
       lead:
-        'Single endpoint, OpenAI-compatible SDK, payment in rubles and stable access without VPN. Switch providers by changing one parameter.',
+        'An OpenAI-compatible gateway for routing, failover, billing and access control across frontier AI providers. Keep one endpoint, pay in rubles and switch models without changing product code.',
       primary: 'Create free account',
       secondary: 'Open documentation',
-      panelTitle: 'Why teams switch',
+      panelTitle: 'What the gate adds',
       bullets: [
         'Works with existing OpenAI SDK flows',
-        'Automatic provider failover in one route',
-        'Transparent usage billing for teams and companies',
+        'Provider routing and failover in one API layer',
+        'Unified billing, keys and limits for teams',
       ],
     },
     stats: {
@@ -72,21 +72,21 @@ const translations = {
     },
     sections: {
       features: 'Platform capabilities',
-      featuresTitle: 'A consistent operating layer for all major AI providers.',
+      featuresTitle: 'An LLM-Gate layer between your product and frontier model providers.',
       featuresLead:
-        'The landing now follows the same design system as Guard, and the product story is presented with the same visual discipline: clear typography, compact cards and focused calls to action.',
+        'Use Tech Catalyst as the control plane for routing, redundancy, access policies and commercial operations instead of wiring each model vendor directly into your stack.',
       integration: 'Integration',
       integrationTitle: 'Connect in minutes, keep freedom to switch models later.',
       integrationLead:
-        'You keep the SDK, auth pattern and product logic you already use. Tech Catalyst changes the routing layer, not your architecture.',
+        'You keep the SDK, auth pattern and product logic you already use. Tech Catalyst replaces only the provider edge with a managed gateway layer.',
       models: 'Model catalog',
       modelsTitle: 'Route requests across text, multimodal and image models.',
       modelsLead:
-        'Use one endpoint for different providers and compare quality, latency and cost without rewriting application code.',
+        'Use one endpoint for different providers and compare quality, latency and cost without rewriting application code. Prices below reflect current public API rates from the model vendors.',
       pricing: 'Pricing',
-      pricingTitle: 'Simple commercial model for individuals and business teams.',
+      pricingTitle: 'Commercial access for individuals and business teams.',
       pricingLead:
-        'Retail access stays pay-as-you-go. Legal entities can work through invoice, contract and reporting.',
+        'Retail access stays pay-as-you-go. Legal entities can work through invoice, contract and reporting. The landing shows current model benchmarks, and the full commercial offer is shared on request.',
       reviews: 'Customer fit',
       reviewsTitle: 'Built for developers, product teams and internal AI platforms.',
       reviewsLead:
@@ -97,13 +97,13 @@ const translations = {
     },
     features: [
       {
-        title: 'Unified API',
-        text: 'One API key and one endpoint with OpenAI-compatible semantics.',
+        title: 'API gateway',
+        text: 'One API key and one endpoint with OpenAI-compatible semantics across providers.',
         icon: <Code2 className="h-5 w-5" />,
       },
       {
-        title: 'Automatic failover',
-        text: 'Requests can move to backup providers when one route degrades.',
+        title: 'Routing and failover',
+        text: 'Requests can be switched between primary and backup providers when a route degrades.',
         icon: <ShieldCheck className="h-5 w-5" />,
       },
       {
@@ -113,16 +113,16 @@ const translations = {
       },
       {
         title: 'Team controls',
-        text: 'Centralized limits, budgets, keys and organizational access policies.',
+        text: 'Centralized limits, budgets, keys, environments and organizational access policies.',
         icon: <Building2 className="h-5 w-5" />,
       },
       {
-        title: 'Usage accounting',
-        text: 'Track tokens, spend and provider mix from a single commercial layer.',
+        title: 'Usage and billing',
+        text: 'Track tokens, spend and provider mix from a single operational and commercial layer.',
         icon: <Wallet className="h-5 w-5" />,
       },
       {
-        title: 'Production routing',
+        title: 'Production switching',
         text: 'Move between models for quality, latency or economics without changing product code.',
         icon: <Network className="h-5 w-5" />,
       },
@@ -130,15 +130,15 @@ const translations = {
     steps: [
       {
         title: 'Create an account',
-        text: 'Get an API key and access to the dashboard without changing your workflow.',
+        text: 'Get an API key and access to the gateway dashboard without changing your workflow.',
       },
       {
         title: 'Point your SDK to Tech Catalyst',
-        text: 'Set the base URL and keep your existing request format.',
+        text: 'Set the base URL so your existing requests go through the LLM-Gate layer.',
       },
       {
         title: 'Switch models by parameter',
-        text: 'Compare providers inside the same product path and pricing model.',
+        text: 'Compare providers, pricing and latency inside the same product path.',
       },
     ],
     tabs: {
@@ -146,7 +146,7 @@ const translations = {
       text: 'Text',
       multimodal: 'Multimodal',
       image: 'Image',
-      per: 'per 1M tokens',
+      per: 'public API rate',
     },
     pricing: {
       personalTitle: 'For individuals',
@@ -163,7 +163,7 @@ const translations = {
         'Support for procurement workflows',
         'Shared billing and team management',
       ],
-      viewPrice: 'Open full price list',
+      viewPrice: 'Request current price list',
       contactSales: 'Talk to sales',
     },
     channels: {
@@ -209,17 +209,17 @@ const translations = {
       language: 'EN',
     },
     hero: {
-      kicker: 'Единая AI API-платформа',
+      kicker: 'Единая платформа доступа к AI-моделям',
       title: 'Один API для ChatGPT, Claude, Gemini, Grok и 100+ AI-моделей.',
       lead:
-        'Один эндпоинт, совместимость с OpenAI SDK, оплата в рублях и стабильный доступ без VPN. Переключение между провайдерами меняется одним параметром.',
+        'Одна точка подключения, совместимость с OpenAI SDK, оплата в рублях и стабильный доступ без VPN. Переключение между провайдерами меняется одним параметром.',
       primary: 'Создать бесплатный аккаунт',
       secondary: 'Открыть документацию',
       panelTitle: 'Почему команды переходят',
       bullets: [
         'Работает с существующими сценариями на OpenAI SDK',
-        'Автоматический failover между провайдерами',
-        'Прозрачный учёт потребления для команд и компаний',
+        'Маршрутизация и резервное переключение между провайдерами в одном API-слое',
+        'Единый биллинг, ключи и лимиты для команд',
       ],
     },
     stats: {
@@ -230,25 +230,25 @@ const translations = {
     },
     sections: {
       features: 'Возможности платформы',
-      featuresTitle: 'Единый операционный слой для всех основных AI-провайдеров.',
+      featuresTitle: 'LLM-Gate слой между вашим продуктом и основными AI-провайдерами.',
       featuresLead:
-        'Лендинг теперь следует тому же дизайн-языку, что и Guard: чистая типографика, компактные карточки, спокойные акценты и понятные CTA.',
+        'Tech Catalyst можно использовать как управляющий слой для маршрутизации, отказоустойчивости, политик доступа и коммерческого контура вместо прямой работы с каждым поставщиком моделей.',
       integration: 'Интеграция',
       integrationTitle: 'Подключение за минуты, свобода переключения моделей сохраняется.',
       integrationLead:
-        'Вы оставляете привычный SDK, авторизацию и продуктовую логику. Tech Catalyst меняет слой маршрутизации, а не вашу архитектуру.',
+        'Вы оставляете привычный SDK, авторизацию и продуктовую логику. Tech Catalyst меняет только слой маршрутизации, а не вашу архитектуру.',
       models: 'Каталог моделей',
-      modelsTitle: 'Маршрутизируйте запросы между текстовыми, мультимодальными и image-моделями.',
+      modelsTitle: 'Маршрутизируйте запросы между текстовыми, мультимодальными и моделями генерации изображений.',
       modelsLead:
-        'Один endpoint для разных провайдеров позволяет сравнивать качество, latency и стоимость без переписывания кода.',
+        'Одна точка подключения к разным провайдерам позволяет сравнивать качество, задержку и стоимость без переписывания кода.',
       pricing: 'Тарифы',
-      pricingTitle: 'Простая коммерческая модель для частных пользователей и корпоративных команд.',
+      pricingTitle: 'Коммерческий доступ для частных пользователей и корпоративных команд.',
       pricingLead:
-        'Розничный доступ остаётся pay-as-you-go. Юридические лица работают по счёту, договору и с закрывающими документами.',
+        'Розничный доступ остаётся с оплатой по использованию. Юридические лица работают по счёту, договору и с закрывающими документами.',
       reviews: 'Кому подходит',
       reviewsTitle: 'Платформа для разработчиков, продуктовых команд и внутренних AI-платформ.',
       reviewsLead:
-        'Сервис позиционируется для production-использования, быстрых экспериментов и закупки в корпоративном контуре.',
+        'Сервис подходит для промышленного использования, быстрых экспериментов и закупки в корпоративном контуре.',
       ctaTitle: 'Нужна рабочая схема, а не ещё один каталог моделей?',
       ctaLead:
         'Запускайтесь с одним API-ключом, сохраняйте свободу выбора моделей и масштабируйте биллинг, контроль и закупку в одной платформе.',
@@ -256,12 +256,12 @@ const translations = {
     features: [
       {
         title: 'Единый API',
-        text: 'Один API-ключ и один endpoint с OpenAI-совместимой семантикой.',
+        text: 'Один API-ключ и одна точка подключения с OpenAI-совместимой семантикой.',
         icon: <Code2 className="h-5 w-5" />,
       },
       {
-        title: 'Автоматический failover',
-        text: 'Запросы уходят на резервных провайдеров при деградации одного маршрута.',
+        title: 'Маршрутизация и резервирование',
+        text: 'Запросы переключаются между основными и резервными провайдерами при сбое или деградации маршрута.',
         icon: <ShieldCheck className="h-5 w-5" />,
       },
       {
@@ -271,16 +271,16 @@ const translations = {
       },
       {
         title: 'Управление командой',
-        text: 'Централизованные лимиты, бюджеты, ключи и организационные политики доступа.',
+        text: 'Централизованные лимиты, бюджеты, ключи, окружения и организационные политики доступа.',
         icon: <Building2 className="h-5 w-5" />,
       },
       {
-        title: 'Учёт потребления',
-        text: 'Токены, расходы и mix провайдеров отслеживаются в едином коммерческом слое.',
+        title: 'Учёт и биллинг',
+        text: 'Токены, расходы и сочетание провайдеров отслеживаются в едином операционном и коммерческом слое.',
         icon: <Wallet className="h-5 w-5" />,
       },
       {
-        title: 'Production routing',
+        title: 'Переключение в рабочем контуре',
         text: 'Меняйте модели ради качества, скорости или экономики без изменений продуктового кода.',
         icon: <Network className="h-5 w-5" />,
       },
@@ -292,11 +292,11 @@ const translations = {
       },
       {
         title: 'Направьте SDK в Tech Catalyst',
-        text: 'Укажите base URL и сохраните привычный формат запросов.',
+        text: 'Укажите базовый адрес API и сохраните привычный формат запросов.',
       },
       {
         title: 'Переключайте модели параметром',
-        text: 'Сравнивайте провайдеров внутри одного продуктового контура и тарифной модели.',
+        text: 'Сравнивайте провайдеров, цены и задержку внутри одного продуктового контура.',
       },
     ],
     tabs: {
@@ -321,32 +321,32 @@ const translations = {
         'Поддержка закупочного контура',
         'Общий биллинг и управление командой',
       ],
-      viewPrice: 'Открыть полный прайс-лист',
+      viewPrice: 'Запросить актуальный прайс',
       contactSales: 'Связаться с продажами',
     },
     channels: {
       docsTitle: 'Документация',
       docsText: 'API-справка, продуктовые материалы и документы для технической и закупочной проверки.',
       chatTitle: 'Веб и Telegram-доступ',
-      chatText: 'Платформу можно оценить до полной интеграции и провести более лёгкий pilot flow.',
-      docsButton: 'Открыть docs',
+      chatText: 'Платформу можно оценить до полной интеграции и пройти более лёгкий пилотный сценарий.',
+      docsButton: 'Открыть документацию',
       chatButton: 'Запросить доступ',
     },
     testimonials: [
       {
         quote:
           'Мы перестали пересобирать интеграции под каждого провайдера. API-слой стал скучным, а это именно то, что было нужно.',
-        author: 'Продуктовая команда, internal AI tools',
+        author: 'Продуктовая команда, внутренние AI-инструменты',
       },
       {
         quote:
-          'Переключение моделей стало не roadmap-задачей, а вопросом конфигурации. Скорость проверки гипотез заметно выросла.',
-        author: 'Основатель, B2B SaaS',
+          'Переключение моделей стало не задачей дорожной карты, а вопросом конфигурации. Скорость проверки гипотез заметно выросла.',
+        author: 'Основатель, B2B SaaS-компания',
       },
       {
         quote:
           'Финансы и закупка наконец получили коммерческий поток, который совпадает с тем, как инженеры хотят потреблять модели.',
-        author: 'Операционный руководитель, enterprise-клиент',
+        author: 'Операционный руководитель, корпоративный клиент',
       },
     ],
     footer: {
@@ -357,14 +357,14 @@ const translations = {
 } as const;
 
 const models = [
-  { name: 'GPT-5', type: 'text' as const, provider: 'OpenAI', price: '$1.25 / $10.00' },
+  { name: 'GPT-5.5', type: 'text' as const, provider: 'OpenAI', price: '$5.00 / $30.00' },
   { name: 'Claude 4 Sonnet', type: 'text' as const, provider: 'Anthropic', price: '$3.00 / $15.00' },
-  { name: 'Gemini 2.5 Pro', type: 'multimodal' as const, provider: 'Google', price: '$1.25 / $10.00' },
-  { name: 'Grok 4', type: 'text' as const, provider: 'xAI', price: '$3.00 / $15.00' },
-  { name: 'DeepSeek V3', type: 'text' as const, provider: 'DeepSeek', price: '$0.27 / $1.10' },
-  { name: 'GPT-Image', type: 'image' as const, provider: 'OpenAI', price: 'on request' },
+  { name: 'Gemini 2.5 Pro', type: 'multimodal' as const, provider: 'Google', price: '$1.25 / $10.00*' },
+  { name: 'Grok 4.3', type: 'text' as const, provider: 'xAI', price: '$1.25 / $2.50' },
+  { name: 'DeepSeek V4 Flash', type: 'text' as const, provider: 'DeepSeek', price: '$0.14 / $0.28' },
+  { name: 'GPT-Image-2', type: 'image' as const, provider: 'OpenAI', price: '$5.00 / $30.00' },
   { name: 'Claude 4 Opus', type: 'multimodal' as const, provider: 'Anthropic', price: '$15.00 / $75.00' },
-  { name: 'Imagen', type: 'image' as const, provider: 'Google', price: 'on request' },
+  { name: 'Gemini 2.5 Flash Image', type: 'image' as const, provider: 'Google', price: '$0.30 / $0.039 img' },
 ];
 
 const codeSample = `from openai import OpenAI
@@ -568,14 +568,14 @@ export default function TechCatalystLanding() {
               <div className="mb-5 flex items-center justify-between">
                 <div>
                   <div className="text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-                    API Snapshot
+                    {language === 'ru' ? 'Состояние API' : 'API Snapshot'}
                   </div>
                   <div className="mt-1 text-[28px] font-semibold tracking-[-.02em] text-[#222]">
                     {t.hero.panelTitle}
                   </div>
                 </div>
                 <div className="rounded-full bg-soft px-3 py-1 text-[12px] font-semibold text-blue">
-                  OpenAI-compatible
+                  {language === 'ru' ? 'Совместимо с OpenAI' : 'OpenAI-compatible'}
                 </div>
               </div>
 
@@ -587,9 +587,15 @@ export default function TechCatalystLanding() {
 
               <div className="mt-5 grid gap-3">
                 {[
-                  { label: 'Route', value: 'OpenAI, Anthropic, Google, xAI, DeepSeek' },
-                  { label: 'Billing', value: language === 'ru' ? 'Рубли, invoice, команда' : 'Rubles, invoice, team billing' },
-                  { label: 'Use case', value: language === 'ru' ? 'Prod, prototype, internal platform' : 'Prod, prototype, internal platform' },
+                  { label: language === 'ru' ? 'Маршрут' : 'Route', value: 'OpenAI, Anthropic, Google, xAI, DeepSeek' },
+                  {
+                    label: language === 'ru' ? 'Расчёты' : 'Billing',
+                    value: language === 'ru' ? 'Рубли, счёт, командный биллинг' : 'Rubles, invoice, team billing',
+                  },
+                  {
+                    label: language === 'ru' ? 'Сценарий' : 'Use case',
+                    value: language === 'ru' ? 'Рабочий контур, прототип, внутренняя платформа' : 'Prod, prototype, internal platform',
+                  },
                 ].map((item) => (
                   <div key={item.label} className="flex items-start justify-between gap-4 rounded-card border border-line bg-white px-4 py-3">
                     <span className="text-[13px] font-semibold uppercase tracking-[.1em] text-dim">{item.label}</span>
@@ -667,9 +673,11 @@ export default function TechCatalystLanding() {
                   <BadgeCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <div className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">Migration fit</div>
+                  <div className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">
+                    {language === 'ru' ? 'Подходит для миграции' : 'Migration fit'}
+                  </div>
                   <div className="text-[14px] text-muted">
-                    {language === 'ru' ? 'Тот же SDK-паттерн, другой routing layer' : 'Same SDK pattern, different routing layer'}
+                    {language === 'ru' ? 'Тот же шаблон SDK, другой слой маршрутизации' : 'Same SDK pattern, different routing layer'}
                   </div>
                 </div>
               </div>
@@ -754,6 +762,12 @@ export default function TechCatalystLanding() {
                 </article>
               ))}
             </div>
+
+            <p className="mt-4 text-[13px] leading-6 text-dim">
+              {language === 'ru'
+                ? '* Для Gemini 2.5 Pro указана стандартная ставка для запросов до 200k токенов. Для моделей генерации изображений ставка может считаться за одно готовое изображение.'
+                : '* Gemini 2.5 Pro shows standard pricing for prompts up to 200k tokens. Image models may charge per generated image.'}
+            </p>
           </Wrap>
         </section>
 
@@ -781,16 +795,14 @@ export default function TechCatalystLanding() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href="/pl_10_1_2026.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => trackCTAClick('price_list_personal')}
+                <button
+                  type="button"
+                  onClick={() => handlePricingClick('personal')}
                   className="mt-7 inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
                 >
                   {t.pricing.viewPrice}
                   <ChevronRight className="h-4 w-4" />
-                </a>
+                </button>
               </article>
 
               <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
@@ -898,15 +910,13 @@ export default function TechCatalystLanding() {
                   {t.nav.start}
                   <ArrowRight className="h-4 w-4" />
                 </button>
-                <a
-                  href="/pl_10_1_2026.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => trackCTAClick('final_price_list')}
+                <button
+                  type="button"
+                  onClick={() => handlePricingClick('latest_price')}
                   className="inline-flex items-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-[13px] text-[15.5px] font-semibold text-ink transition-all duration-200 hover:border-blue hover:text-blue"
                 >
                   {t.pricing.viewPrice}
-                </a>
+                </button>
               </div>
             </div>
           </Wrap>
