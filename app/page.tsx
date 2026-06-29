@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import {
   ArrowRight,
@@ -31,6 +32,7 @@ type ModelTab = 'all' | 'text' | 'multimodal' | 'image';
 
 const navItems = [
   { href: '#features', key: 'features' },
+  { href: '/zakupka-zarubezhnogo-po', key: 'procurement' },
   { href: '#models', key: 'models' },
   { href: '#integration', key: 'integration' },
   { href: '#pricing', key: 'pricing' },
@@ -42,6 +44,7 @@ const translations = {
     brand: 'Tech Catalyst',
     nav: {
       features: 'Features',
+      procurement: 'Software procurement',
       models: 'Models',
       integration: 'Integration',
       pricing: 'Pricing',
@@ -197,9 +200,10 @@ const translations = {
     },
   },
   ru: {
-    brand: 'Tech Catalyst',
+    brand: 'ТехКаталист',
     nav: {
       features: 'Возможности',
+      procurement: 'Закупка ПО',
       models: 'Модели',
       integration: 'Интеграция',
       pricing: 'Тарифы',
@@ -232,11 +236,11 @@ const translations = {
       features: 'Возможности платформы',
       featuresTitle: 'LLM-Gate слой между вашим продуктом и основными AI-провайдерами.',
       featuresLead:
-        'Tech Catalyst можно использовать как управляющий слой для маршрутизации, отказоустойчивости, политик доступа и коммерческого контура вместо прямой работы с каждым поставщиком моделей. Это особенно важно для банков и финтеха, где CIO, CTO и руководителям ИБ нужен единый контролируемый контур.',
+        'ТехКаталист можно использовать как управляющий слой для маршрутизации, отказоустойчивости, политик доступа и коммерческого контура вместо прямой работы с каждым поставщиком моделей. Это особенно важно для банков и финтеха, где CIO, CTO и руководителям ИБ нужен единый контролируемый контур.',
       integration: 'Интеграция',
       integrationTitle: 'Подключение за минуты, свобода переключения моделей сохраняется.',
       integrationLead:
-        'Вы оставляете привычный SDK, авторизацию и продуктовую логику. Tech Catalyst меняет только слой маршрутизации, а не вашу архитектуру.',
+        'Вы оставляете привычный SDK, авторизацию и продуктовую логику. ТехКаталист меняет только слой маршрутизации, а не вашу архитектуру.',
       models: 'Каталог моделей',
       modelsTitle: 'Маршрутизируйте запросы между текстовыми, мультимодальными и моделями генерации изображений.',
       modelsLead:
@@ -291,7 +295,7 @@ const translations = {
         text: 'Получите API-ключ и доступ в кабинет без смены рабочего процесса.',
       },
       {
-        title: 'Направьте SDK в Tech Catalyst',
+        title: 'Направьте SDK в ТехКаталист',
         text: 'Укажите базовый адрес API и сохраните привычный формат запросов.',
       },
       {
@@ -351,7 +355,7 @@ const translations = {
     ],
     footer: {
       note: 'Единый API для 100+ AI-моделей',
-      rights: '© 2026 Tech Catalyst. Все права защищены.',
+      rights: '© 2026 ТехКаталист. Все права защищены.',
     },
   },
 } as const;
@@ -450,11 +454,17 @@ export default function TechCatalystLanding() {
           </a>
 
           <nav className="ml-auto hidden items-center gap-6 md:flex">
-            {navItems.map((item) => (
-              <a key={item.href} href={item.href} className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
-                {t.nav[item.key]}
-              </a>
-            ))}
+            {navItems.map((item) =>
+              item.href.startsWith('/') ? (
+                <Link key={item.href} href={item.href} className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+                  {t.nav[item.key]}
+                </Link>
+              ) : (
+                <a key={item.href} href={item.href} className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+                  {t.nav[item.key]}
+                </a>
+              ),
+            )}
             <a href="https://docs.techcatalyst.ru" className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
               {t.nav.docs}
             </a>
@@ -489,11 +499,17 @@ export default function TechCatalystLanding() {
         {isMenuOpen ? (
           <div className="border-t border-line bg-white md:hidden">
             <Wrap className="flex flex-col gap-4 py-4">
-              {navItems.map((item) => (
-                <a key={item.href} href={item.href} className="text-[15px] font-medium text-muted" onClick={() => setIsMenuOpen(false)}>
-                  {t.nav[item.key]}
-                </a>
-              ))}
+              {navItems.map((item) =>
+                item.href.startsWith('/') ? (
+                  <Link key={item.href} href={item.href} className="text-[15px] font-medium text-muted" onClick={() => setIsMenuOpen(false)}>
+                    {t.nav[item.key]}
+                  </Link>
+                ) : (
+                  <a key={item.href} href={item.href} className="text-[15px] font-medium text-muted" onClick={() => setIsMenuOpen(false)}>
+                    {t.nav[item.key]}
+                  </a>
+                ),
+              )}
               <a href="https://docs.techcatalyst.ru" className="text-[15px] font-medium text-muted">
                 {t.nav.docs}
               </a>
@@ -826,6 +842,14 @@ export default function TechCatalystLanding() {
                   {t.pricing.contactSales}
                   <ArrowRight className="h-4 w-4" />
                 </button>
+                <Link
+                  href="/zakupka-zarubezhnogo-po"
+                  onClick={() => trackCTAClick('home_procurement_link')}
+                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+                >
+                  {language === 'ru' ? 'Раздел закупки зарубежного ПО' : 'Foreign software procurement'}
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
               </article>
             </div>
           </Wrap>

@@ -3,10 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 // Интерфейс для данных формы
 interface ApplicationData {
   firstName: string;
+  company?: string;
   email: string;
   telegram: string;
   mvpDescription: string;
   source: string;
+  type?: 'default' | 'procurement';
 }
 
 export async function POST(request: NextRequest) {
@@ -22,15 +24,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Format Telegram message
+    const requestType = data.type === 'procurement' ? 'procurement' : 'default';
     const message = `
-🚀 <b>New Tech Catalyst Application</b>
+${requestType === 'procurement' ? '🧾 <b>New Software Procurement Request</b>' : '🚀 <b>New Tech Catalyst Application</b>'}
 
 👤 <b>Name:</b> ${escapeHtml(data.firstName)}
+🏢 <b>Company:</b> ${escapeHtml(data.company || 'Not provided')}
 📧 <b>Email:</b> ${escapeHtml(data.email)}
 💬 <b>Telegram:</b> ${escapeHtml(data.telegram || 'Not provided')}
 📍 <b>Source:</b> ${escapeHtml(data.source)}
+🧭 <b>Type:</b> ${escapeHtml(requestType)}
 
-📝 <b>Use Case:</b>
+📝 <b>Details:</b>
 ${escapeHtml(data.mvpDescription)}
 
 ⏰ <b>Time:</b> ${new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' })}

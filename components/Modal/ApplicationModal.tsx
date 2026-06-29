@@ -8,6 +8,7 @@ interface ApplicationModalProps {
   onClose: () => void;
   source?: string;
   language?: 'en' | 'ru';
+  variant?: 'default' | 'procurement';
 }
 
 export default function ApplicationModal({
@@ -15,53 +16,119 @@ export default function ApplicationModal({
   onClose,
   source = 'unknown',
   language = 'en',
+  variant = 'default',
 }: ApplicationModalProps) {
-  const t = {
-    en: {
-      title: 'Get started with',
-      highlight: 'Tech Catalyst',
-      subtitle: 'Create your free account and tell us what you want to build.',
-      name: 'Name *',
-      email: 'Email *',
-      telegram: 'Telegram',
-      useCase: 'Use case',
-      placeholder: {
-        name: 'John',
-        email: 'john@example.com',
-        telegram: '@username',
-        useCase: 'Describe the product, expected traffic, target models or procurement constraints.',
+  const copy = {
+    default: {
+      en: {
+        badge: 'Launch request',
+        title: 'Get started with',
+        highlight: 'Tech Catalyst',
+        subtitle: 'Create your free account and tell us what you want to build.',
+        name: 'Name *',
+        company: 'Company',
+        email: 'Email *',
+        telegram: 'Telegram',
+        useCase: 'Use case',
+        placeholder: {
+          name: 'John',
+          company: 'Example Inc.',
+          email: 'john@example.com',
+          telegram: '@username',
+          useCase: 'Describe the product, expected traffic, target models or procurement constraints.',
+        },
+        submitting: 'Submitting...',
+        submit: 'Create free account',
+        success: "Application submitted. We'll contact you soon.",
+        error: 'Request failed. Please try again.',
+        agreement: 'By clicking the button, you agree to the service terms and privacy policy.',
+        requireCompany: false,
       },
-      submitting: 'Submitting...',
-      submit: 'Create free account',
-      success: "Application submitted. We'll contact you soon.",
-      error: 'Request failed. Please try again.',
-      agreement: 'By clicking the button, you agree to the service terms and privacy policy.',
+      ru: {
+        badge: 'Launch request',
+        title: 'Начните работу с',
+        highlight: 'ТехКаталист',
+        subtitle: 'Создайте бесплатный аккаунт и коротко опишите ваш сценарий использования.',
+        name: 'Имя *',
+        company: 'Компания',
+        email: 'Email *',
+        telegram: 'Telegram',
+        useCase: 'Сценарий использования',
+        placeholder: {
+          name: 'Иван',
+          company: 'ООО Пример',
+          email: 'ivan@example.com',
+          telegram: '@username',
+          useCase: 'Опишите продукт, ожидаемую нагрузку, интересующие модели или требования закупки.',
+        },
+        submitting: 'Отправка...',
+        submit: 'Создать бесплатный аккаунт',
+        success: 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.',
+        error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
+        agreement: 'Нажимая кнопку, вы соглашаетесь с условиями сервиса и политикой конфиденциальности.',
+        requireCompany: false,
+      },
     },
-    ru: {
-      title: 'Начните работу с',
-      highlight: 'Tech Catalyst',
-      subtitle: 'Создайте бесплатный аккаунт и коротко опишите ваш сценарий использования.',
-      name: 'Имя *',
-      email: 'Email *',
-      telegram: 'Telegram',
-      useCase: 'Сценарий использования',
-      placeholder: {
-        name: 'Иван',
-        email: 'ivan@example.com',
-        telegram: '@username',
-        useCase: 'Опишите продукт, ожидаемую нагрузку, интересующие модели или требования закупки.',
+    procurement: {
+      en: {
+        badge: 'Procurement request',
+        title: 'Foreign software',
+        highlight: 'procurement',
+        subtitle:
+          'Tell us which software you need, the license volume, timing and document requirements. We will prepare a procurement route and commercial estimate.',
+        name: 'Name *',
+        company: 'Company *',
+        email: 'Email *',
+        telegram: 'Telegram',
+        useCase: 'Software and requirements *',
+        placeholder: {
+          name: 'John',
+          company: 'Example Inc.',
+          email: 'john@example.com',
+          telegram: '@username',
+          useCase:
+            'For example: OpenAI / Claude / Microsoft 365 / Adobe, number of licenses, renewal date, contract or closing document requirements.',
+        },
+        submitting: 'Submitting...',
+        submit: 'Request procurement estimate',
+        success: 'Request submitted. We will prepare the procurement route and contact you shortly.',
+        error: 'Request failed. Please try again.',
+        agreement: 'By clicking the button, you agree to the service terms and privacy policy.',
+        requireCompany: true,
       },
-      submitting: 'Отправка...',
-      submit: 'Создать бесплатный аккаунт',
-      success: 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.',
-      error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
-      agreement: 'Нажимая кнопку, вы соглашаетесь с условиями сервиса и политикой конфиденциальности.',
+      ru: {
+        badge: 'Запрос на закупку',
+        title: 'Закупка зарубежного ПО',
+        highlight: 'ТехКаталист',
+        subtitle:
+          'Опишите нужное ПО, объём лицензий, срок и требования к документам. Мы подготовим маршрут закупки и коммерческий расчёт.',
+        name: 'Имя *',
+        company: 'Компания *',
+        email: 'Email *',
+        telegram: 'Telegram',
+        useCase: 'Какое ПО и какие требования *',
+        placeholder: {
+          name: 'Иван',
+          company: 'ООО Пример',
+          email: 'ivan@example.com',
+          telegram: '@username',
+          useCase:
+            'Например: OpenAI / Claude / Microsoft 365 / Adobe, число лицензий, дата продления, требования к договору и закрывающим документам.',
+        },
+        submitting: 'Отправка...',
+        submit: 'Получить расчёт закупки',
+        success: 'Запрос отправлен. Подготовим маршрут закупки и свяжемся с вами.',
+        error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
+        agreement: 'Нажимая кнопку, вы соглашаетесь с условиями сервиса и политикой конфиденциальности.',
+        requireCompany: true,
+      },
     },
   };
 
-  const translations = t[language];
+  const translations = copy[variant][language];
   const [formData, setFormData] = useState({
     firstName: '',
+    company: '',
     email: '',
     telegram: '',
     mvpDescription: '',
@@ -90,7 +157,7 @@ export default function ApplicationModal({
       const response = await fetch('/api/submit-application', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, source }),
+        body: JSON.stringify({ ...formData, source, type: variant }),
       });
 
       if (response.ok) {
@@ -98,6 +165,7 @@ export default function ApplicationModal({
         setTimeout(() => {
           setFormData({
             firstName: '',
+            company: '',
             email: '',
             telegram: '',
             mvpDescription: '',
@@ -132,7 +200,7 @@ export default function ApplicationModal({
         </button>
 
         <div className="mb-6 pr-10">
-          <div className="mb-3 text-[13px] font-semibold uppercase tracking-[.12em] text-blue">Launch request</div>
+          <div className="mb-3 text-[13px] font-semibold uppercase tracking-[.12em] text-blue">{translations.badge}</div>
           <h3 className="text-[30px] font-semibold leading-[1.15] tracking-[-.02em] text-[#222]">
             {translations.title} <span className="text-blue">{translations.highlight}</span>
           </h3>
@@ -153,6 +221,22 @@ export default function ApplicationModal({
               required
               className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
               placeholder={translations.placeholder.name}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="company" className="mb-1.5 block text-sm font-medium text-ink">
+              {translations.company}
+            </label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              required={translations.requireCompany}
+              className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
+              placeholder={translations.placeholder.company}
             />
           </div>
 
@@ -197,6 +281,7 @@ export default function ApplicationModal({
               value={formData.mvpDescription}
               onChange={handleChange}
               rows={4}
+              required={variant === 'procurement'}
               className="w-full resize-none rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
               placeholder={translations.placeholder.useCase}
             />
