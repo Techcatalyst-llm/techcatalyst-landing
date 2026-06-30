@@ -351,6 +351,24 @@ export default function TechCatalystLanding() {
     localStorage.setItem('techcatalyst_lang', language);
   }, [language]);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const t = translations[language];
   const filteredModels = activeTab === 'all' ? models : models.filter((model) => model.type === activeTab);
 
@@ -430,35 +448,72 @@ export default function TechCatalystLanding() {
             onClick={handleMenuToggle}
             className="ml-auto inline-flex rounded-[10px] border border-[#d3d8df] p-2 text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6] md:hidden"
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </Wrap>
 
         {isMenuOpen ? (
-          <div className="border-t border-[#e4e7ec] bg-white md:hidden">
-            <Wrap className="flex flex-col gap-3 py-4">
-              {navItems.map((item) =>
-                item.href.startsWith('/') ? (
-                  <Link key={item.href} href={item.href} className="text-[14px] font-medium text-[#6f7988]" onClick={() => setIsMenuOpen(false)}>
-                    {t.nav[item.key]}
-                  </Link>
-                ) : (
-                  <a key={item.href} href={item.href} className="text-[14px] font-medium text-[#6f7988]" onClick={() => setIsMenuOpen(false)}>
-                    {t.nav[item.key]}
-                  </a>
-                ),
-              )}
-              <a href="https://docs.techcatalyst.ru" className="text-[14px] font-medium text-[#6f7988]">
-                {t.nav.docs}
-              </a>
-              <div className="flex gap-3 pt-2">
-                <SecondaryButton onClick={() => setLanguage(language === 'ru' ? 'en' : 'ru')}>
+          <div className="fixed inset-0 top-[73px] z-40 md:hidden">
+            <button
+              type="button"
+              aria-label="Close menu"
+              className="absolute inset-0 bg-[rgba(28,29,31,.16)]"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            <div className="absolute inset-x-4 top-4 rounded-[12px] border border-[#e4e7ec] bg-white p-4 shadow-[rgba(28,40,64,0.1)_0px_10px_20px_-12px,rgba(28,40,64,0.08)_0px_16px_32px_-16px]">
+              <div className="flex flex-col gap-3">
+                {navItems.map((item) =>
+                  item.href.startsWith('/') ? (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="rounded-[10px] px-3 py-2 text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {t.nav[item.key]}
+                    </Link>
+                  ) : (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      className="rounded-[10px] px-3 py-2 text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {t.nav[item.key]}
+                    </a>
+                  ),
+                )}
+                <a
+                  href="https://docs.techcatalyst.ru"
+                  className="rounded-[10px] px-3 py-2 text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {t.nav.docs}
+                </a>
+              </div>
+              <div className="mt-4 flex gap-3 border-t border-[#e4e7ec] pt-4">
+                <SecondaryButton
+                  onClick={() => {
+                    setLanguage(language === 'ru' ? 'en' : 'ru');
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex-1 justify-center"
+                >
                   {t.nav.language}
                 </SecondaryButton>
-                <PrimaryButton onClick={() => handleCTAClick('mobile_start')}>{t.nav.start}</PrimaryButton>
+                <PrimaryButton
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    handleCTAClick('mobile_start');
+                  }}
+                  className="flex-1 justify-center"
+                >
+                  {t.nav.start}
+                </PrimaryButton>
               </div>
-            </Wrap>
+            </div>
           </div>
         ) : null}
       </header>

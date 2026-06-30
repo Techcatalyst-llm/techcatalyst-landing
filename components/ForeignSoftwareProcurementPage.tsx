@@ -117,6 +117,19 @@ const vendorGroups = [
   },
 ] as const;
 
+const vendorCloudItems = [
+  'Cursor',
+  'OpenAI',
+  'Claude',
+  'Microsoft 365',
+  'Adobe',
+  'Atlassian',
+  'Figma',
+  'Autodesk',
+  'Notion',
+  'Google Workspace',
+];
+
 const steps = [
   {
     title: '1. Запрос',
@@ -152,6 +165,19 @@ const caseCards = [
     companies: 'Альфа Консалт, БКС, Студия Криптон',
     text: 'Рабочее ПО и продление лицензий для консалтинговых, финансовых и проектных команд.',
   },
+];
+
+const clientCloudItems = [
+  '3Commas',
+  'AdSkill',
+  'Adsterra',
+  'BTC-Alpha',
+  'MGTS',
+  'MTS',
+  'Propeller Ads',
+  'Альфа Консалт',
+  'БКС',
+  'Студия Криптон',
 ];
 
 const faqItems = [
@@ -306,6 +332,9 @@ export default function ForeignSoftwareProcurementPage() {
           <PrimaryButton onClick={() => handleCta('procurement_header')} className="hidden md:inline-flex">
             Рассчитать стоимость
           </PrimaryButton>
+          <PrimaryButton onClick={() => handleCta('procurement_header_mobile')} className="ml-auto md:hidden">
+            Расчёт
+          </PrimaryButton>
         </Wrap>
       </header>
 
@@ -326,12 +355,12 @@ export default function ForeignSoftwareProcurementPage() {
                 Cursor, OpenAI, Claude, Microsoft 365, Adobe, Atlassian и другие сервисы. Счёт, договор, закрывающие документы и поставка от 7 рабочих дней.
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                <PrimaryButton onClick={() => handleCta('procurement_hero_primary')}>
+              <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                <PrimaryButton onClick={() => handleCta('procurement_hero_primary')} className="w-full justify-center sm:w-auto">
                   Рассчитать стоимость закупки
                   <ArrowRight className="h-4 w-4" />
                 </PrimaryButton>
-                <SecondaryButton onClick={() => handleCta('procurement_hero_secondary')}>
+                <SecondaryButton onClick={() => handleCta('procurement_hero_secondary')} className="w-full justify-center sm:w-auto">
                   Получить презентацию
                 </SecondaryButton>
               </div>
@@ -344,11 +373,11 @@ export default function ForeignSoftwareProcurementPage() {
                 ))}
               </div>
 
-              <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
                 {trustStats.map((item) => (
                   <Card key={item.label} className="p-4 text-left">
-                    <div className="text-[32px] font-medium leading-none tracking-[-0.04em] text-[#1c1d1f]">{item.value}</div>
-                    <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{item.label}</div>
+                    <div className="text-[28px] font-medium leading-none tracking-[-0.04em] text-[#1c1d1f] sm:text-[32px]">{item.value}</div>
+                    <div className="mt-2 text-[13px] leading-[1.43] tracking-[-0.13px] text-[#6f7988] sm:text-[14px] sm:tracking-[-0.14px]">{item.label}</div>
                   </Card>
                 ))}
               </div>
@@ -501,7 +530,7 @@ export default function ForeignSoftwareProcurementPage() {
               </p>
             </div>
 
-            <Card className="mt-8 overflow-hidden p-3 md:p-4">
+            <Card className="mt-8 hidden overflow-hidden p-3 md:block md:p-4">
               <Image
                 src="/procurement-clients-cloud.svg"
                 alt="Компании и проекты: 3Commas, AdSkill, Adsterra, BTC-Alpha, MGTS, MTS, Propeller Ads, Альфа Консалт, БКС, Студия Криптон"
@@ -511,6 +540,17 @@ export default function ForeignSoftwareProcurementPage() {
                 priority={false}
               />
             </Card>
+
+            <div className="mt-8 grid grid-cols-2 gap-3 md:hidden">
+              {clientCloudItems.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-[8px] border border-[#e4e7ec] bg-white px-3 py-4 text-center text-[14px] font-medium leading-[1.3] tracking-[-0.14px] text-[#1c1d1f]"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
 
             <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {caseCards.map((item) => (
@@ -536,7 +576,7 @@ export default function ForeignSoftwareProcurementPage() {
               </h2>
             </div>
 
-            <Card className="mt-8 overflow-hidden p-3 md:p-4">
+            <Card className="mt-8 hidden overflow-hidden p-3 md:block md:p-4">
               <Image
                 src="/procurement-vendors-cloud.svg"
                 alt="Логотипы и названия вендоров: Cursor, OpenAI, Claude, Microsoft 365, Adobe, Atlassian, Figma, Autodesk, Notion, Google Workspace"
@@ -547,8 +587,19 @@ export default function ForeignSoftwareProcurementPage() {
               />
             </Card>
 
+            <div className="mt-8 grid grid-cols-2 gap-3 md:hidden">
+              {vendorCloudItems.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] px-3 py-4 text-center text-[14px] font-medium leading-[1.3] tracking-[-0.14px] text-[#1c1d1f]"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+
             <div className="mt-8 border-b border-[#d3d8df]">
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap gap-4 sm:gap-6">
                 {vendorGroups.map((group) => (
                   <button
                     key={group.id}
@@ -679,7 +730,7 @@ export default function ForeignSoftwareProcurementPage() {
             <Card className="mt-8 overflow-hidden">
               {faqItems.map((item, index) => (
                 <details key={item.question} className={`${index !== 0 ? 'border-t border-[#e4e7ec]' : ''} group`}>
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-[16px] font-medium tracking-[-0.24px] text-[#1c1d1f]">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-[15px] font-medium tracking-[-0.15px] text-[#1c1d1f] sm:text-[16px] sm:tracking-[-0.24px]">
                     <span>{item.question}</span>
                     <span className="text-[#6f7988] transition-transform group-open:rotate-45">+</span>
                   </summary>
