@@ -55,13 +55,6 @@ const trustStats = [
   { value: '10+', label: 'компаний и проектов в кейсах' },
 ];
 
-const legalFacts = [
-  'Исполнитель — ИП Борисов Иван Анатольевич',
-  'ИНН 575307745402',
-  'ОГРНИП 320574900010615',
-  'Счёт, договор, закрывающие документы',
-];
-
 const painRows = [
   {
     title: 'Доступ к вендору',
@@ -73,7 +66,7 @@ const painRows = [
     title: 'Документы для юрлица',
     problem: 'Финансовый блок и закупка не готовы согласовывать серую схему без понятного исполнителя и документов.',
     answer:
-      'Работаем как ИП Борисов Иван Анатольевич, ИНН 575307745402. До старта сделки фиксируем счёт, договор и пакет закрывающих документов.',
+      'До старта сделки отправляем карточку контрагента, счёт, договор и пакет закрывающих документов для согласования.',
   },
   {
     title: 'Честная экономика',
@@ -169,7 +162,7 @@ const faqItems = [
   {
     question: 'Как подтверждается легальность сделки и документы для бухгалтерии?',
     answer:
-      'Исполнитель по сделке — ИП Борисов Иван Анатольевич, ИНН 575307745402, ОГРНИП 320574900010615. Работаем по счёту, договору и закрывающим документам.',
+      'Для согласования отправляем карточку контрагента, счёт, договор и закрывающие документы. Реквизиты передаём вместе с коммерческим предложением.',
   },
   {
     question: 'Какой срок поставки?',
@@ -360,31 +353,6 @@ export default function ForeignSoftwareProcurementPage() {
                 ))}
               </div>
             </div>
-
-            <Card className="mx-auto mt-8 max-w-[1120px] p-4 md:p-5">
-              <div className="grid gap-4 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
-                <div>
-                  <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Юридическая рамка сделки</div>
-                  <h2
-                    className={`${lora.className} mt-4 max-w-[620px] text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
-                    style={{ fontFeatureSettings: '"ss03"' }}
-                  >
-                    Понятный исполнитель, документы для согласования и срок поставки до 7 рабочих дней
-                  </h2>
-                  <p className="mt-4 max-w-[620px] text-[15px] leading-[1.47] tracking-[-0.15px] text-[#6f7988]">
-                    Закупку сопровождает ИП Борисов Иван Анатольевич. До старта сделки фиксируем формат поставки, пакет документов и экономику закупки.
-                  </p>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {legalFacts.map((item) => (
-                    <div key={item} className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-4 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#1c1d1f]">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Card>
 
             <Card className="mx-auto mt-12 max-w-[1120px] p-4 md:p-5">
               <div className="grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
@@ -652,18 +620,13 @@ export default function ForeignSoftwareProcurementPage() {
                 <FileText className="h-4 w-4" />
               </div>
               <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
-                Реквизиты для согласования
+                Материалы для согласования
               </h3>
               <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
-                Исполнитель по сделке — ИП Борисов Иван Анатольевич. Для согласования даём счёт, договор, закрывающие документы, ИНН и ОГРНИП.
+                Подготовим презентацию и коммерческие материалы для финансового блока, ИТ, закупки и руководителя проекта.
               </p>
-              <div className="mt-4 grid gap-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#1c1d1f]">
-                <div>ИНН: 575307745402</div>
-                <div>ОГРНИП: 320574900010615</div>
-                <div>Формат: счёт, договор, закрывающие документы</div>
-              </div>
               <SecondaryButton onClick={() => handleCta('procurement_materials')} className="mt-6">
-                Получить карточку контрагента
+                Получить презентацию
                 <ChevronRight className="h-4 w-4" />
               </SecondaryButton>
             </Card>
