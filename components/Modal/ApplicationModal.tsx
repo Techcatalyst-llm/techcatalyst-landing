@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { Inter, Lora } from 'next/font/google';
 import { X } from 'lucide-react';
@@ -54,7 +55,6 @@ export default function ApplicationModal({
         submit: 'Create free account',
         success: "Application submitted. We'll contact you soon.",
         error: 'Request failed. Please try again.',
-        agreement: 'By clicking the button, you agree to the service terms and privacy policy.',
         requireCompany: false,
       },
       ru: {
@@ -78,7 +78,6 @@ export default function ApplicationModal({
         submit: 'Создать бесплатный аккаунт',
         success: 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.',
         error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
-        agreement: 'Нажимая кнопку, вы соглашаетесь с условиями сервиса и политикой конфиденциальности.',
         requireCompany: false,
       },
     },
@@ -106,7 +105,6 @@ export default function ApplicationModal({
         submit: 'Request procurement estimate',
         success: 'Request submitted. We will prepare the procurement route and contact you shortly.',
         error: 'Request failed. Please try again.',
-        agreement: 'By clicking the button, you agree to the service terms and privacy policy.',
         requireCompany: true,
       },
       ru: {
@@ -132,7 +130,6 @@ export default function ApplicationModal({
         submit: 'Получить расчёт закупки',
         success: 'Запрос отправлен. Подготовим маршрут закупки и свяжемся с вами.',
         error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
-        agreement: 'Нажимая кнопку, вы соглашаетесь с условиями сервиса и политикой конфиденциальности.',
         requireCompany: true,
       },
     },
@@ -328,7 +325,33 @@ export default function ApplicationModal({
             {isSubmitting ? translations.submitting : translations.submit}
           </button>
 
-          <p className="text-center text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">{translations.agreement}</p>
+          <p className="text-center text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">
+            {language === 'ru' ? (
+              <>
+                Нажимая кнопку, вы соглашаетесь с{' '}
+                <Link href="/privacy" className="text-[#407ff2] hover:text-[#1c1d1f]">
+                  политикой конфиденциальности
+                </Link>{' '}
+                и{' '}
+                <Link href="/cookie" className="text-[#407ff2] hover:text-[#1c1d1f]">
+                  политикой cookie
+                </Link>
+                .
+              </>
+            ) : (
+              <>
+                By clicking the button, you agree to the{' '}
+                <Link href="/privacy" className="text-[#407ff2] hover:text-[#1c1d1f]">
+                  privacy policy
+                </Link>{' '}
+                and{' '}
+                <Link href="/cookie" className="text-[#407ff2] hover:text-[#1c1d1f]">
+                  cookie policy
+                </Link>
+                .
+              </>
+            )}
+          </p>
         </form>
       </div>
     </div>

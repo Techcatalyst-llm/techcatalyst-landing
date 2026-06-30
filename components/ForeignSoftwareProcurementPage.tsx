@@ -687,13 +687,13 @@ export default function ForeignSoftwareProcurementPage() {
                   info@2rm.ru
                 </a>
                 <a
-                  href="https://t.me/techcatalyst_support"
+                  href="https://t.me/pillardev"
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => trackCTAClick('procurement_telegram')}
                   className="inline-flex items-center gap-2 rounded-[10px] border border-[#1c1d1f] bg-[#1c1d1f] px-3 py-2 text-[14px] font-medium text-white transition-colors hover:bg-black"
                 >
-                  @techcatalyst_support
+                  @pillardev
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
@@ -776,9 +776,15 @@ export default function ForeignSoftwareProcurementPage() {
             <a href="mailto:info@2rm.ru" className="text-[#8f99a8] transition-colors hover:text-white">
               info@2rm.ru
             </a>
-            <a href="https://t.me/techcatalyst_support" target="_blank" rel="noreferrer" className="text-[#8f99a8] transition-colors hover:text-white">
-              @techcatalyst_support
+            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-[#8f99a8] transition-colors hover:text-white">
+              @pillardev
             </a>
+            <Link href="/privacy" className="text-[#8f99a8] transition-colors hover:text-white">
+              Политика конфиденциальности
+            </Link>
+            <Link href="/cookie" className="text-[#8f99a8] transition-colors hover:text-white">
+              Политика cookie
+            </Link>
             <span className="text-[#8f99a8]">© 2026 ТехКаталист. Все права защищены.</span>
           </div>
         </Wrap>

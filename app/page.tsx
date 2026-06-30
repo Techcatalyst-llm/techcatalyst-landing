@@ -815,6 +815,12 @@ export default function TechCatalystLanding() {
             <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-[#8f99a8] transition-colors hover:text-white">
               Telegram
             </a>
+            <Link href="/privacy" className="text-[#8f99a8] transition-colors hover:text-white">
+              Политика конфиденциальности
+            </Link>
+            <Link href="/cookie" className="text-[#8f99a8] transition-colors hover:text-white">
+              Политика cookie
+            </Link>
             <span className="text-[#8f99a8]">{t.footer.rights}</span>
           </div>
         </Wrap>
