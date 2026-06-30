@@ -5,7 +5,7 @@ import LegalPage from '@/components/LegalPage';
 export const metadata: Metadata = {
   title: 'Политика cookie | ТехКаталист',
   description:
-    'Информация о том, какие cookie и аналитические технологии используются на сайте techcatalyst.ru, для чего они нужны и как ими управлять.',
+    'Cookie и аналитические технологии сайта techcatalyst.ru: какие данные они собирают, для чего используются и как их отключить.',
   alternates: {
     canonical: '/cookie',
   },
@@ -15,7 +15,7 @@ export default function CookiePage() {
   return (
     <LegalPage
       title="Политика cookie"
-      subtitle="На этой странице мы объясняем, какие cookie и схожие технологии используются на сайте ТехКаталист и как пользователь может ими управлять."
+      subtitle="Какие cookie использует сайт ТехКаталист, для чего они нужны и как их отключить."
       updatedAt="30 июня 2026 года"
     >
       <h2>1. Что такое cookie</h2>

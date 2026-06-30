@@ -49,7 +49,7 @@ export default function LegalPage({ title, subtitle, updatedAt, children }: Lega
             {title}
           </h1>
           <p className="mt-4 text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988]">{subtitle}</p>
-          <p className="mt-3 text-[13px] leading-[1.4] tracking-[-0.13px] text-[#8f99a8]">Актуально на {updatedAt}</p>
+          <p className="mt-3 text-[13px] leading-[1.4] tracking-[-0.13px] text-[#8f99a8]">Версия от {updatedAt}</p>
         </div>
 
         <div className="mt-10 rounded-[8px] border border-[#e4e7ec] bg-white p-6 sm:p-8" style={{ boxShadow: 'rgba(28, 40, 64, 0.1) 0px 2px 3px -2px, rgba(28, 40, 64, 0.04) 0px 4px 6px -2px' }}>
