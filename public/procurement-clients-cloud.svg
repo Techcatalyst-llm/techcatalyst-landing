@@ -1,0 +1,25 @@
+<svg width="1440" height="360" viewBox="0 0 1440 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="360" rx="20" fill="#FFFFFF"/>
+  <rect x="32" y="32" width="248" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="304" y="32" width="248" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="576" y="32" width="248" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="848" y="32" width="248" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="1120" y="32" width="288" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="32" y="176" width="248" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="304" y="176" width="248" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="576" y="176" width="248" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="848" y="176" width="248" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+  <rect x="1120" y="176" width="288" height="112" rx="16" fill="#F3F4F6" stroke="#E4E7EC"/>
+
+  <text x="156" y="97" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">3Commas</text>
+  <text x="428" y="97" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">AdSkill</text>
+  <text x="700" y="97" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Adsterra</text>
+  <text x="972" y="97" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">BTC-Alpha</text>
+  <text x="1264" y="97" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">MGTS</text>
+
+  <text x="156" y="241" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">MTS</text>
+  <text x="428" y="241" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Propeller Ads</text>
+  <text x="700" y="241" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">АЛЬФА КОНСАЛТ</text>
+  <text x="972" y="241" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700">БКС</text>
+  <text x="1264" y="241" text-anchor="middle" fill="#1C1D1F" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">СТУДИЯ КРИПТОН</text>
+</svg>

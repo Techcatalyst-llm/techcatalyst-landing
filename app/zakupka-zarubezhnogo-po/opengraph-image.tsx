@@ -67,12 +67,12 @@ export default function OpengraphImage() {
               Закупим и продлим иностранное ПО для вашего юрлица
             </div>
             <div style={{ fontSize: 28, lineHeight: 1.3, color: '#6f7988', maxWidth: 980 }}>
-              OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian. Счёт, договор, закрывающие документы и понятное КП.
+              Cursor, OpenAI, Claude, Microsoft 365, Adobe, Atlassian. Счёт, договор, закрывающие документы и поставка от 7 рабочих дней.
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {['OpenAI', 'Claude', 'Microsoft 365', 'Adobe', 'Atlassian', 'Облачное ПО'].map((item) => (
+            {['Cursor', '3 зарубежных юрлица', 'Кипр и Казахстан', '7 рабочих дней', 'OpenAI', 'Adobe'].map((item) => (
               <div
                 key={item}
                 style={{

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Inter, Lora } from 'next/font/google';
@@ -10,7 +11,6 @@ import {
   ChevronRight,
   FileText,
   Globe,
-  MessageSquare,
   ShieldCheck,
   Wallet,
 } from 'lucide-react';
@@ -48,18 +48,38 @@ const overviewCards = [
   },
 ];
 
+const trustStats = [
+  { value: '3', label: 'зарубежных юрлица в закупочной инфраструктуре' },
+  { value: '2', label: 'офиса: Кипр и Казахстан' },
+  { value: '7', label: 'рабочих дней до поставки' },
+  { value: '10+', label: 'компаний и проектов в кейсах' },
+];
+
+const legalFacts = [
+  'Исполнитель — ИП Борисов Иван Анатольевич',
+  'ИНН 575307745402',
+  'ОГРНИП 320574900010615',
+  'Счёт, договор, закрывающие документы',
+];
+
 const painRows = [
   {
     title: 'Доступ к вендору',
-    text: 'Когда прямой платёж не проходит, команда остаётся без лицензий. Мы собираем рабочий маршрут закупки и продления.',
+    problem: 'Прямой платёж не проходит, команда остаётся без лицензий, а запуск или продление сдвигаются.',
+    answer:
+      'Проводим закупку через нашу зарубежную инфраструктуру и в стандартном сценарии поставляем доступ в течение 7 рабочих дней после оплаты.',
   },
   {
     title: 'Документы для юрлица',
-    text: 'Финансовому блоку и закупке нужны счёт, договор и закрывающие документы. Это должно быть понятно до старта сделки.',
+    problem: 'Финансовый блок и закупка не готовы согласовывать серую схему без понятного исполнителя и документов.',
+    answer:
+      'Работаем как ИП Борисов Иван Анатольевич, ИНН 575307745402. До старта сделки фиксируем счёт, договор и пакет закрывающих документов.',
   },
   {
     title: 'Честная экономика',
-    text: 'Коммерческое предложение должно сразу показывать стоимость вендора и сервисную комиссию без скрытых строк.',
+    problem: 'Если комиссия спрятана внутри суммы, невозможно быстро согласовать закупку и сравнить варианты.',
+    answer:
+      'В коммерческом предложении отдельно показываем стоимость лицензий, нашу комиссию и формат поставки до оплаты.',
   },
 ];
 
@@ -85,7 +105,7 @@ const vendorGroups = [
   {
     id: 'ai',
     label: 'ИИ и языковые модели',
-    items: ['OpenAI', 'Claude', 'Gemini', 'Grok', 'DeepSeek'],
+    items: ['Cursor', 'OpenAI', 'Claude', 'Grok', 'DeepSeek'],
   },
   {
     id: 'workspace',
@@ -119,18 +139,52 @@ const steps = [
   },
   {
     title: '4. Поставка',
-    text: 'Сопровождаем оплату, доступ и продление.',
+    text: 'Сопровождаем оплату и поставку. Стандартный срок — до 7 рабочих дней после оплаты.',
+  },
+];
+
+const caseCards = [
+  {
+    title: 'Клиенты A-B',
+    companies: '3Commas, AdSkill, Adsterra, BTC-Alpha',
+    text: 'Закупка и продление зарубежного ПО для adtech, fintech и продуктовых команд.',
+  },
+  {
+    title: 'Клиенты M-P',
+    companies: 'MGTS, MTS, Propeller Ads',
+    text: 'Рабочие сервисы, лицензии и инфраструктурные инструменты для телеком- и маркетинговых команд.',
+  },
+  {
+    title: 'Клиенты А-Я',
+    companies: 'Альфа Консалт, БКС, Студия Криптон',
+    text: 'Рабочее ПО и продление лицензий для консалтинговых, финансовых и проектных команд.',
   },
 ];
 
 const faqItems = [
   {
     question: 'Какое ПО можно закупить через ТехКаталист?',
-    answer: 'ИИ-сервисы, облачные продукты и корпоративные лицензии: OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian, Figma и другие.',
+    answer: 'ИИ-сервисы, облачные продукты и корпоративные лицензии: Cursor, OpenAI, Claude, Microsoft 365, Adobe, Atlassian, Figma и другие.',
   },
   {
-    question: 'Подходит ли это для юридических лиц?',
-    answer: 'Да. Работаем со счётом, договором и закрывающими документами для корпоративной закупки.',
+    question: 'Как подтверждается легальность сделки и документы для бухгалтерии?',
+    answer:
+      'Исполнитель по сделке — ИП Борисов Иван Анатольевич, ИНН 575307745402, ОГРНИП 320574900010615. Работаем по счёту, договору и закрывающим документам.',
+  },
+  {
+    question: 'Какой срок поставки?',
+    answer:
+      'В стандартном сценарии поставка занимает до 7 рабочих дней после оплаты. Если у конкретного вендора или типа лицензии есть дополнительные условия, фиксируем срок в коммерческом предложении заранее.',
+  },
+  {
+    question: 'Как подтверждается подлинность лицензии?',
+    answer:
+      'Поставка идёт в официальный кабинет, рабочий тенант или аккаунт клиента. На этапе передачи вместе с вами проверяем доступ, активацию и состав лицензий.',
+  },
+  {
+    question: 'Что происходит, если вендор меняет условия или поставка стопорится?',
+    answer:
+      'До оплаты согласуем маршрут закупки и формат поставки. Если по ходу сделки условия вендора меняются, сразу предлагаем альтернативный сценарий и повторно согласуем его с вашей командой.',
   },
   {
     question: 'Можно ли продлевать действующие лицензии?',
@@ -138,7 +192,7 @@ const faqItems = [
   },
   {
     question: 'Что нужно для расчёта?',
-    answer: 'Обычно достаточно вендора, числа лицензий, срока и требований к документам.',
+    answer: 'Обычно достаточно вендора, числа лицензий, срока, требований к документам и контактного лица со стороны компании.',
   },
 ];
 
@@ -276,7 +330,7 @@ export default function ForeignSoftwareProcurementPage() {
                 Закупим и продлим иностранное ПО для вашего юрлица
               </h1>
               <p className="mx-auto mt-5 max-w-[780px] text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988] md:text-[20px] md:leading-[1.3] md:tracking-[-0.4px]">
-                OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian и другие сервисы. Счёт, договор, закрывающие документы и понятное коммерческое предложение.
+                Cursor, OpenAI, Claude, Microsoft 365, Adobe, Atlassian и другие сервисы. Счёт, договор, закрывающие документы и поставка от 7 рабочих дней.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -290,13 +344,47 @@ export default function ForeignSoftwareProcurementPage() {
               </div>
 
               <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">
-                {['OpenAI', 'Claude', 'Microsoft 365', 'Adobe', 'Закрывающие документы'].map((item) => (
+                {['Cursor', 'OpenAI', 'Microsoft 365', 'Adobe', 'Закрывающие документы'].map((item) => (
                   <span key={item} className="rounded-[4px] border border-[#e4e7ec] bg-white px-2 py-1">
                     {item}
                   </span>
                 ))}
               </div>
+
+              <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                {trustStats.map((item) => (
+                  <Card key={item.label} className="p-4 text-left">
+                    <div className="text-[32px] font-medium leading-none tracking-[-0.04em] text-[#1c1d1f]">{item.value}</div>
+                    <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{item.label}</div>
+                  </Card>
+                ))}
+              </div>
             </div>
+
+            <Card className="mx-auto mt-8 max-w-[1120px] p-4 md:p-5">
+              <div className="grid gap-4 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
+                <div>
+                  <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Юридическая рамка сделки</div>
+                  <h2
+                    className={`${lora.className} mt-4 max-w-[620px] text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                    style={{ fontFeatureSettings: '"ss03"' }}
+                  >
+                    Понятный исполнитель, документы для согласования и срок поставки до 7 рабочих дней
+                  </h2>
+                  <p className="mt-4 max-w-[620px] text-[15px] leading-[1.47] tracking-[-0.15px] text-[#6f7988]">
+                    Закупку сопровождает ИП Борисов Иван Анатольевич. До старта сделки фиксируем формат поставки, пакет документов и экономику закупки.
+                  </p>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {legalFacts.map((item) => (
+                    <div key={item} className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-4 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#1c1d1f]">
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
 
             <Card className="mx-auto mt-12 max-w-[1120px] p-4 md:p-5">
               <div className="grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
@@ -388,7 +476,12 @@ export default function ForeignSoftwareProcurementPage() {
               {painRows.map((item) => (
                 <Card key={item.title} className="grid gap-4 p-4 md:grid-cols-[260px_1fr] md:items-start">
                   <div className="text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">{item.title}</div>
-                  <p className="text-[15px] leading-[1.47] tracking-[-0.15px] text-[#6f7988]">{item.text}</p>
+                  <div className="grid gap-3">
+                    <p className="text-[15px] leading-[1.47] tracking-[-0.15px] text-[#6f7988]">{item.problem}</p>
+                    <div className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-3 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#1c1d1f]">
+                      {item.answer}
+                    </div>
+                  </div>
                 </Card>
               ))}
             </div>
@@ -425,6 +518,44 @@ export default function ForeignSoftwareProcurementPage() {
           </Wrap>
         </section>
 
+        <section className="border-y border-[#e4e7ec] bg-[#f3f4f6] py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="max-w-[780px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Кейсы и компании</div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                Компании и проекты, с которыми работала команда
+              </h2>
+              <p className="mt-3 max-w-[700px] text-[15px] leading-[1.47] tracking-[-0.15px] text-[#6f7988]">
+                Телеком, adtech, fintech, crypto, консалтинг и продакшн. Ниже — открытый список компаний и типовых сценариев закупки.
+              </p>
+            </div>
+
+            <Card className="mt-8 overflow-hidden p-3 md:p-4">
+              <Image
+                src="/procurement-clients-cloud.svg"
+                alt="Компании и проекты: 3Commas, AdSkill, Adsterra, BTC-Alpha, MGTS, MTS, Propeller Ads, Альфа Консалт, БКС, Студия Криптон"
+                width={1440}
+                height={360}
+                className="h-auto w-full rounded-[8px] border border-[#e4e7ec]"
+                priority={false}
+              />
+            </Card>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {caseCards.map((item) => (
+                <Card key={item.title} className="p-4">
+                  <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{item.title}</div>
+                  <h3 className="mt-3 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">{item.companies}</h3>
+                  <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{item.text}</p>
+                </Card>
+              ))}
+            </div>
+          </Wrap>
+        </section>
+
         <section id="vendors" className="border-y border-[#e4e7ec] bg-white py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[760px]">
@@ -436,6 +567,17 @@ export default function ForeignSoftwareProcurementPage() {
                 Что можно закупать и продлевать
               </h2>
             </div>
+
+            <Card className="mt-8 overflow-hidden p-3 md:p-4">
+              <Image
+                src="/procurement-vendors-cloud.svg"
+                alt="Логотипы и названия вендоров: Cursor, OpenAI, Claude, Microsoft 365, Adobe, Atlassian, Figma, Autodesk, Notion, Google Workspace"
+                width={1440}
+                height={360}
+                className="h-auto w-full rounded-[8px] border border-[#e4e7ec]"
+                priority={false}
+              />
+            </Card>
 
             <div className="mt-8 border-b border-[#d3d8df]">
               <div className="flex flex-wrap gap-6">
@@ -507,16 +649,21 @@ export default function ForeignSoftwareProcurementPage() {
           <Wrap className="grid gap-4 lg:grid-cols-2">
             <Card className="p-4">
               <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-2 text-[#505967]">
-                <MessageSquare className="h-4 w-4" />
+                <FileText className="h-4 w-4" />
               </div>
               <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
-                Материалы для согласования
+                Реквизиты для согласования
               </h3>
               <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
-                Подготовим презентацию и коммерческие материалы для финансового блока, ИТ, закупки и ИБ.
+                Исполнитель по сделке — ИП Борисов Иван Анатольевич. Для согласования даём счёт, договор, закрывающие документы, ИНН и ОГРНИП.
               </p>
+              <div className="mt-4 grid gap-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#1c1d1f]">
+                <div>ИНН: 575307745402</div>
+                <div>ОГРНИП: 320574900010615</div>
+                <div>Формат: счёт, договор, закрывающие документы</div>
+              </div>
               <SecondaryButton onClick={() => handleCta('procurement_materials')} className="mt-6">
-                Получить презентацию
+                Получить карточку контрагента
                 <ChevronRight className="h-4 w-4" />
               </SecondaryButton>
             </Card>
@@ -526,10 +673,10 @@ export default function ForeignSoftwareProcurementPage() {
                 <Globe className="h-4 w-4" />
               </div>
               <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
-                Первый контакт
+                Контакты для расчёта
               </h3>
               <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
-                Можно отправить запрос через форму, почту или Telegram.
+                Можно отправить список ПО на расчёт по почте или написать в Telegram для быстрого ответа.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a
@@ -540,13 +687,13 @@ export default function ForeignSoftwareProcurementPage() {
                   info@2rm.ru
                 </a>
                 <a
-                  href="https://t.me/pillardev"
+                  href="https://t.me/techcatalyst_support"
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => trackCTAClick('procurement_telegram')}
                   className="inline-flex items-center gap-2 rounded-[10px] border border-[#1c1d1f] bg-[#1c1d1f] px-3 py-2 text-[14px] font-medium text-white transition-colors hover:bg-black"
                 >
-                  Telegram
+                  @techcatalyst_support
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
@@ -594,7 +741,7 @@ export default function ForeignSoftwareProcurementPage() {
                   Отправьте список ПО на расчёт
                 </h2>
                 <p className="mt-3 text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988]">
-                  Пришлите вендора, число лицензий и требования к документам. Подготовим расчёт и коммерческое предложение.
+                  Пришлите вендора, число лицензий и требования к документам. Подготовим расчёт, коммерческое предложение и срок поставки до 7 рабочих дней в стандартном сценарии.
                 </p>
               </div>
 
@@ -617,16 +764,20 @@ export default function ForeignSoftwareProcurementPage() {
           <div>
             <div className="text-[14px] font-medium text-white">ТехКаталист</div>
             <p className="mt-3 max-w-[440px] text-[14px] leading-[1.43] tracking-[-0.14px] text-[#8f99a8]">
-              Закупка зарубежного ПО для юридических лиц: ИИ-сервисы, облачные продукты и корпоративные лицензии.
+              Закупка зарубежного ПО для юридических лиц: ИИ-сервисы, облачные продукты и корпоративные лицензии с поставкой от 7 рабочих дней.
             </p>
+            <div className="mt-4 grid gap-1 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#8f99a8]">
+              <div>Исполнитель: ИП Борисов Иван Анатольевич</div>
+              <div>ИНН 575307745402 · ОГРНИП 320574900010615</div>
+            </div>
           </div>
 
           <div className="grid gap-2 md:justify-end">
             <a href="mailto:info@2rm.ru" className="text-[#8f99a8] transition-colors hover:text-white">
               info@2rm.ru
             </a>
-            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-[#8f99a8] transition-colors hover:text-white">
-              Telegram
+            <a href="https://t.me/techcatalyst_support" target="_blank" rel="noreferrer" className="text-[#8f99a8] transition-colors hover:text-white">
+              @techcatalyst_support
             </a>
             <span className="text-[#8f99a8]">© 2026 ТехКаталист. Все права защищены.</span>
           </div>
