@@ -58,13 +58,13 @@ export default function ApplicationModal({
         requireCompany: false,
       },
       ru: {
-        badge: 'Launch request',
+        badge: 'Запрос доступа',
         title: 'Начните работу с',
         highlight: 'ТехКаталист',
         subtitle: 'Создайте бесплатный аккаунт и коротко опишите ваш сценарий использования.',
         name: 'Имя *',
         company: 'Компания',
-        email: 'Email *',
+        email: 'Эл. почта *',
         telegram: 'Telegram',
         useCase: 'Сценарий использования',
         placeholder: {
@@ -117,7 +117,7 @@ export default function ApplicationModal({
           'Опишите нужное ПО, объём лицензий, срок и требования к документам. Мы подготовим маршрут закупки и коммерческий расчёт.',
         name: 'Имя *',
         company: 'Компания *',
-        email: 'Email *',
+        email: 'Эл. почта *',
         telegram: 'Telegram',
         useCase: 'Какое ПО и какие требования *',
         placeholder: {

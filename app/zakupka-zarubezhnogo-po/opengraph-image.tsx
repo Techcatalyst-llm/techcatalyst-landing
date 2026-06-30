@@ -72,7 +72,7 @@ export default function OpengraphImage() {
           </div>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {['OpenAI', 'Claude', 'Microsoft 365', 'Adobe', 'Atlassian', 'SaaS'].map((item) => (
+            {['OpenAI', 'Claude', 'Microsoft 365', 'Adobe', 'Atlassian', 'Облачное ПО'].map((item) => (
               <div
                 key={item}
                 style={{

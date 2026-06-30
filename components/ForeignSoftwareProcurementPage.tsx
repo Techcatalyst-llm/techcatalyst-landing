@@ -65,12 +65,12 @@ const painRows = [
 
 const audienceCards = [
   {
-    title: 'CFO и финансы',
+    title: 'Финансовый блок',
     text: 'Понятная стоимость и пакет документов.',
     icon: <Wallet className="h-4 w-4" />,
   },
   {
-    title: 'CIO, CTO, ИТ',
+    title: 'ИТ и техдирекция',
     text: 'Быстрый доступ к нужному ПО для команд.',
     icon: <ShieldCheck className="h-4 w-4" />,
   },
@@ -84,7 +84,7 @@ const audienceCards = [
 const vendorGroups = [
   {
     id: 'ai',
-    label: 'AI и LLM',
+    label: 'ИИ и языковые модели',
     items: ['OpenAI', 'Claude', 'Gemini', 'Grok', 'DeepSeek'],
   },
   {
@@ -126,7 +126,7 @@ const steps = [
 const faqItems = [
   {
     question: 'Какое ПО можно закупить через ТехКаталист?',
-    answer: 'AI-сервисы, SaaS и корпоративные лицензии: OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian, Figma и другие.',
+    answer: 'ИИ-сервисы, облачные продукты и корпоративные лицензии: OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian, Figma и другие.',
   },
   {
     question: 'Подходит ли это для юридических лиц?',
@@ -246,7 +246,7 @@ export default function ForeignSoftwareProcurementPage() {
               href="#faq"
               className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
             >
-              FAQ
+              Вопросы
             </a>
             <a
               href="https://docs.techcatalyst.ru"
@@ -303,13 +303,13 @@ export default function ForeignSoftwareProcurementPage() {
                 <div className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-4">
                   <div className="flex items-center justify-between border-b border-[#d3d8df] pb-3">
                     <div>
-                      <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">Procurement brief</div>
+                      <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">Запрос на закупку</div>
                       <div className="mt-1 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
                         Запрос на закупку
                       </div>
                     </div>
                     <div className="rounded-[4px] border border-[#d3d8df] bg-white px-2 py-1 text-[12px] text-[#6f7988]">
-                      B2B
+                      Для бизнеса
                     </div>
                   </div>
 
@@ -513,7 +513,7 @@ export default function ForeignSoftwareProcurementPage() {
                 Материалы для согласования
               </h3>
               <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
-                Подготовим презентацию и коммерческие материалы для CFO, CIO, закупки и ИБ.
+                Подготовим презентацию и коммерческие материалы для финансового блока, ИТ, закупки и ИБ.
               </p>
               <SecondaryButton onClick={() => handleCta('procurement_materials')} className="mt-6">
                 Получить презентацию
@@ -557,7 +557,7 @@ export default function ForeignSoftwareProcurementPage() {
         <section id="faq" className="border-y border-[#e4e7ec] bg-[#f3f4f6] py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[720px]">
-              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">FAQ</div>
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Вопросы</div>
               <h2
                 className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
@@ -617,7 +617,7 @@ export default function ForeignSoftwareProcurementPage() {
           <div>
             <div className="text-[14px] font-medium text-white">ТехКаталист</div>
             <p className="mt-3 max-w-[440px] text-[14px] leading-[1.43] tracking-[-0.14px] text-[#8f99a8]">
-              Закупка зарубежного ПО для юридических лиц: AI-сервисы, SaaS и корпоративные лицензии.
+              Закупка зарубежного ПО для юридических лиц: ИИ-сервисы, облачные продукты и корпоративные лицензии.
             </p>
           </div>
 

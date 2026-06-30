@@ -11,7 +11,7 @@ const faqItems = [
   {
     question: 'Какое зарубежное ПО можно закупить через ТехКаталист?',
     answer:
-      'В первую очередь мы ориентируемся на AI-сервисы, SaaS и корпоративные лицензии: OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian, Figma и другие сценарии корпоративной закупки.',
+      'В первую очередь мы ориентируемся на ИИ-сервисы, облачные продукты и корпоративные лицензии: OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian, Figma и другие сценарии корпоративной закупки.',
   },
   {
     question: 'Подходит ли это для юридических лиц и корпоративного закупочного контура?',
@@ -36,7 +36,7 @@ const jsonLd = {
     {
       '@type': 'Service',
       name: 'Закупка зарубежного ПО для юридических лиц',
-      serviceType: 'B2B software procurement',
+      serviceType: 'Корпоративная закупка зарубежного ПО',
       url,
       description,
       areaServed: 'RU',
@@ -47,7 +47,7 @@ const jsonLd = {
       },
       audience: {
         '@type': 'BusinessAudience',
-        audienceType: 'Юридические лица, CIO, CTO, CFO, procurement',
+        audienceType: 'Юридические лица, ИТ, финансовый блок, закупка',
       },
     },
     {

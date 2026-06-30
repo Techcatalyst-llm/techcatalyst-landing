@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'ТехКаталист — единый API для AI-моделей';
+export const alt = 'ТехКаталист — единый API для ИИ-моделей';
 export const size = {
   width: 1200,
   height: 630,
@@ -69,10 +69,10 @@ export default function OpengraphImage() {
                 alignSelf: 'flex-start',
               }}
             >
-              Unified AI access
+              Единый доступ к ИИ
             </div>
             <div style={{ fontSize: 62, lineHeight: 1.02, fontWeight: 500, letterSpacing: '-1.2px' }}>
-              Один API для frontier AI-моделей
+              Один API для ведущих ИИ-моделей
             </div>
             <div style={{ fontSize: 28, lineHeight: 1.3, color: '#6f7988', maxWidth: 980 }}>
               ChatGPT, Claude, Gemini, Grok и другие провайдеры. Маршрутизация, биллинг и доступ для команд.
@@ -80,7 +80,7 @@ export default function OpengraphImage() {
           </div>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {['OpenAI', 'Claude', 'Gemini', 'Ruble billing', 'Team controls', 'Procurement'].map((item) => (
+            {['OpenAI', 'Claude', 'Gemini', 'Оплата в рублях', 'Управление командой', 'Закупка ПО'].map((item) => (
               <div
                 key={item}
                 style={{

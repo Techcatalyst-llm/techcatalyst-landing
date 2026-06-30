@@ -11,12 +11,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techcatalyst.ru'),
-  title: "ТехКаталист — единый API для AI-моделей и корпоративной закупки",
-  description: "ChatGPT, Claude, Gemini, Grok и другие AI-модели в одном API. Маршрутизация, биллинг в рублях, доступ для команд и корпоративная закупка.",
+  title: "ТехКаталист — единый API для ИИ-моделей и корпоративной закупки",
+  description: "ChatGPT, Claude, Gemini, Grok и другие ИИ-модели в одном API. Маршрутизация, биллинг в рублях, доступ для команд и корпоративная закупка.",
   keywords: "AI API, ChatGPT API, Claude API, Gemini API, unified API, LLM gateway, AI models, ТехКаталист, корпоративная закупка ПО",
   openGraph: {
-    title: "ТехКаталист — единый API для AI-моделей и корпоративной закупки",
-    description: "ChatGPT, Claude, Gemini, Grok и другие AI-модели в одном API. Маршрутизация, биллинг и доступ для команд.",
+    title: "ТехКаталист — единый API для ИИ-моделей и корпоративной закупки",
+    description: "ChatGPT, Claude, Gemini, Grok и другие ИИ-модели в одном API. Маршрутизация, биллинг и доступ для команд.",
     type: "website",
     url: "https://techcatalyst.ru",
     locale: "ru_RU",
@@ -25,14 +25,14 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "ТехКаталист — единый API для AI-моделей",
+        alt: "ТехКаталист — единый API для ИИ-моделей",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ТехКаталист — единый API для AI-моделей и корпоративной закупки",
-    description: "ChatGPT, Claude, Gemini, Grok и другие AI-модели в одном API",
+    title: "ТехКаталист — единый API для ИИ-моделей и корпоративной закупки",
+    description: "ChatGPT, Claude, Gemini, Grok и другие ИИ-модели в одном API",
     images: ["/opengraph-image"],
   },
 };
