@@ -16,8 +16,8 @@ export default function OpengraphImage() {
           width: '100%',
           height: '100%',
           background: '#ffffff',
-          color: '#313131',
-          padding: '56px 64px',
+          color: '#1c1d1f',
+          padding: '48px 56px',
           fontFamily: 'Arial, sans-serif',
           position: 'relative',
         }}
@@ -27,52 +27,62 @@ export default function OpengraphImage() {
             position: 'absolute',
             inset: 0,
             background:
-              'radial-gradient(circle at 78% 12%, rgba(24,55,218,.16), transparent 30%), radial-gradient(circle at 12% 18%, rgba(255,105,0,.12), transparent 26%)',
+              'radial-gradient(circle at 82% 16%, rgba(112,161,240,.20), transparent 28%), radial-gradient(circle at 16% 12%, rgba(220,163,165,.18), transparent 24%)',
           }}
         />
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 28, fontWeight: 700 }}>
-            <span style={{ color: '#1837da' }}>▲</span>
-            <span>ТехКаталист AI</span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 900 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 24, fontWeight: 600 }}>
             <div
               style={{
                 display: 'flex',
-                padding: '10px 18px',
-                borderRadius: 999,
-                background: 'rgba(24,55,218,.08)',
-                color: '#1837da',
-                fontSize: 24,
-                fontWeight: 700,
+                border: '1px solid #d3d8df',
+                borderRadius: 10,
+                padding: '8px 12px',
+                background: '#ffffff',
+              }}
+            >
+              ТехКаталист
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 960 }}>
+            <div
+              style={{
+                display: 'flex',
+                padding: '8px 12px',
+                borderRadius: 10,
+                border: '1px solid #d3d8df',
+                background: '#ffffff',
+                color: '#6f7988',
+                fontSize: 20,
+                fontWeight: 500,
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 alignSelf: 'flex-start',
               }}
             >
-              B2B Procurement
+              Закупка зарубежного ПО
             </div>
-            <div style={{ fontSize: 68, lineHeight: 1.04, fontWeight: 800 }}>
-              Закупка зарубежного ПО для юридических лиц
+            <div style={{ fontSize: 62, lineHeight: 1.02, fontWeight: 500, letterSpacing: '-1.2px' }}>
+              Закупим и продлим иностранное ПО для вашего юрлица
             </div>
-            <div style={{ fontSize: 32, lineHeight: 1.35, color: '#63666a', maxWidth: 980 }}>
-              AI-сервисы, SaaS и иностранные лицензии: счёт, договор, закрывающие документы и корпоративный закупочный контур.
+            <div style={{ fontSize: 28, lineHeight: 1.3, color: '#6f7988', maxWidth: 980 }}>
+              OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian. Счёт, договор, закрывающие документы и понятное КП.
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            {['OpenAI', 'Claude', 'Gemini', 'Microsoft 365', 'Adobe', 'Atlassian'].map((item) => (
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            {['OpenAI', 'Claude', 'Microsoft 365', 'Adobe', 'Atlassian', 'SaaS'].map((item) => (
               <div
                 key={item}
                 style={{
                   display: 'flex',
-                  padding: '12px 18px',
-                  borderRadius: 999,
-                  border: '1px solid #edf0f7',
-                  background: '#f9fafc',
-                  fontSize: 24,
-                  color: '#63666a',
+                  padding: '10px 14px',
+                  borderRadius: 4,
+                  border: '1px solid #d3d8df',
+                  background: '#f3f4f6',
+                  fontSize: 20,
+                  color: '#505967',
                 }}
               >
                 {item}

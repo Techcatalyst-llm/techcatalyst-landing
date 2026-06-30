@@ -2,14 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-white: #ffffff;
+  --color-ash: #f3f4f6;
+  --color-stone: #e4e7ec;
+  --color-slate: #d3d8df;
+  --color-lead: #b5bdc9;
+  --color-overcast: #8f99a8;
+  --color-metal: #6f7988;
+  --color-carbon: #505967;
+  --color-ink: #1c1d1f;
+  --color-abyss: #000000;
+  --color-action-blue: #407ff2;
+  --color-focus-blue: #94b9ff;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  @apply bg-white text-ink antialiased;
+  background: var(--color-white);
+  color: var(--color-ink);
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: #e2e2fd;
+  background: rgba(148, 185, 255, 0.4);
+}
+
+a,
+button,
+input,
+textarea,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(148, 185, 255, 0.4);
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }

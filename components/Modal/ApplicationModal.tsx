@@ -1,7 +1,20 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { Inter, Lora } from 'next/font/google';
 import { X } from 'lucide-react';
+
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
+const lora = Lora({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500'],
+  display: 'swap',
+});
 
 interface ApplicationModalProps {
   isOpen: boolean;
@@ -186,30 +199,38 @@ export default function ApplicationModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-[rgba(49,49,49,.46)] backdrop-blur-sm" onClick={onClose} />
+    <div className={`${inter.className} fixed inset-0 z-[100] flex items-center justify-center p-4`} style={{ fontFeatureSettings: '"ss03"' }}>
+      <div className="absolute inset-0 bg-[rgba(28,29,31,.42)] backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative w-full max-w-[560px] rounded-panel border border-line bg-white p-7 shadow-panel sm:p-8">
+      <div
+        className="relative w-full max-w-[560px] rounded-[8px] border border-[#e4e7ec] bg-white p-6 sm:p-7"
+        style={{
+          boxShadow: 'rgba(28, 40, 64, 0.1) 0px 2px 3px -2px, rgba(28, 40, 64, 0.04) 0px 4px 6px -2px',
+        }}
+      >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 inline-flex rounded-full border border-line bg-soft p-2 text-muted transition-colors hover:border-blue hover:text-blue"
+          className="absolute right-4 top-4 inline-flex rounded-[10px] border border-[#d3d8df] bg-white p-2 text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
         </button>
 
         <div className="mb-6 pr-10">
-          <div className="mb-3 text-[13px] font-semibold uppercase tracking-[.12em] text-blue">{translations.badge}</div>
-          <h3 className="text-[30px] font-semibold leading-[1.15] tracking-[-.02em] text-[#222]">
-            {translations.title} <span className="text-blue">{translations.highlight}</span>
+          <div className="mb-3 text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">{translations.badge}</div>
+          <h3
+            className={`${lora.className} text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f]`}
+            style={{ fontFeatureSettings: '"ss03"' }}
+          >
+            {translations.title} <span>{translations.highlight}</span>
           </h3>
-          <p className="mt-3 text-[15px] leading-7 text-muted">{translations.subtitle}</p>
+          <p className="mt-3 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{translations.subtitle}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-ink">
+            <label htmlFor="firstName" className="mb-1.5 block text-[14px] font-medium text-[#1c1d1f]">
               {translations.name}
             </label>
             <input
@@ -219,13 +240,13 @@ export default function ApplicationModal({
               value={formData.firstName}
               onChange={handleChange}
               required
-              className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
+              className="w-full rounded-[7px] border border-[#d3d8df] bg-white px-3 py-3 text-[14px] text-[#1c1d1f] outline-none transition-colors focus:border-[#94b9ff] focus:ring-0"
               placeholder={translations.placeholder.name}
             />
           </div>
 
           <div>
-            <label htmlFor="company" className="mb-1.5 block text-sm font-medium text-ink">
+            <label htmlFor="company" className="mb-1.5 block text-[14px] font-medium text-[#1c1d1f]">
               {translations.company}
             </label>
             <input
@@ -235,13 +256,13 @@ export default function ApplicationModal({
               value={formData.company}
               onChange={handleChange}
               required={translations.requireCompany}
-              className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
+              className="w-full rounded-[7px] border border-[#d3d8df] bg-white px-3 py-3 text-[14px] text-[#1c1d1f] outline-none transition-colors focus:border-[#94b9ff] focus:ring-0"
               placeholder={translations.placeholder.company}
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink">
+            <label htmlFor="email" className="mb-1.5 block text-[14px] font-medium text-[#1c1d1f]">
               {translations.email}
             </label>
             <input
@@ -251,13 +272,13 @@ export default function ApplicationModal({
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
+              className="w-full rounded-[7px] border border-[#d3d8df] bg-white px-3 py-3 text-[14px] text-[#1c1d1f] outline-none transition-colors focus:border-[#94b9ff] focus:ring-0"
               placeholder={translations.placeholder.email}
             />
           </div>
 
           <div>
-            <label htmlFor="telegram" className="mb-1.5 block text-sm font-medium text-ink">
+            <label htmlFor="telegram" className="mb-1.5 block text-[14px] font-medium text-[#1c1d1f]">
               {translations.telegram}
             </label>
             <input
@@ -266,13 +287,13 @@ export default function ApplicationModal({
               name="telegram"
               value={formData.telegram}
               onChange={handleChange}
-              className="w-full rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
+              className="w-full rounded-[7px] border border-[#d3d8df] bg-white px-3 py-3 text-[14px] text-[#1c1d1f] outline-none transition-colors focus:border-[#94b9ff] focus:ring-0"
               placeholder={translations.placeholder.telegram}
             />
           </div>
 
           <div>
-            <label htmlFor="mvpDescription" className="mb-1.5 block text-sm font-medium text-ink">
+            <label htmlFor="mvpDescription" className="mb-1.5 block text-[14px] font-medium text-[#1c1d1f]">
               {translations.useCase}
             </label>
             <textarea
@@ -282,19 +303,19 @@ export default function ApplicationModal({
               onChange={handleChange}
               rows={4}
               required={variant === 'procurement'}
-              className="w-full resize-none rounded-[16px] border border-line bg-soft px-4 py-3 text-ink outline-none transition-colors focus:border-blue"
+              className="w-full resize-none rounded-[7px] border border-[#d3d8df] bg-white px-3 py-3 text-[14px] text-[#1c1d1f] outline-none transition-colors focus:border-[#94b9ff] focus:ring-0"
               placeholder={translations.placeholder.useCase}
             />
           </div>
 
           {submitStatus === 'success' ? (
-            <div className="rounded-[16px] border border-[#cce9cc] bg-[#f5fcf5] px-4 py-3 text-sm text-[#256b25]">
+            <div className="rounded-[8px] border border-[#d3d8df] bg-[#f3f4f6] px-4 py-3 text-[14px] text-[#075a39]">
               {translations.success}
             </div>
           ) : null}
 
           {submitStatus === 'error' ? (
-            <div className="rounded-[16px] border border-[#f2c8cf] bg-[#fff6f8] px-4 py-3 text-sm text-danger">
+            <div className="rounded-[8px] border border-[#d3d8df] bg-[#f3f4f6] px-4 py-3 text-[14px] text-[#772322]">
               {translations.error}
             </div>
           ) : null}
@@ -302,12 +323,12 @@ export default function ApplicationModal({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex w-full items-center justify-center rounded-full bg-blue px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta disabled:cursor-not-allowed disabled:bg-[#97a2e3] disabled:shadow-none"
+            className="inline-flex w-full items-center justify-center rounded-[10px] border border-[#1c1d1f] bg-[#1c1d1f] px-4 py-3 text-[14px] font-medium text-white transition-colors hover:bg-black disabled:cursor-not-allowed disabled:border-[#b5bdc9] disabled:bg-[#b5bdc9]"
           >
             {isSubmitting ? translations.submitting : translations.submit}
           </button>
 
-          <p className="text-center text-xs leading-5 text-dim">{translations.agreement}</p>
+          <p className="text-center text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">{translations.agreement}</p>
         </form>
       </div>
     </div>

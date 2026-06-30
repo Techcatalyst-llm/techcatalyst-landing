@@ -2,359 +2,252 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { Inter, Lora } from 'next/font/google';
 import {
   ArrowRight,
   BadgeCheck,
-  BookOpen,
-  Brain,
   Building2,
-  Check,
   ChevronRight,
-  Clock3,
   Code2,
   CreditCard,
   Globe,
   Menu,
-  MessageSquare,
   Network,
-  Server,
   ShieldCheck,
-  Smartphone,
   Wallet,
   X,
-  Zap,
 } from 'lucide-react';
-import { trackCTAClick, trackMobileMenuToggle, trackPlatformView, trackPricingSelect } from '@/lib/analytics';
+
+import {
+  trackCTAClick,
+  trackMobileMenuToggle,
+  trackPlatformView,
+  trackPricingSelect,
+} from '@/lib/analytics';
 import ApplicationModal from '@/components/Modal/ApplicationModal';
 
 type Language = 'en' | 'ru';
 type ModelTab = 'all' | 'text' | 'multimodal' | 'image';
 
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
+const lora = Lora({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500'],
+  display: 'swap',
+});
+
 const navItems = [
-  { href: '#features', key: 'features' },
-  { href: '/zakupka-zarubezhnogo-po', key: 'procurement' },
+  { href: '#platform', key: 'platform' },
   { href: '#models', key: 'models' },
-  { href: '#integration', key: 'integration' },
-  { href: '#pricing', key: 'pricing' },
-  { href: '#reviews', key: 'reviews' },
+  { href: '#commercial', key: 'commercial' },
+  { href: '/zakupka-zarubezhnogo-po', key: 'procurement' },
 ] as const;
 
 const translations = {
   en: {
     brand: 'Tech Catalyst',
     nav: {
-      features: 'Features',
-      procurement: 'Software procurement',
+      platform: 'Platform',
       models: 'Models',
-      integration: 'Integration',
-      pricing: 'Pricing',
-      reviews: 'Reviews',
+      commercial: 'Commercial',
+      procurement: 'Software procurement',
       docs: 'Documentation',
       start: 'Start free',
       language: 'RU',
     },
     hero: {
-      kicker: 'LLM-Gate for products and teams',
-      title: 'LLM-Gate: one API for ChatGPT, Claude, Gemini, Grok and 100+ AI models.',
+      kicker: 'Unified AI access layer',
+      title: 'One API for frontier models.',
       lead:
-        'An OpenAI-compatible gateway for routing, failover, billing and access control across frontier AI providers. Keep one endpoint, pay in rubles and switch models without changing product code.',
+        'OpenAI-compatible routing, billing and team controls for ChatGPT, Claude, Gemini, Grok and other providers.',
       primary: 'Create free account',
       secondary: 'Open documentation',
-      panelTitle: 'What the gate adds',
-      bullets: [
-        'Works with existing OpenAI SDK flows',
-        'Provider routing and failover in one API layer',
-        'Unified billing, keys and limits for teams',
+      frameTitle: 'Gateway overview',
+      frameTag: 'OpenAI-compatible',
+      frameCards: [
+        ['Routing', 'OpenAI, Anthropic, Google, xAI, DeepSeek'],
+        ['Billing', 'Rubles, invoices, shared team billing'],
+        ['Use cases', 'Production, pilots, internal AI platforms'],
+      ],
+      bullets: ['Single endpoint', 'Provider failover', 'Ruble billing'],
+    },
+    stats: [
+      ['100+', 'AI models'],
+      ['12+', 'Providers'],
+      ['1 day', 'Launch cycle'],
+      ['B2B', 'Commercial workflows'],
+    ],
+    platform: {
+      kicker: 'Platform',
+      title: 'A compact control layer between your product and model vendors.',
+      cards: [
+        ['Unified API', 'One key and one endpoint across providers.', <Code2 className="h-4 w-4" />],
+        ['Routing and failover', 'Switch providers without changing product code.', <Network className="h-4 w-4" />],
+        ['Team controls', 'Limits, access, keys and billing in one place.', <ShieldCheck className="h-4 w-4" />],
       ],
     },
-    stats: {
-      models: 'AI models',
-      providers: 'Providers',
-      latency: 'Low-friction launch',
-      billing: 'Payment in rubles',
-    },
-    sections: {
-      features: 'Platform capabilities',
-      featuresTitle: 'An LLM-Gate layer between your product and frontier model providers.',
-      featuresLead:
-        'Use Tech Catalyst as the control plane for routing, redundancy, access policies and commercial operations instead of wiring each model vendor directly into your stack.',
-      integration: 'Integration',
-      integrationTitle: 'Connect in minutes, keep freedom to switch models later.',
-      integrationLead:
-        'You keep the SDK, auth pattern and product logic you already use. Tech Catalyst replaces only the provider edge with a managed gateway layer.',
-      models: 'Model catalog',
-      modelsTitle: 'Route requests across text, multimodal and image models.',
-      modelsLead:
-        'Use one endpoint for different providers and compare quality, latency and cost without rewriting application code. Prices below reflect current public API rates from the model vendors.',
-      pricing: 'Pricing',
-      pricingTitle: 'Commercial access for individuals and business teams.',
-      pricingLead:
-        'Retail access stays pay-as-you-go. Legal entities can work through invoice, contract and reporting. The landing shows current model benchmarks, and the full commercial offer is shared on request.',
-      reviews: 'Customer fit',
-      reviewsTitle: 'Built for developers, product teams and internal AI platforms.',
-      reviewsLead:
-        'The service is positioned for production usage, rapid prototyping and managed enterprise procurement.',
-      ctaTitle: 'Need a working setup instead of another model catalog?',
-      ctaLead:
-        'Launch with one API key, keep model optionality and scale billing, controls and procurement on the same platform.',
-    },
-    features: [
-      {
-        title: 'API gateway',
-        text: 'One API key and one endpoint with OpenAI-compatible semantics across providers.',
-        icon: <Code2 className="h-5 w-5" />,
-      },
-      {
-        title: 'Routing and failover',
-        text: 'Requests can be switched between primary and backup providers when a route degrades.',
-        icon: <ShieldCheck className="h-5 w-5" />,
-      },
-      {
-        title: 'No VPN required',
-        text: 'Stable access for Russian teams with direct connectivity and local billing.',
-        icon: <Globe className="h-5 w-5" />,
-      },
-      {
-        title: 'Team controls',
-        text: 'Centralized limits, budgets, keys, environments and organizational access policies.',
-        icon: <Building2 className="h-5 w-5" />,
-      },
-      {
-        title: 'Usage and billing',
-        text: 'Track tokens, spend and provider mix from a single operational and commercial layer.',
-        icon: <Wallet className="h-5 w-5" />,
-      },
-      {
-        title: 'Production switching',
-        text: 'Move between models for quality, latency or economics without changing product code.',
-        icon: <Network className="h-5 w-5" />,
-      },
-    ],
-    steps: [
-      {
-        title: 'Create an account',
-        text: 'Get an API key and access to the gateway dashboard without changing your workflow.',
-      },
-      {
-        title: 'Point your SDK to Tech Catalyst',
-        text: 'Set the base URL so your existing requests go through the LLM-Gate layer.',
-      },
-      {
-        title: 'Switch models by parameter',
-        text: 'Compare providers, pricing and latency inside the same product path.',
-      },
-    ],
-    tabs: {
-      all: 'All',
-      text: 'Text',
-      multimodal: 'Multimodal',
-      image: 'Image',
-      per: 'public API rate',
-    },
-    pricing: {
-      personalTitle: 'For individuals',
-      personalItems: [
-        'Cards and flexible top-up flows',
-        'Transparent pay-as-you-go pricing',
-        'No mandatory subscription',
-        'Fast testing for personal projects',
+    workflow: {
+      kicker: 'How it works',
+      title: 'Keep your SDK. Replace the provider edge.',
+      points: [
+        'Point existing OpenAI SDK flows to Tech Catalyst.',
+        'Route by model parameter instead of rebuilding integrations.',
+        'Add billing and procurement workflows when teams scale.',
       ],
-      businessTitle: 'For legal entities',
-      businessItems: [
-        'Invoice-based payment',
-        'Contract and closing documents',
-        'Support for procurement workflows',
-        'Shared billing and team management',
+      sideTitle: 'Commercial fit',
+      sideText: 'Works for individual usage and invoice-based corporate access.',
+    },
+    models: {
+      kicker: 'Models',
+      title: 'Route across text, multimodal and image models.',
+      tabs: { all: 'All', text: 'Text', multimodal: 'Multimodal', image: 'Image' },
+      suffix: 'public API rate',
+    },
+    commercial: {
+      kicker: 'Commercial',
+      title: 'Commercial access for individuals and legal entities.',
+      cards: [
+        {
+          title: 'For individuals',
+          items: ['Flexible top-up', 'Pay-as-you-go', 'Fast evaluation'],
+          cta: 'Request current price list',
+          action: 'personal',
+        },
+        {
+          title: 'For legal entities',
+          items: ['Invoices and contract', 'Closing documents', 'Team billing and procurement support'],
+          cta: 'Talk to sales',
+          action: 'enterprise',
+        },
       ],
-      viewPrice: 'Request current price list',
-      contactSales: 'Talk to sales',
+      procurementTitle: 'Need corporate software procurement?',
+      procurementText: 'We also support procurement and renewal of foreign software licenses for legal entities.',
+      procurementButton: 'Open procurement page',
     },
-    channels: {
-      docsTitle: 'Documentation',
-      docsText: 'API reference, product details and downloadable materials for technical and procurement review.',
-      chatTitle: 'Web and Telegram access',
-      chatText: 'Try the platform without full integration and route adoption through a lighter evaluation flow.',
-      docsButton: 'View docs',
-      chatButton: 'Request access',
+    proof: {
+      kicker: 'Who it fits',
+      title: 'Built for product teams, internal AI platforms and corporate procurement.',
+      quotes: [
+        ['The provider layer stopped being a roadmap problem.', 'CTO, B2B SaaS'],
+        ['Finance and procurement finally had a model they could work with.', 'Operations lead'],
+        ['We got one controllable entry point for multiple models.', 'CIO, fintech team'],
+      ],
     },
-    testimonials: [
-      {
-        quote:
-          'We stopped rebuilding integrations for every provider. The API layer became boring, which is exactly what we needed.',
-        author: 'Product team, internal AI tools',
-      },
-      {
-        quote:
-          'Model switching went from a roadmap task to a config decision. That changed how quickly we test new ideas.',
-        author: 'Founder, B2B SaaS',
-      },
-      {
-        quote:
-          'Finance and procurement finally got a commercial flow that matched how engineering wanted to consume models.',
-        author: 'Operations lead, enterprise client',
-      },
-    ],
+    cta: {
+      kicker: 'Launch',
+      title: 'Need a working route, not another model catalog?',
+      lead: 'Launch with one API key. Add routing, billing and procurement support on the same platform.',
+      primary: 'Create free account',
+      secondary: 'Request current price list',
+    },
     footer: {
-      note: 'Unified API for 100+ AI models',
+      note: 'Unified API for frontier AI models',
       rights: '© 2026 Tech Catalyst. All rights reserved.',
     },
   },
   ru: {
     brand: 'ТехКаталист',
     nav: {
-      features: 'Возможности',
-      procurement: 'Закупка ПО',
+      platform: 'Платформа',
       models: 'Модели',
-      integration: 'Интеграция',
-      pricing: 'Тарифы',
-      reviews: 'Кому подходит',
+      commercial: 'Коммерция',
+      procurement: 'Закупка ПО',
       docs: 'Документация',
       start: 'Начать бесплатно',
       language: 'EN',
     },
     hero: {
-      kicker: 'Единая платформа доступа к AI-моделям',
-      title: 'Один API для ChatGPT, Claude, Gemini, Grok и 100+ AI-моделей.',
+      kicker: 'Единый слой доступа к AI-моделям',
+      title: 'Один API для frontier AI-моделей.',
       lead:
-        'Одна точка подключения, совместимость с OpenAI SDK, оплата в рублях и стабильный доступ без VPN. Переключение между провайдерами меняется одним параметром.',
+        'OpenAI-совместимый gateway для ChatGPT, Claude, Gemini, Grok и других провайдеров. Маршрутизация, биллинг и командный доступ в одной точке.',
       primary: 'Создать бесплатный аккаунт',
       secondary: 'Открыть документацию',
-      panelTitle: 'Почему команды переходят',
-      bullets: [
-        'Работает с существующими сценариями на OpenAI SDK',
-        'Маршрутизация и резервное переключение между провайдерами в одном API-слое',
-        'Единый биллинг, ключи и лимиты для команд',
+      frameTitle: 'Как выглядит контур',
+      frameTag: 'OpenAI-compatible',
+      frameCards: [
+        ['Маршрутизация', 'OpenAI, Anthropic, Google, xAI, DeepSeek'],
+        ['Расчёты', 'Рубли, счёт, командный биллинг'],
+        ['Сценарии', 'Прод, пилоты, внутренние AI-платформы'],
+      ],
+      bullets: ['Единый endpoint', 'Failover между провайдерами', 'Оплата в рублях'],
+    },
+    stats: [
+      ['100+', 'AI-моделей'],
+      ['12+', 'Провайдеров'],
+      ['1 день', 'Стартовый цикл'],
+      ['B2B', 'Коммерческий контур'],
+    ],
+    platform: {
+      kicker: 'Платформа',
+      title: 'Компактный управляющий слой между вашим продуктом и поставщиками моделей.',
+      cards: [
+        ['Единый API', 'Один ключ и один endpoint для разных провайдеров.', <Code2 className="h-4 w-4" />],
+        ['Маршрутизация и failover', 'Меняйте провайдера без переписывания продуктового кода.', <Network className="h-4 w-4" />],
+        ['Управление командой', 'Лимиты, доступ, ключи и биллинг в одном месте.', <ShieldCheck className="h-4 w-4" />],
       ],
     },
-    stats: {
-      models: 'Моделей ИИ',
-      providers: 'Провайдеров',
-      latency: 'Быстрый старт',
-      billing: 'Оплата в рублях',
-    },
-    sections: {
-      features: 'Возможности платформы',
-      featuresTitle: 'LLM-Gate слой между вашим продуктом и основными AI-провайдерами.',
-      featuresLead:
-        'ТехКаталист можно использовать как управляющий слой для маршрутизации, отказоустойчивости, политик доступа и коммерческого контура вместо прямой работы с каждым поставщиком моделей. Это особенно важно для банков и финтеха, где CIO, CTO и руководителям ИБ нужен единый контролируемый контур.',
-      integration: 'Интеграция',
-      integrationTitle: 'Подключение за минуты, свобода переключения моделей сохраняется.',
-      integrationLead:
-        'Вы оставляете привычный SDK, авторизацию и продуктовую логику. ТехКаталист меняет только слой маршрутизации, а не вашу архитектуру.',
-      models: 'Каталог моделей',
-      modelsTitle: 'Маршрутизируйте запросы между текстовыми, мультимодальными и моделями генерации изображений.',
-      modelsLead:
-        'Одна точка подключения к разным провайдерам позволяет сравнивать качество, задержку и стоимость без переписывания кода.',
-      pricing: 'Тарифы',
-      pricingTitle: 'Коммерческий доступ для частных пользователей и корпоративных команд.',
-      pricingLead:
-        'Розничный доступ остаётся с оплатой по использованию. Юридические лица работают по счёту, договору и с закрывающими документами. Для банков и финтех-компаний доступен формат закупки под корпоративные требования.',
-      reviews: 'Кому подходит',
-      reviewsTitle: 'Платформа для CIO, CTO и руководителей ИБ в российских банках и финтех-компаниях.',
-      reviewsLead:
-        'Сервис подходит для промышленного использования, быстрого пилота и последующей закупки в корпоративном контуре, когда нужны контроль доступа, маршрутизация и единая коммерческая схема.',
-      ctaTitle: 'Нужна рабочая схема, а не ещё один каталог моделей?',
-      ctaLead:
-        'Запускайтесь с одним API-ключом, сохраняйте свободу выбора моделей и масштабируйте биллинг, контроль и закупку в одной платформе.',
-    },
-    features: [
-      {
-        title: 'Единый API',
-        text: 'Один API-ключ и одна точка подключения с OpenAI-совместимой семантикой.',
-        icon: <Code2 className="h-5 w-5" />,
-      },
-      {
-        title: 'Маршрутизация и резервирование',
-        text: 'Запросы переключаются между основными и резервными провайдерами при сбое или деградации маршрута.',
-        icon: <ShieldCheck className="h-5 w-5" />,
-      },
-      {
-        title: 'Без VPN',
-        text: 'Стабильный доступ для российских команд и локальная коммерческая модель.',
-        icon: <Globe className="h-5 w-5" />,
-      },
-      {
-        title: 'Управление командой',
-        text: 'Централизованные лимиты, бюджеты, ключи, окружения и организационные политики доступа для разработки, ИТ и ИБ.',
-        icon: <Building2 className="h-5 w-5" />,
-      },
-      {
-        title: 'Учёт и биллинг',
-        text: 'Токены, расходы и сочетание провайдеров отслеживаются в едином операционном и коммерческом слое.',
-        icon: <Wallet className="h-5 w-5" />,
-      },
-      {
-        title: 'Переключение в рабочем контуре',
-        text: 'Меняйте модели ради качества, скорости или экономики без изменений продуктового кода.',
-        icon: <Network className="h-5 w-5" />,
-      },
-    ],
-    steps: [
-      {
-        title: 'Создайте аккаунт',
-        text: 'Получите API-ключ и доступ в кабинет без смены рабочего процесса.',
-      },
-      {
-        title: 'Направьте SDK в ТехКаталист',
-        text: 'Укажите базовый адрес API и сохраните привычный формат запросов.',
-      },
-      {
-        title: 'Переключайте модели параметром',
-        text: 'Сравнивайте провайдеров, цены и задержку внутри одного продуктового контура.',
-      },
-    ],
-    tabs: {
-      all: 'Все',
-      text: 'Текст',
-      multimodal: 'Мультимодальные',
-      image: 'Изображения',
-      per: 'за 1M токенов',
-    },
-    pricing: {
-      personalTitle: 'Для физических лиц',
-      personalItems: [
-        'Карты и гибкое пополнение баланса',
-        'Прозрачный pay-as-you-go',
-        'Без обязательной подписки',
-        'Быстрый запуск личных проектов',
+    workflow: {
+      kicker: 'Как это работает',
+      title: 'Сохраняете SDK. Меняете только provider edge.',
+      points: [
+        'Направьте существующие OpenAI SDK flow в ТехКаталист.',
+        'Переключайте модели параметром вместо новых интеграций.',
+        'Добавляйте биллинг и закупку по мере роста команды.',
       ],
-      businessTitle: 'Для юридических лиц',
-      businessItems: [
-        'Оплата по счёту',
-        'Договор и закрывающие документы',
-        'Поддержка закупочного контура',
-        'Общий биллинг и управление командой',
+      sideTitle: 'Коммерческий fit',
+      sideText: 'Подходит и для личного использования, и для корпоративного доступа по счёту.',
+    },
+    models: {
+      kicker: 'Модели',
+      title: 'Маршрутизация между текстовыми, мультимодальными и image-моделями.',
+      tabs: { all: 'Все', text: 'Текст', multimodal: 'Мультимодальные', image: 'Изображения' },
+      suffix: 'публичная API-ставка',
+    },
+    commercial: {
+      kicker: 'Коммерция',
+      title: 'Доступ для частных пользователей и юридических лиц.',
+      cards: [
+        {
+          title: 'Для физических лиц',
+          items: ['Гибкое пополнение', 'Pay-as-you-go', 'Быстрая проверка сценариев'],
+          cta: 'Запросить актуальный прайс',
+          action: 'personal',
+        },
+        {
+          title: 'Для юридических лиц',
+          items: ['Оплата по счёту и договору', 'Закрывающие документы', 'Командный биллинг и поддержка закупки'],
+          cta: 'Связаться с продажами',
+          action: 'enterprise',
+        },
       ],
-      viewPrice: 'Запросить актуальный прайс',
-      contactSales: 'Связаться с продажами',
+      procurementTitle: 'Нужна закупка зарубежного ПО?',
+      procurementText: 'Отдельно поддерживаем закупку и продление иностранных лицензий для юридических лиц.',
+      procurementButton: 'Открыть раздел закупки',
     },
-    channels: {
-      docsTitle: 'Документация',
-      docsText: 'API-справка, продуктовые материалы и документы для технической и закупочной проверки.',
-      chatTitle: 'Веб и Telegram-доступ',
-      chatText: 'Платформу можно оценить до полной интеграции и пройти более лёгкий пилотный сценарий.',
-      docsButton: 'Открыть документацию',
-      chatButton: 'Запросить доступ',
+    proof: {
+      kicker: 'Кому подходит',
+      title: 'Подходит продуктовым командам, внутренним AI-платформам и корпоративной закупке.',
+      quotes: [
+        ['Провайдерный слой перестал быть отдельной задачей в roadmap.', 'CTO, B2B SaaS'],
+        ['Финансы и закупка получили понятную коммерческую модель.', 'Operations lead'],
+        ['Появилась одна управляемая точка входа в несколько моделей.', 'CIO, финтех-команда'],
+      ],
     },
-    testimonials: [
-      {
-        quote:
-          'Мы перестали пересобирать интеграции под каждого провайдера. Появился единый управляемый контур, который устроил и разработку, и ИБ.',
-        author: 'CTO, финтех-компания',
-      },
-      {
-        quote:
-          'Для нас было критично получить контролируемый доступ к нескольким моделям сразу, с понятными лимитами, маршрутами и закупкой в рублях.',
-        author: 'CIO, банк',
-      },
-      {
-        quote:
-          'Решение закрыло сразу три задачи: доступ к моделям без VPN, единый коммерческий контур и прозрачные правила для команд разработки и ИБ.',
-        author: 'Руководитель ИБ, финтех-компания',
-      },
-    ],
+    cta: {
+      kicker: 'Старт',
+      title: 'Нужен рабочий маршрут, а не ещё один каталог моделей?',
+      lead: 'Запускайтесь с одним API-ключом и добавляйте маршрутизацию, биллинг и закупку в одной платформе.',
+      primary: 'Создать бесплатный аккаунт',
+      secondary: 'Запросить актуальный прайс',
+    },
     footer: {
-      note: 'Единый API для 100+ AI-моделей',
+      note: 'Единый API для frontier AI-моделей',
       rights: '© 2026 ТехКаталист. Все права защищены.',
     },
   },
@@ -374,19 +267,70 @@ const models = [
 const codeSample = `from openai import OpenAI
 
 client = OpenAI(
-    api_key="tc_live_xxx",
-    base_url="https://techcatalyst.ru/api/v1",
+  api_key="tc_live_xxx",
+  base_url="https://techcatalyst.ru/api/v1",
 )
 
 response = client.chat.completions.create(
-    model="anthropic/claude-sonnet-4",
-    messages=[{"role": "user", "content": "Summarize this task"}],
-)
-
-print(response.choices[0].message.content)`;
+  model="anthropic/claude-sonnet-4",
+  messages=[{"role": "user", "content": "Summarize this task"}],
+)`;
 
 function Wrap({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <div className={`mx-auto max-w-[1140px] px-6 max-sm:px-[18px] ${className}`}>{children}</div>;
+  return <div className={`mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-10 ${className}`}>{children}</div>;
+}
+
+function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div
+      className={`rounded-[8px] border border-[#e4e7ec] bg-white ${className}`}
+      style={{
+        boxShadow: 'rgba(28, 40, 64, 0.1) 0px 2px 3px -2px, rgba(28, 40, 64, 0.04) 0px 4px 6px -2px',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function PrimaryButton({
+  children,
+  onClick,
+  className = '',
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center gap-2 rounded-[10px] border border-[#1c1d1f] bg-[#1c1d1f] px-3 py-2 text-[14px] font-medium text-white transition-colors hover:bg-black ${className}`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function SecondaryButton({
+  children,
+  onClick,
+  className = '',
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center gap-2 rounded-[10px] border border-[#d3d8df] bg-white px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6] ${className}`}
+    >
+      {children}
+    </button>
+  );
 }
 
 export default function TechCatalystLanding() {
@@ -408,16 +352,7 @@ export default function TechCatalystLanding() {
   }, [language]);
 
   const t = translations[language];
-
-  const stats = [
-    { number: '100+', label: t.stats.models, icon: <Brain className="h-5 w-5" /> },
-    { number: '12+', label: t.stats.providers, icon: <Server className="h-5 w-5" /> },
-    { number: '1 day', label: t.stats.latency, icon: <Clock3 className="h-5 w-5" /> },
-    { number: 'RUB', label: t.stats.billing, icon: <CreditCard className="h-5 w-5" /> },
-  ];
-
-  const filteredModels =
-    activeTab === 'all' ? models : models.filter((model) => model.type === activeTab);
+  const filteredModels = activeTab === 'all' ? models : models.filter((model) => model.type === activeTab);
 
   const handleCTAClick = (source: string) => {
     trackCTAClick(source);
@@ -443,29 +378,37 @@ export default function TechCatalystLanding() {
   };
 
   return (
-    <>
-      <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-md">
-        <Wrap className="flex min-h-[68px] items-center gap-6 py-3 max-sm:min-h-[58px]">
-          <a href="#" className="flex items-center gap-2 text-lg font-bold tracking-[-0.01em] text-[#222]">
-            <span className="text-blue">▲</span>
-            <span>
-              {t.brand} <span className="text-blue">AI</span>
-            </span>
-          </a>
+    <div className={`${inter.className} bg-white text-[#1c1d1f]`} style={{ fontFeatureSettings: '"ss03"' }}>
+      <header className="sticky top-0 z-50 border-b border-[#e4e7ec] bg-white/92 backdrop-blur-md">
+        <Wrap className="flex min-h-[72px] items-center gap-6">
+          <Link href="/" className="text-[16px] font-semibold tracking-[-0.01em] text-[#1c1d1f]">
+            {t.brand}
+          </Link>
 
-          <nav className="ml-auto hidden items-center gap-6 md:flex">
+          <nav className="ml-auto hidden items-center gap-2 md:flex">
             {navItems.map((item) =>
               item.href.startsWith('/') ? (
-                <Link key={item.href} href={item.href} className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                >
                   {t.nav[item.key]}
                 </Link>
               ) : (
-                <a key={item.href} href={item.href} className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                >
                   {t.nav[item.key]}
                 </a>
               ),
             )}
-            <a href="https://docs.techcatalyst.ru" className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+            <a
+              href="https://docs.techcatalyst.ru"
+              className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+            >
               {t.nav.docs}
             </a>
           </nav>
@@ -473,23 +416,19 @@ export default function TechCatalystLanding() {
           <button
             type="button"
             onClick={() => setLanguage(language === 'ru' ? 'en' : 'ru')}
-            className="hidden rounded-full border border-line bg-soft px-3.5 py-2 text-[13px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue md:inline-flex"
+            className="hidden rounded-[10px] border border-[#d3d8df] px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6] md:inline-flex"
           >
             {t.nav.language}
           </button>
 
-          <button
-            type="button"
-            onClick={() => handleCTAClick('header_start')}
-            className="hidden rounded-full bg-blue px-5 py-2.5 text-[14.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta md:inline-flex"
-          >
+          <PrimaryButton onClick={() => handleCTAClick('header_start')} className="hidden md:inline-flex">
             {t.nav.start}
-          </button>
+          </PrimaryButton>
 
           <button
             type="button"
             onClick={handleMenuToggle}
-            className="ml-auto inline-flex rounded-full border border-line p-2 text-ink md:hidden"
+            className="ml-auto inline-flex rounded-[10px] border border-[#d3d8df] p-2 text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6] md:hidden"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -497,37 +436,27 @@ export default function TechCatalystLanding() {
         </Wrap>
 
         {isMenuOpen ? (
-          <div className="border-t border-line bg-white md:hidden">
-            <Wrap className="flex flex-col gap-4 py-4">
+          <div className="border-t border-[#e4e7ec] bg-white md:hidden">
+            <Wrap className="flex flex-col gap-3 py-4">
               {navItems.map((item) =>
                 item.href.startsWith('/') ? (
-                  <Link key={item.href} href={item.href} className="text-[15px] font-medium text-muted" onClick={() => setIsMenuOpen(false)}>
+                  <Link key={item.href} href={item.href} className="text-[14px] font-medium text-[#6f7988]" onClick={() => setIsMenuOpen(false)}>
                     {t.nav[item.key]}
                   </Link>
                 ) : (
-                  <a key={item.href} href={item.href} className="text-[15px] font-medium text-muted" onClick={() => setIsMenuOpen(false)}>
+                  <a key={item.href} href={item.href} className="text-[14px] font-medium text-[#6f7988]" onClick={() => setIsMenuOpen(false)}>
                     {t.nav[item.key]}
                   </a>
                 ),
               )}
-              <a href="https://docs.techcatalyst.ru" className="text-[15px] font-medium text-muted">
+              <a href="https://docs.techcatalyst.ru" className="text-[14px] font-medium text-[#6f7988]">
                 {t.nav.docs}
               </a>
-              <div className="flex gap-3 pt-1">
-                <button
-                  type="button"
-                  onClick={() => setLanguage(language === 'ru' ? 'en' : 'ru')}
-                  className="rounded-full border border-line bg-soft px-4 py-2 text-[13px] font-semibold text-ink"
-                >
+              <div className="flex gap-3 pt-2">
+                <SecondaryButton onClick={() => setLanguage(language === 'ru' ? 'en' : 'ru')}>
                   {t.nav.language}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleCTAClick('mobile_start')}
-                  className="rounded-full bg-blue px-5 py-2 text-[13px] font-semibold text-white"
-                >
-                  {t.nav.start}
-                </button>
+                </SecondaryButton>
+                <PrimaryButton onClick={() => handleCTAClick('mobile_start')}>{t.nav.start}</PrimaryButton>
               </div>
             </Wrap>
           </div>
@@ -535,432 +464,358 @@ export default function TechCatalystLanding() {
       </header>
 
       <main>
-        <section
-          className="overflow-hidden py-24 pb-[84px] max-md:py-12 max-md:pb-11"
-          style={{
-            background:
-              'radial-gradient(900px 460px at 82% -12%, rgba(24,55,218,.07), transparent 60%), #fff',
-          }}
-        >
-          <Wrap className="grid grid-cols-[1.05fr_1fr] items-center gap-14 max-md:grid-cols-1">
-            <div>
-              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
+        <section className="border-b border-[#e4e7ec]">
+          <Wrap className="py-[80px] md:py-[100px]">
+            <div className="mx-auto max-w-[980px] text-center">
+              <div className="mb-4 text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
                 {t.hero.kicker}
-              </span>
-              <h1 className="mb-5 text-[clamp(34px,4.5vw,56px)] font-bold leading-[1.12] tracking-[-.02em] text-[#222]">
+              </div>
+              <h1
+                className={`${lora.className} mx-auto max-w-[920px] text-[40px] font-medium leading-[1.1] tracking-[-0.6px] text-[#1c1d1f] md:text-[56px] md:tracking-[-1.12px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
                 {t.hero.title}
               </h1>
-              <p className="max-w-[660px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.hero.lead}</p>
-              <div className="mb-7 mt-8 flex flex-wrap gap-3.5">
-                <button
-                  type="button"
-                  onClick={() => handleCTAClick('hero_primary')}
-                  className="inline-flex items-center gap-2 rounded-full bg-blue px-7 py-[13px] text-[15.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
-                >
+              <p className="mx-auto mt-5 max-w-[760px] text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988] md:text-[20px] md:leading-[1.3] md:tracking-[-0.4px]">
+                {t.hero.lead}
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <PrimaryButton onClick={() => handleCTAClick('hero_primary')}>
                   {t.hero.primary}
                   <ArrowRight className="h-4 w-4" />
-                </button>
+                </PrimaryButton>
                 <a
                   href="https://docs.techcatalyst.ru"
                   onClick={() => trackCTAClick('hero_docs')}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-[13px] text-[15.5px] font-semibold text-ink transition-all duration-200 hover:border-blue hover:text-blue"
+                  className="inline-flex items-center gap-2 rounded-[10px] border border-[#d3d8df] bg-white px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6]"
                 >
                   {t.hero.secondary}
                 </a>
               </div>
-              <div className="flex flex-wrap gap-2.5">
+
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">
                 {t.hero.bullets.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-line bg-soft px-3.5 py-1.5 text-[13.5px] font-medium text-muted before:mr-[7px] before:align-[1px] before:text-[9px] before:text-green before:content-['●']"
-                  >
+                  <span key={item} className="rounded-[4px] border border-[#e4e7ec] bg-white px-2 py-1">
                     {item}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="rounded-panel border border-line bg-white p-6 shadow-panel">
-              <div className="mb-5 flex items-center justify-between">
-                <div>
-                  <div className="text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-                    {language === 'ru' ? 'Состояние API' : 'API Snapshot'}
-                  </div>
-                  <div className="mt-1 text-[28px] font-semibold tracking-[-.02em] text-[#222]">
-                    {t.hero.panelTitle}
-                  </div>
-                </div>
-                <div className="rounded-full bg-soft px-3 py-1 text-[12px] font-semibold text-blue">
-                  {language === 'ru' ? 'Совместимо с OpenAI' : 'OpenAI-compatible'}
-                </div>
-              </div>
-
-              <div className="rounded-card border border-line bg-soft p-5">
-                <pre className="overflow-x-auto font-mono text-[13px] leading-6 text-[#394150]">
-                  <code>{codeSample}</code>
-                </pre>
-              </div>
-
-              <div className="mt-5 grid gap-3">
-                {[
-                  { label: language === 'ru' ? 'Маршрут' : 'Route', value: 'OpenAI, Anthropic, Google, xAI, DeepSeek' },
-                  {
-                    label: language === 'ru' ? 'Расчёты' : 'Billing',
-                    value: language === 'ru' ? 'Рубли, счёт, командный биллинг' : 'Rubles, invoice, team billing',
-                  },
-                  {
-                    label: language === 'ru' ? 'Сценарий' : 'Use case',
-                    value: language === 'ru' ? 'Рабочий контур, прототип, внутренняя платформа' : 'Prod, prototype, internal platform',
-                  },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-start justify-between gap-4 rounded-card border border-line bg-white px-4 py-3">
-                    <span className="text-[13px] font-semibold uppercase tracking-[.1em] text-dim">{item.label}</span>
-                    <span className="text-right text-[14px] text-ink">{item.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Wrap>
-        </section>
-
-        <section className="pb-6">
-          <Wrap className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {stats.map((stat) => (
-              <article key={stat.label} className="rounded-card border border-line bg-white p-6 shadow-card">
-                <div className="mb-4 inline-flex rounded-full bg-soft p-3 text-blue">{stat.icon}</div>
-                <div className="text-[30px] font-semibold tracking-[-.03em] text-[#222]">{stat.number}</div>
-                <div className="mt-1 text-[14px] text-muted">{stat.label}</div>
-              </article>
-            ))}
-          </Wrap>
-        </section>
-
-        <section id="features" className="py-20">
-          <Wrap>
-            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-              {t.sections.features}
-            </span>
-            <h2 className="mb-3.5 max-w-[780px] text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-              {t.sections.featuresTitle}
-            </h2>
-            <p className="max-w-[720px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.featuresLead}</p>
-
-            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {t.features.map((feature) => (
-                <article key={feature.title} className="rounded-card border border-line bg-white p-7 shadow-card transition-all duration-300 hover:-translate-y-[3px]">
-                  <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">{feature.icon}</div>
-                  <h3 className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">{feature.title}</h3>
-                  <p className="mt-3 text-[15px] leading-7 text-muted">{feature.text}</p>
-                </article>
-              ))}
-            </div>
-          </Wrap>
-        </section>
-
-        <section id="integration" className="bg-soft py-20">
-          <Wrap className="grid grid-cols-[0.98fr_1.02fr] gap-8 max-lg:grid-cols-1">
-            <div>
-              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-                {t.sections.integration}
-              </span>
-              <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-                {t.sections.integrationTitle}
-              </h2>
-              <p className="max-w-[620px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.integrationLead}</p>
-
-              <div className="mt-8 space-y-4">
-                {t.steps.map((step, index) => (
-                  <div key={step.title} className="rounded-card border border-line bg-white p-5 shadow-card">
-                    <div className="mb-3 flex items-center gap-3">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue text-sm font-semibold text-white">
-                        {index + 1}
-                      </div>
-                      <h3 className="text-[20px] font-semibold tracking-[-.02em] text-[#222]">{step.title}</h3>
-                    </div>
-                    <p className="text-[15px] leading-7 text-muted">{step.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-panel border border-line bg-white p-7 shadow-panel">
-              <div className="mb-5 flex items-center gap-3">
-                <div className="inline-flex rounded-full bg-soft p-3 text-blue">
-                  <BadgeCheck className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">
-                    {language === 'ru' ? 'Подходит для миграции' : 'Migration fit'}
-                  </div>
-                  <div className="text-[14px] text-muted">
-                    {language === 'ru' ? 'Тот же шаблон SDK, другой слой маршрутизации' : 'Same SDK pattern, different routing layer'}
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {[
-                  {
-                    title: language === 'ru' ? 'Сохраняете' : 'Keep',
-                    items: [
-                      language === 'ru' ? 'формат сообщений' : 'message format',
-                      language === 'ru' ? 'SDK и клиентские обвязки' : 'SDK and client wrappers',
-                      language === 'ru' ? 'продуктовую логику' : 'product logic',
-                    ],
-                  },
-                  {
-                    title: language === 'ru' ? 'Получаете' : 'Gain',
-                    items: [
-                      language === 'ru' ? 'маршрутизацию между провайдерами' : 'cross-provider routing',
-                      language === 'ru' ? 'единый биллинг' : 'single billing layer',
-                      language === 'ru' ? 'контур для команд и юрлиц' : 'team and enterprise controls',
-                    ],
-                  },
-                ].map((column) => (
-                  <div key={column.title} className="rounded-card border border-line bg-soft p-5">
-                    <div className="text-[15px] font-semibold uppercase tracking-[.1em] text-blue">{column.title}</div>
-                    <ul className="mt-4 space-y-3 text-[15px] text-muted">
-                      {column.items.map((item) => (
-                        <li key={item} className="flex items-start gap-3">
-                          <Check className="mt-0.5 h-4 w-4 text-green" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Wrap>
-        </section>
-
-        <section id="models" className="py-20">
-          <Wrap>
-            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-              {t.sections.models}
-            </span>
-            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-              {t.sections.modelsTitle}
-            </h2>
-            <p className="max-w-[720px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.modelsLead}</p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              {(['all', 'text', 'multimodal', 'image'] as const).map((tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => handleTabChange(tab)}
-                  className={`rounded-full border px-4 py-2 text-[14px] font-semibold transition-all ${
-                    activeTab === tab
-                      ? 'border-blue bg-blue text-white shadow-cta'
-                      : 'border-line bg-white text-ink hover:border-blue hover:text-blue'
-                  }`}
-                >
-                  {t.tabs[tab]}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {filteredModels.map((model) => (
-                <article key={model.name} className="rounded-card border border-line bg-white p-6 shadow-card">
-                  <div className="text-[12px] font-semibold uppercase tracking-[.12em] text-blue">{model.provider}</div>
-                  <h3 className="mt-3 text-[22px] font-semibold tracking-[-.02em] text-[#222]">{model.name}</h3>
-                  <div className="mt-6 flex items-end justify-between gap-3">
+            <Card className="mx-auto mt-12 max-w-[1120px] p-4 md:p-5">
+              <div className="grid gap-4 lg:grid-cols-[1.1fr_.9fr]">
+                <div className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-4">
+                  <div className="flex items-center justify-between border-b border-[#d3d8df] pb-3">
                     <div>
-                      <div className="text-[15px] font-semibold text-ink">{model.price}</div>
-                      <div className="mt-1 text-[13px] text-dim">{t.tabs.per}</div>
+                      <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">
+                        API frame
+                      </div>
+                      <div className="mt-1 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                        {t.hero.frameTitle}
+                      </div>
                     </div>
-                    <span className="rounded-full border border-line bg-soft px-3 py-1 text-[12px] font-medium text-muted">
-                      {t.tabs[model.type]}
-                    </span>
+                    <div className="rounded-[4px] border border-[#d3d8df] bg-white px-2 py-1 text-[12px] text-[#6f7988]">
+                      {t.hero.frameTag}
+                    </div>
                   </div>
-                </article>
-              ))}
-            </div>
 
-            <p className="mt-4 text-[13px] leading-6 text-dim">
-              {language === 'ru'
-                ? '* Для Gemini 2.5 Pro указана стандартная ставка для запросов до 200k токенов. Для моделей генерации изображений ставка может считаться за одно готовое изображение.'
-                : '* Gemini 2.5 Pro shows standard pricing for prompts up to 200k tokens. Image models may charge per generated image.'}
-            </p>
+                  <div className="mt-4 rounded-[8px] border border-[#e4e7ec] bg-white p-4">
+                    <pre className="overflow-x-auto text-[13px] leading-[1.5] tracking-[-0.14px] text-[#505967]">
+                      <code>{codeSample}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div className="grid gap-3">
+                  {t.hero.frameCards.map(([label, value]) => (
+                    <div key={label} className="rounded-[8px] border border-[#e4e7ec] bg-white p-4">
+                      <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{label}</div>
+                      <div className="mt-2 text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{value}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
           </Wrap>
         </section>
 
-        <section id="pricing" className="bg-soft py-20">
+        <section className="py-[80px] md:py-[96px]">
           <Wrap>
-            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-              {t.sections.pricing}
-            </span>
-            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-              {t.sections.pricingTitle}
-            </h2>
-            <p className="max-w-[720px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.pricingLead}</p>
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {t.stats.map(([value, label]) => (
+                <Card key={label} className="p-4">
+                  <div className="text-[32px] font-medium leading-[1.1] tracking-[-0.64px] text-[#1c1d1f]">{value}</div>
+                  <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{label}</div>
+                </Card>
+              ))}
+            </div>
+          </Wrap>
+        </section>
 
-            <div className="mt-10 grid gap-5 lg:grid-cols-2">
-              <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
-                <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
-                  <CreditCard className="h-5 w-5" />
-                </div>
-                <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">{t.pricing.personalTitle}</h3>
-                <ul className="mt-5 space-y-3 text-[15px] text-muted">
-                  {t.pricing.personalItems.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <Check className="mt-0.5 h-4 w-4 text-green" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  type="button"
-                  onClick={() => handlePricingClick('personal')}
-                  className="mt-7 inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
-                >
-                  {t.pricing.viewPrice}
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </article>
+        <section id="platform" className="border-y border-[#e4e7ec] bg-[#f3f4f6] py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="max-w-[760px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+                {t.platform.kicker}
+              </div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                {t.platform.title}
+              </h2>
+            </div>
 
-              <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
-                <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
-                  <Building2 className="h-5 w-5" />
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              {t.platform.cards.map(([title, text, icon]) => (
+                <Card key={title} className="p-4">
+                  <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-white p-2 text-[#505967]">
+                    {icon}
+                  </div>
+                  <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{text}</p>
+                </Card>
+              ))}
+            </div>
+          </Wrap>
+        </section>
+
+        <section className="py-[80px] md:py-[96px]">
+          <Wrap className="grid gap-6 lg:grid-cols-[.88fr_1.12fr]">
+            <div className="max-w-[560px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+                {t.workflow.kicker}
+              </div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                {t.workflow.title}
+              </h2>
+              <div className="mt-6 grid gap-3">
+                {t.workflow.points.map((item) => (
+                  <div key={item} className="flex gap-3 rounded-[8px] border border-[#e4e7ec] bg-white p-4">
+                    <div className="mt-[2px] text-[#407ff2]">
+                      <BadgeCheck className="h-4 w-4" />
+                    </div>
+                    <div className="text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{item}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Card className="p-4">
+              <div className="grid gap-3 md:grid-cols-3">
+                {[
+                  [language === 'ru' ? 'Доступ' : 'Access', language === 'ru' ? 'Один endpoint для разных моделей.' : 'One endpoint across models.', <Globe className="h-4 w-4" />],
+                  [language === 'ru' ? 'Команды' : 'Teams', language === 'ru' ? 'Лимиты, ключи и биллинг по ролям.' : 'Limits, keys and billing by role.', <Building2 className="h-4 w-4" />],
+                  [language === 'ru' ? 'Расчёты' : 'Billing', t.workflow.sideText, <CreditCard className="h-4 w-4" />],
+                ].map(([title, text, icon]) => (
+                  <div key={String(title)} className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-4">
+                    <div className="inline-flex rounded-[8px] border border-[#d3d8df] bg-white p-2 text-[#505967]">
+                      {icon}
+                    </div>
+                    <div className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                      {title}
+                    </div>
+                    <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{text}</div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </Wrap>
+        </section>
+
+        <section id="models" className="border-y border-[#e4e7ec] bg-white py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="max-w-[760px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+                {t.models.kicker}
+              </div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                {t.models.title}
+              </h2>
+            </div>
+
+            <div className="mt-8 border-b border-[#d3d8df]">
+              <div className="flex flex-wrap gap-6">
+                {(['all', 'text', 'multimodal', 'image'] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    type="button"
+                    onClick={() => handleTabChange(tab)}
+                    className={`border-b-2 px-0 pb-3 text-[15px] font-medium tracking-[-0.15px] transition-colors ${
+                      activeTab === tab
+                        ? 'border-[#1c1d1f] text-[#1c1d1f]'
+                        : 'border-transparent text-[#6f7988] hover:text-[#1c1d1f]'
+                    }`}
+                  >
+                    {t.models.tabs[tab]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {filteredModels.map((model) => (
+                <Card key={model.name} className="p-4">
+                  <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{model.provider}</div>
+                  <div className="mt-3 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                    {model.name}
+                  </div>
+                  <div className="mt-6 text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{model.price}</div>
+                  <div className="mt-1 text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">{t.models.suffix}</div>
+                </Card>
+              ))}
+            </div>
+          </Wrap>
+        </section>
+
+        <section id="commercial" className="bg-[#f3f4f6] py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="max-w-[760px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+                {t.commercial.kicker}
+              </div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                {t.commercial.title}
+              </h2>
+            </div>
+
+            <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_1fr_.9fr]">
+              {t.commercial.cards.map((card) => (
+                <Card key={card.title} className="p-4">
+                  <div className="text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">{card.title}</div>
+                  <ul className="mt-4 space-y-3">
+                    {card.items.map((item) => (
+                      <li key={item} className="flex gap-3 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
+                        <span className="mt-[2px] text-[#407ff2]">
+                          <BadgeCheck className="h-4 w-4" />
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-6">
+                    {card.action === 'enterprise' ? (
+                      <PrimaryButton onClick={() => handlePricingClick(card.action)}>
+                        {card.cta}
+                        <ArrowRight className="h-4 w-4" />
+                      </PrimaryButton>
+                    ) : (
+                      <SecondaryButton onClick={() => handlePricingClick(card.action)}>
+                        {card.cta}
+                        <ChevronRight className="h-4 w-4" />
+                      </SecondaryButton>
+                    )}
+                  </div>
+                </Card>
+              ))}
+
+              <Card className="p-4">
+                <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-white p-2 text-[#505967]">
+                  <Wallet className="h-4 w-4" />
                 </div>
-                <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">{t.pricing.businessTitle}</h3>
-                <ul className="mt-5 space-y-3 text-[15px] text-muted">
-                  {t.pricing.businessItems.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <Check className="mt-0.5 h-4 w-4 text-green" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  type="button"
-                  onClick={() => handlePricingClick('enterprise')}
-                  className="mt-7 inline-flex items-center gap-2 rounded-full bg-blue px-5 py-3 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
-                >
-                  {t.pricing.contactSales}
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+                <div className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                  {t.commercial.procurementTitle}
+                </div>
+                <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
+                  {t.commercial.procurementText}
+                </p>
                 <Link
                   href="/zakupka-zarubezhnogo-po"
                   onClick={() => trackCTAClick('home_procurement_link')}
-                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+                  className="mt-6 inline-flex items-center gap-2 rounded-[10px] border border-[#d3d8df] bg-white px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6]"
                 >
-                  {language === 'ru' ? 'Раздел закупки зарубежного ПО' : 'Foreign software procurement'}
+                  {t.commercial.procurementButton}
                   <ChevronRight className="h-4 w-4" />
                 </Link>
-              </article>
+              </Card>
             </div>
           </Wrap>
         </section>
 
-        <section className="py-20">
-          <Wrap className="grid gap-5 lg:grid-cols-2">
-            <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
-              <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
-                <BookOpen className="h-5 w-5" />
-              </div>
-              <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">{t.channels.docsTitle}</h3>
-              <p className="mt-3 text-[15px] leading-7 text-muted">{t.channels.docsText}</p>
-              <a
-                href="https://docs.techcatalyst.ru"
-                onClick={() => trackCTAClick('channel_docs')}
-                className="mt-7 inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
-              >
-                {t.channels.docsButton}
-                <ChevronRight className="h-4 w-4" />
-              </a>
-            </article>
-
-            <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
-              <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
-                <Smartphone className="h-5 w-5" />
-              </div>
-              <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">{t.channels.chatTitle}</h3>
-              <p className="mt-3 text-[15px] leading-7 text-muted">{t.channels.chatText}</p>
-              <button
-                type="button"
-                onClick={() => handleCTAClick('channel_chat')}
-                className="mt-7 inline-flex items-center gap-2 rounded-full bg-blue px-5 py-3 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
-              >
-                {t.channels.chatButton}
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </article>
-          </Wrap>
-        </section>
-
-        <section id="reviews" className="bg-soft py-20">
+        <section className="py-[80px] md:py-[96px]">
           <Wrap>
-            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-              {t.sections.reviews}
-            </span>
-            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-              {t.sections.reviewsTitle}
-            </h2>
-            <p className="max-w-[720px] text-[clamp(16px,1.6vw,19px)] text-muted">{t.sections.reviewsLead}</p>
+            <div className="max-w-[760px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+                {t.proof.kicker}
+              </div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                {t.proof.title}
+              </h2>
+            </div>
 
-            <div className="mt-10 grid gap-4 lg:grid-cols-3">
-              {t.testimonials.map((item) => (
-                <article key={item.quote} className="rounded-card border border-line bg-white p-7 shadow-card">
-                  <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
-                    <MessageSquare className="h-5 w-5" />
-                  </div>
-                  <p className="text-[16px] leading-7 text-ink">“{item.quote}”</p>
-                  <div className="mt-5 text-[14px] font-medium text-muted">{item.author}</div>
-                </article>
+            <div className="mt-8 grid gap-4 lg:grid-cols-3">
+              {t.proof.quotes.map(([quote, author]) => (
+                <Card key={quote} className="p-4">
+                  <p className="text-[16px] leading-[1.5] tracking-[-0.24px] text-[#1c1d1f]">“{quote}”</p>
+                  <div className="mt-4 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{author}</div>
+                </Card>
               ))}
             </div>
           </Wrap>
         </section>
 
-        <section className="py-20">
+        <section className="border-t border-[#e4e7ec] py-[80px] md:py-[96px]">
           <Wrap>
-            <div className="rounded-panel border border-line bg-white p-8 shadow-panel sm:p-10">
-              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-                Launch
-              </span>
-              <h2 className="max-w-[820px] text-[clamp(30px,3.8vw,46px)] font-semibold leading-[1.15] tracking-[-.02em] text-[#222]">
-                {t.sections.ctaTitle}
-              </h2>
-              <p className="mt-4 max-w-[720px] text-[17px] leading-8 text-muted">{t.sections.ctaLead}</p>
-              <div className="mt-8 flex flex-wrap gap-3.5">
-                <button
-                  type="button"
-                  onClick={() => handleCTAClick('final_cta')}
-                  className="inline-flex items-center gap-2 rounded-full bg-blue px-7 py-[13px] text-[15.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
+            <Card className="mx-auto max-w-[1120px] p-5 md:p-6">
+              <div className="max-w-[760px]">
+                <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+                  {t.cta.kicker}
+                </div>
+                <h2
+                  className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                  style={{ fontFeatureSettings: '"ss03"' }}
                 >
-                  {t.nav.start}
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handlePricingClick('latest_price')}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-[13px] text-[15.5px] font-semibold text-ink transition-all duration-200 hover:border-blue hover:text-blue"
-                >
-                  {t.pricing.viewPrice}
-                </button>
+                  {t.cta.title}
+                </h2>
+                <p className="mt-3 text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988]">{t.cta.lead}</p>
               </div>
-            </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <PrimaryButton onClick={() => handleCTAClick('final_cta')}>
+                  {t.cta.primary}
+                  <ArrowRight className="h-4 w-4" />
+                </PrimaryButton>
+                <SecondaryButton onClick={() => handlePricingClick('latest_price')}>
+                  {t.cta.secondary}
+                </SecondaryButton>
+              </div>
+            </Card>
           </Wrap>
         </section>
       </main>
 
-      <footer className="border-t border-line bg-soft py-[38px] text-[14.5px] text-dim">
-        <Wrap className="flex flex-wrap items-center justify-between gap-[18px]">
+      <footer className="bg-[#000000] py-12 text-[14px]">
+        <Wrap className="grid gap-10 md:grid-cols-[1.1fr_.9fr]">
           <div>
-            <div className="font-semibold text-ink">{t.brand}</div>
-            <div className="mt-1">{t.footer.note}</div>
+            <div className="text-[14px] font-medium text-white">{t.brand}</div>
+            <p className="mt-3 max-w-[440px] text-[14px] leading-[1.43] tracking-[-0.14px] text-[#8f99a8]">
+              {t.footer.note}
+            </p>
           </div>
-          <div className="flex flex-wrap items-center gap-4">
-            <a href="mailto:info@2rm.ru" className="text-blue hover:underline">
+
+          <div className="grid gap-2 md:justify-end">
+            <a href="mailto:info@2rm.ru" className="text-[#8f99a8] transition-colors hover:text-white">
               info@2rm.ru
             </a>
-            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-blue hover:underline">
+            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-[#8f99a8] transition-colors hover:text-white">
               Telegram
             </a>
-            <span>{t.footer.rights}</span>
+            <span className="text-[#8f99a8]">{t.footer.rights}</span>
           </div>
         </Wrap>
       </footer>
@@ -971,6 +826,6 @@ export default function TechCatalystLanding() {
         source={modalSource}
         language={language}
       />
-    </>
+    </div>
   );
 }

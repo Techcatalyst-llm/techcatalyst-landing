@@ -2,158 +2,207 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { Inter, Lora } from 'next/font/google';
 import {
   ArrowRight,
   BadgeCheck,
-  Banknote,
-  BookOpen,
-  BriefcaseBusiness,
   Building2,
-  Check,
   ChevronRight,
-  FileCheck2,
+  FileText,
   Globe,
   MessageSquare,
   ShieldCheck,
-  Sparkles,
   Wallet,
 } from 'lucide-react';
 
 import { trackCTAClick } from '@/lib/analytics';
 import ApplicationModal from '@/components/Modal/ApplicationModal';
 
-const painCards = [
-  {
-    title: 'Подписка остановилась, а команда уже ждёт доступ',
-    text:
-      'Когда вендор недоступен напрямую, у команд встают рабочие процессы, пилоты и продления.',
-  },
-  {
-    title: 'Финансы и закупки не готовы идти в серые схемы',
-    text:
-      'Нужны понятный контрагент, договор, счёт и пакет документов для согласования сделки.',
-  },
-  {
-    title: 'Непрозрачная комиссия превращает закупку в риск',
-    text:
-      'Если в КП не разделены стоимость вендора и комиссия, согласование сразу тормозится.',
-  },
-];
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
 
-const benefitCards = [
+const lora = Lora({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500'],
+  display: 'swap',
+});
+
+const overviewCards = [
   {
-    title: 'Документы для юрлиц',
-    text: 'Счёт, договор и закрывающие документы для корпоративной закупки.',
-    icon: <Building2 className="h-5 w-5" />,
+    title: 'Счёт и договор',
+    text: 'Документы для корпоративной закупки и внутреннего согласования.',
+    icon: <FileText className="h-4 w-4" />,
   },
   {
     title: 'Прозрачное КП',
-    text: 'Стоимость лицензий и сервисная комиссия фиксируются отдельно.',
-    icon: <Wallet className="h-5 w-5" />,
+    text: 'Стоимость вендора и сервисная комиссия показаны отдельно.',
+    icon: <Wallet className="h-4 w-4" />,
   },
   {
-    title: 'AI, SaaS и лицензии',
-    text: 'Подходит для ИТ, продуктовых, дизайнерских и инженерных команд.',
-    icon: <Globe className="h-5 w-5" />,
-  },
-];
-
-const vendorGroups = [
-  {
-    title: 'AI и LLM-сервисы',
-    vendors: ['OpenAI', 'Anthropic Claude', 'Google Gemini', 'xAI Grok', 'DeepSeek'],
-  },
-  {
-    title: 'Рабочие и офисные платформы',
-    vendors: ['Microsoft 365', 'Google Workspace', 'Notion', 'Slack', 'Zoom'],
-  },
-  {
-    title: 'Дизайн и продуктовые команды',
-    vendors: ['Adobe Creative Cloud', 'Figma', 'Miro', 'Canva Enterprise'],
-  },
-  {
-    title: 'Разработка и инженерия',
-    vendors: ['Atlassian', 'JetBrains', 'GitHub', 'Docker', 'Autodesk'],
+    title: 'Продление лицензий',
+    text: 'Подходит для первичной закупки и повторных продлений.',
+    icon: <BadgeCheck className="h-4 w-4" />,
   },
 ];
 
-const steps = [
+const painRows = [
   {
-    title: 'Вы присылаете список ПО и требования',
-    text: 'Нужны вендор, число лицензий, срок и требования к документам.',
+    title: 'Доступ к вендору',
+    text: 'Когда прямой платёж не проходит, команда остаётся без лицензий. Мы собираем рабочий маршрут закупки и продления.',
   },
   {
-    title: 'Мы собираем маршрут закупки',
-    text: 'Проверяем доступность и готовим коммерческое предложение.',
+    title: 'Документы для юрлица',
+    text: 'Финансовому блоку и закупке нужны счёт, договор и закрывающие документы. Это должно быть понятно до старта сделки.',
   },
   {
-    title: 'Согласовываем стоимость и документы',
-    text: 'Фиксируем стоимость, комиссию и формат поставки.',
-  },
-  {
-    title: 'Проводим оплату и сопровождаем продление',
-    text: 'После согласования сопровождаем оплату, доступ и продление.',
+    title: 'Честная экономика',
+    text: 'Коммерческое предложение должно сразу показывать стоимость вендора и сервисную комиссию без скрытых строк.',
   },
 ];
 
 const audienceCards = [
   {
-    title: 'Для CFO и финансового блока',
-    text: 'Нужны понятная стоимость, комиссия и пакет документов.',
-    icon: <Banknote className="h-5 w-5" />,
+    title: 'CFO и финансы',
+    text: 'Понятная стоимость и пакет документов.',
+    icon: <Wallet className="h-4 w-4" />,
   },
   {
-    title: 'Для ИТ, CIO и CTO',
-    text: 'Нужен быстрый доступ к ПО без остановки команд.',
-    icon: <ShieldCheck className="h-5 w-5" />,
+    title: 'CIO, CTO, ИТ',
+    text: 'Быстрый доступ к нужному ПО для команд.',
+    icon: <ShieldCheck className="h-4 w-4" />,
   },
   {
-    title: 'Для закупки и юристов',
-    text: 'Нужны понятный контрагент и предсказуемый пакет документов.',
-    icon: <FileCheck2 className="h-5 w-5" />,
+    title: 'Закупка и юристы',
+    text: 'Предсказуемый контрагент и формат сделки.',
+    icon: <Building2 className="h-4 w-4" />,
+  },
+];
+
+const vendorGroups = [
+  {
+    id: 'ai',
+    label: 'AI и LLM',
+    items: ['OpenAI', 'Claude', 'Gemini', 'Grok', 'DeepSeek'],
+  },
+  {
+    id: 'workspace',
+    label: 'Рабочие сервисы',
+    items: ['Microsoft 365', 'Google Workspace', 'Notion', 'Slack', 'Zoom'],
+  },
+  {
+    id: 'design',
+    label: 'Дизайн',
+    items: ['Adobe Creative Cloud', 'Figma', 'Miro', 'Canva Enterprise'],
+  },
+  {
+    id: 'dev',
+    label: 'Разработка',
+    items: ['Atlassian', 'JetBrains', 'GitHub', 'Docker', 'Autodesk'],
+  },
+] as const;
+
+const steps = [
+  {
+    title: '1. Запрос',
+    text: 'Вы присылаете вендора, число лицензий и требования к документам.',
+  },
+  {
+    title: '2. Расчёт',
+    text: 'Мы готовим маршрут закупки и коммерческое предложение.',
+  },
+  {
+    title: '3. Согласование',
+    text: 'Фиксируем стоимость, комиссию и формат поставки.',
+  },
+  {
+    title: '4. Поставка',
+    text: 'Сопровождаем оплату, доступ и продление.',
   },
 ];
 
 const faqItems = [
   {
-    question: 'Какое зарубежное ПО можно закупить через ТехКаталист?',
-    answer:
-      'AI-сервисы, SaaS и корпоративные лицензии: OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian, Figma и другие.',
+    question: 'Какое ПО можно закупить через ТехКаталист?',
+    answer: 'AI-сервисы, SaaS и корпоративные лицензии: OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian, Figma и другие.',
   },
   {
-    question: 'Подходит ли это для юридических лиц и корпоративного закупочного контура?',
-    answer:
-      'Да. Работаем с закупкой для юридических лиц: договор, счёт и закрывающие документы.',
+    question: 'Подходит ли это для юридических лиц?',
+    answer: 'Да. Работаем со счётом, договором и закрывающими документами для корпоративной закупки.',
   },
   {
-    question: 'Можно ли провести продление действующих лицензий?',
-    answer:
-      'Да. Сопровождаем как первичную закупку, так и продление действующих лицензий.',
+    question: 'Можно ли продлевать действующие лицензии?',
+    answer: 'Да. Сопровождаем как первичную закупку, так и продление действующих подписок.',
   },
   {
-    question: 'Что нужно прислать для расчёта?',
-    answer:
-      'Обычно достаточно вендора, числа лицензий, срока и требований к документам.',
-  },
-  {
-    question: 'Как вы снижаете риск непрозрачной комиссии?',
-    answer:
-      'В коммерческом предложении отдельно показываем стоимость вендора и сервисную комиссию.',
-  },
-  {
-    question: 'Есть ли отдельный материал для внутреннего согласования?',
-    answer:
-      'Да. По запросу отправляем презентацию и коммерческие материалы.',
+    question: 'Что нужно для расчёта?',
+    answer: 'Обычно достаточно вендора, числа лицензий, срока и требований к документам.',
   },
 ];
 
 function Wrap({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <div className={`mx-auto max-w-[1140px] px-6 max-sm:px-[18px] ${className}`}>{children}</div>;
+  return <div className={`mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-10 ${className}`}>{children}</div>;
+}
+
+function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div
+      className={`rounded-[8px] border border-[#e4e7ec] bg-white ${className}`}
+      style={{
+        boxShadow: 'rgba(28, 40, 64, 0.1) 0px 2px 3px -2px, rgba(28, 40, 64, 0.04) 0px 4px 6px -2px',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function PrimaryButton({
+  children,
+  onClick,
+  className = '',
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center gap-2 rounded-[10px] border border-[#1c1d1f] bg-[#1c1d1f] px-3 py-2 text-[14px] font-medium text-white transition-colors hover:bg-black ${className}`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function SecondaryButton({
+  children,
+  onClick,
+  className = '',
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center gap-2 rounded-[10px] border border-[#d3d8df] bg-white px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6] ${className}`}
+    >
+      {children}
+    </button>
+  );
 }
 
 export default function ForeignSoftwareProcurementPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSource, setModalSource] = useState('procurement_unknown');
+  const [activeVendorGroup, setActiveVendorGroup] = useState<(typeof vendorGroups)[number]['id']>('ai');
 
   const handleCta = (source: string) => {
     trackCTAClick(source);
@@ -161,314 +210,332 @@ export default function ForeignSoftwareProcurementPage() {
     setIsModalOpen(true);
   };
 
+  const activeGroup = vendorGroups.find((item) => item.id === activeVendorGroup) ?? vendorGroups[0];
+
   return (
-    <>
-      <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-md">
-        <Wrap className="flex min-h-[68px] items-center gap-6 py-3 max-sm:min-h-[58px]">
-          <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-[-0.01em] text-[#222]">
-            <span className="text-blue">▲</span>
-            <span>
-              ТехКаталист <span className="text-blue">AI</span>
-            </span>
+    <div
+      className={`${inter.className} bg-white text-[#1c1d1f]`}
+      style={{ fontFeatureSettings: '"ss03"' }}
+    >
+      <header className="sticky top-0 z-50 border-b border-[#e4e7ec] bg-white/92 backdrop-blur-md">
+        <Wrap className="flex min-h-[72px] items-center gap-6">
+          <Link href="/" className="text-[16px] font-semibold tracking-[-0.01em] text-[#1c1d1f]">
+            ТехКаталист
           </Link>
 
-          <nav className="ml-auto hidden items-center gap-6 md:flex">
-            <Link href="/" className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+          <nav className="ml-auto hidden items-center gap-2 md:flex">
+            <Link
+              href="/"
+              className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+            >
               Главная
             </Link>
-            <a href="#process" className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
-              Как это работает
+            <a
+              href="#vendors"
+              className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+            >
+              Вендоры
             </a>
-            <a href="#faq" className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+            <a
+              href="#process"
+              className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+            >
+              Процесс
+            </a>
+            <a
+              href="#faq"
+              className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+            >
               FAQ
             </a>
-            <a href="https://docs.techcatalyst.ru" className="text-[15px] font-medium text-muted transition-colors hover:text-blue">
+            <a
+              href="https://docs.techcatalyst.ru"
+              className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+            >
               Документация
             </a>
           </nav>
 
-          <button
-            type="button"
-            onClick={() => handleCta('procurement_header')}
-            className="hidden rounded-full bg-blue px-5 py-2.5 text-[14.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta md:inline-flex"
-          >
-            Получить расчёт
-          </button>
+          <PrimaryButton onClick={() => handleCta('procurement_header')} className="hidden md:inline-flex">
+            Рассчитать стоимость
+          </PrimaryButton>
         </Wrap>
       </header>
 
       <main>
-        <section
-          className="overflow-hidden py-24 pb-[84px] max-md:py-12 max-md:pb-11"
-          style={{
-            background:
-              'radial-gradient(860px 440px at 85% -10%, rgba(24,55,218,.08), transparent 60%), radial-gradient(580px 260px at 5% 10%, rgba(255,105,0,.08), transparent 55%), #fff',
-          }}
-        >
-          <Wrap className="grid grid-cols-[1.06fr_.94fr] items-center gap-14 max-lg:grid-cols-1">
-            <div>
-              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-                Корпоративная закупка и продление лицензий
-              </span>
-              <h1 className="mb-5 text-[clamp(34px,4.6vw,56px)] font-bold leading-[1.08] tracking-[-.02em] text-[#222]">
-                Закупка зарубежного ПО для юридических лиц: AI-сервисы, SaaS и иностранные лицензии.
+        <section className="border-b border-[#e4e7ec]">
+          <Wrap className="py-[80px] md:py-[100px]">
+            <div className="mx-auto max-w-[980px] text-center">
+              <div className="mb-4 text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+                Закупка зарубежного ПО для юридических лиц
+              </div>
+              <h1
+                className={`${lora.className} mx-auto max-w-[900px] text-[40px] font-medium leading-[1.1] tracking-[-0.6px] text-[#1c1d1f] md:text-[56px] md:tracking-[-1.12px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                Закупим и продлим иностранное ПО для вашего юрлица
               </h1>
-              <p className="max-w-[700px] text-[clamp(16px,1.6vw,19px)] leading-8 text-muted">
-                Поставляем лицензии и подписки для бизнеса: от OpenAI, Claude и Gemini до Microsoft 365, Adobe и
-                Atlassian. Счёт, договор, закрывающие документы и понятное коммерческое предложение.
+              <p className="mx-auto mt-5 max-w-[780px] text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988] md:text-[20px] md:leading-[1.3] md:tracking-[-0.4px]">
+                OpenAI, Claude, Gemini, Microsoft 365, Adobe, Atlassian и другие сервисы. Счёт, договор, закрывающие документы и понятное коммерческое предложение.
               </p>
 
-              <div className="mb-7 mt-8 flex flex-wrap gap-3.5">
-                <button
-                  type="button"
-                  onClick={() => handleCta('procurement_hero_primary')}
-                  className="inline-flex items-center gap-2 rounded-full bg-blue px-7 py-[13px] text-[15.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
-                >
-                  Получить расчёт закупки
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <PrimaryButton onClick={() => handleCta('procurement_hero_primary')}>
+                  Рассчитать стоимость закупки
                   <ArrowRight className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleCta('procurement_hero_kp')}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-[13px] text-[15.5px] font-semibold text-ink transition-all duration-200 hover:border-blue hover:text-blue"
-                >
-                  Запросить коммерческое предложение
-                </button>
+                </PrimaryButton>
+                <SecondaryButton onClick={() => handleCta('procurement_hero_secondary')}>
+                  Получить презентацию
+                </SecondaryButton>
               </div>
 
-              <div className="flex flex-wrap gap-2.5">
-                {[
-                  'Оплата по счёту и договору',
-                  'Закрывающие документы для юрлиц',
-                  'Подходит для CIO, CFO и закупки',
-                  'AI, SaaS и корпоративные лицензии',
-                ].map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-line bg-soft px-3.5 py-1.5 text-[13.5px] font-medium text-muted before:mr-[7px] before:align-[1px] before:text-[9px] before:text-green before:content-['●']"
-                  >
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">
+                {['OpenAI', 'Claude', 'Microsoft 365', 'Adobe', 'Закрывающие документы'].map((item) => (
+                  <span key={item} className="rounded-[4px] border border-[#e4e7ec] bg-white px-2 py-1">
                     {item}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="rounded-panel border border-line bg-white p-6 shadow-panel">
-              <div className="mb-5 flex items-center justify-between gap-4">
-                <div>
-                  <div className="text-[13px] font-semibold uppercase tracking-[.12em] text-blue">Корпоративный контур</div>
-                  <div className="mt-1 text-[28px] font-semibold tracking-[-.02em] text-[#222]">
-                    Что входит
-                  </div>
-                </div>
-                <div className="rounded-full bg-soft px-3 py-1 text-[12px] font-semibold text-blue">
-                  Закупка для бизнеса
-                </div>
-              </div>
-
-              <div className="grid gap-3">
-                {[
-                  {
-                    label: 'Документы',
-                    value: 'Счёт, договор и коммерческое предложение.',
-                  },
-                  {
-                    label: 'Сценарии',
-                    value: 'Первичная закупка, продление лицензий, AI- и SaaS-подписки.',
-                  },
-                  {
-                    label: 'Прозрачность',
-                    value: 'Стоимость вендора и сервисная комиссия видны заранее.',
-                  },
-                ].map((item) => (
-                  <div key={item.label} className="rounded-card border border-line bg-soft px-4 py-4">
-                    <div className="text-[13px] font-semibold uppercase tracking-[.1em] text-blue">{item.label}</div>
-                    <div className="mt-2 text-[15px] leading-7 text-muted">{item.value}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-5 rounded-card border border-[rgba(24,55,218,.12)] bg-[rgba(24,55,218,.04)] p-5">
-                <div className="flex items-start gap-3">
-                  <div className="mt-0.5 inline-flex rounded-full bg-white p-2 text-blue shadow-card">
-                    <Sparkles className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <div className="text-[18px] font-semibold tracking-[-.02em] text-[#222]">
-                      Понятный маршрут сделки
+            <Card className="mx-auto mt-12 max-w-[1120px] p-4 md:p-5">
+              <div className="grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
+                <div className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-4">
+                  <div className="flex items-center justify-between border-b border-[#d3d8df] pb-3">
+                    <div>
+                      <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">Procurement brief</div>
+                      <div className="mt-1 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                        Запрос на закупку
+                      </div>
                     </div>
-                    <p className="mt-2 text-[15px] leading-7 text-muted">
-                      От запроса на лицензии до оплаты, поставки и продления.
-                    </p>
+                    <div className="rounded-[4px] border border-[#d3d8df] bg-white px-2 py-1 text-[12px] text-[#6f7988]">
+                      B2B
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </Wrap>
-        </section>
 
-        <section className="pb-6">
-          <Wrap className="grid gap-4 md:grid-cols-3">
-            {benefitCards.map((item) => (
-              <article key={item.title} className="rounded-card border border-line bg-white p-6 shadow-card">
-                <div className="mb-4 inline-flex rounded-full bg-soft p-3 text-blue">{item.icon}</div>
-                <h2 className="text-[24px] font-semibold tracking-[-.02em] text-[#222]">{item.title}</h2>
-                <p className="mt-3 text-[15px] leading-7 text-muted">{item.text}</p>
-              </article>
-            ))}
-          </Wrap>
-        </section>
-
-        <section className="py-20">
-          <Wrap>
-            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-              Какие проблемы мы закрываем
-            </span>
-            <h2 className="mb-3.5 max-w-[860px] text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-              Где чаще всего тормозится закупка
-            </h2>
-            <p className="max-w-[780px] text-[clamp(16px,1.6vw,19px)] text-muted">
-              Доступ к вендору, документы и прозрачность стоимости должны быть понятны сразу.
-            </p>
-
-            <div className="mt-10 grid gap-4 lg:grid-cols-3">
-              {painCards.map((item) => (
-                <article key={item.title} className="rounded-card border border-line bg-white p-7 shadow-card">
-                  <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
-                    <ShieldCheck className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">{item.title}</h3>
-                  <p className="mt-3 text-[15px] leading-7 text-muted">{item.text}</p>
-                </article>
-              ))}
-            </div>
-          </Wrap>
-        </section>
-
-        <section className="bg-soft py-20">
-          <Wrap className="grid grid-cols-[1fr_.98fr] gap-8 max-lg:grid-cols-1">
-            <div>
-              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-                Кому подходит услуга
-              </span>
-              <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-                Для компаний, которые регулярно закупают зарубежное ПО.
-              </h2>
-              <p className="max-w-[700px] text-[clamp(16px,1.6vw,19px)] text-muted">
-                Закрываем задачи ИТ, финансового блока, закупки и юридической функции.
-              </p>
-            </div>
-
-            <div className="grid gap-4">
-              {audienceCards.map((item) => (
-                <article key={item.title} className="rounded-card border border-line bg-white p-6 shadow-card">
-                  <div className="mb-4 inline-flex rounded-full bg-soft p-3 text-blue">{item.icon}</div>
-                  <h3 className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">{item.title}</h3>
-                  <p className="mt-3 text-[15px] leading-7 text-muted">{item.text}</p>
-                </article>
-              ))}
-            </div>
-          </Wrap>
-        </section>
-
-        <section className="py-20">
-          <Wrap>
-            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-              Какие вендоры и сценарии
-            </span>
-            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-              Какие сервисы и лицензии можно закупать
-            </h2>
-            <p className="max-w-[780px] text-[clamp(16px,1.6vw,19px)] text-muted">
-              Работаем с AI-платформами, SaaS и корпоративными лицензиями.
-            </p>
-
-            <div className="mt-10 grid gap-4 md:grid-cols-2">
-              {vendorGroups.map((group) => (
-                <article key={group.title} className="rounded-card border border-line bg-white p-7 shadow-card">
-                  <div className="mb-4 inline-flex rounded-full bg-soft p-3 text-blue">
-                    <BriefcaseBusiness className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-[24px] font-semibold tracking-[-.02em] text-[#222]">{group.title}</h3>
-                  <div className="mt-4 flex flex-wrap gap-2.5">
-                    {group.vendors.map((vendor) => (
-                      <span
-                        key={vendor}
-                        className="rounded-full border border-line bg-soft px-3.5 py-1.5 text-[13.5px] font-medium text-muted"
-                      >
-                        {vendor}
-                      </span>
+                  <div className="mt-4 grid gap-3 md:grid-cols-3">
+                    {[
+                      ['Вендоры', 'OpenAI, Claude, Microsoft 365'],
+                      ['Документы', 'Счёт, договор, закрывающие'],
+                      ['Сценарии', 'Закупка и продление лицензий'],
+                    ].map(([label, value]) => (
+                      <div key={label} className="rounded-[8px] border border-[#e4e7ec] bg-white p-4">
+                        <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{label}</div>
+                        <div className="mt-2 text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{value}</div>
+                      </div>
                     ))}
                   </div>
-                </article>
-              ))}
-            </div>
-          </Wrap>
-        </section>
+                </div>
 
-        <section id="process" className="bg-soft py-20">
-          <Wrap>
-            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-              Как это работает
-            </span>
-            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-              Как проходит закупка
-            </h2>
-            <p className="max-w-[760px] text-[clamp(16px,1.6vw,19px)] text-muted">
-              Четыре шага от запроса до поставки.
-            </p>
-
-            <div className="mt-10 grid gap-4 lg:grid-cols-2">
-              {steps.map((step, index) => (
-                <article key={step.title} className="rounded-card border border-line bg-white p-7 shadow-card">
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue text-sm font-semibold text-white">
-                      {index + 1}
+                <div className="grid gap-3">
+                  {[
+                    ['Что входит', 'Маршрут закупки, расчёт стоимости и сопровождение сделки.'],
+                    ['Формат сделки', 'Коммерческое предложение с отдельной сервисной комиссией.'],
+                    ['Кому подходит', 'ИТ, финансы, закупка, юридическая функция.'],
+                  ].map(([title, text]) => (
+                    <div key={title} className="rounded-[8px] border border-[#e4e7ec] bg-white p-4">
+                      <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{title}</div>
+                      <div className="mt-2 text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{text}</div>
                     </div>
-                    <h3 className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">{step.title}</h3>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          </Wrap>
+        </section>
+
+        <section className="py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="max-w-[720px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Что вы получаете</div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                Компактный и понятный контур закупки
+              </h2>
+            </div>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              {overviewCards.map((item) => (
+                <Card key={item.title} className="p-4">
+                  <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-2 text-[#505967]">
+                    {item.icon}
                   </div>
-                  <p className="text-[15px] leading-7 text-muted">{step.text}</p>
-                </article>
+                  <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{item.text}</p>
+                </Card>
               ))}
             </div>
           </Wrap>
         </section>
 
-        <section className="py-20">
-          <Wrap className="grid gap-5 lg:grid-cols-2">
-            <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
-              <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
-                <BookOpen className="h-5 w-5" />
-              </div>
-              <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">
-                Материалы для внутреннего согласования
-              </h3>
-              <p className="mt-3 text-[15px] leading-7 text-muted">
-                Подготовим презентацию и материалы для CIO, CFO, закупки и ИБ.
-              </p>
-              <button
-                type="button"
-                onClick={() => handleCta('procurement_materials')}
-                className="mt-7 inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+        <section className="border-y border-[#e4e7ec] bg-[#f3f4f6] py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="max-w-[760px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Где тормозится закупка</div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
               >
-                Запросить материалы
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </article>
+                Три зоны, где сделка обычно теряет скорость
+              </h2>
+            </div>
 
-            <article className="rounded-panel border border-line bg-white p-7 shadow-panel">
-              <div className="mb-5 inline-flex rounded-full bg-soft p-3 text-blue">
-                <BadgeCheck className="h-5 w-5" />
+            <div className="mt-8 grid gap-3">
+              {painRows.map((item) => (
+                <Card key={item.title} className="grid gap-4 p-4 md:grid-cols-[260px_1fr] md:items-start">
+                  <div className="text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">{item.title}</div>
+                  <p className="text-[15px] leading-[1.47] tracking-[-0.15px] text-[#6f7988]">{item.text}</p>
+                </Card>
+              ))}
+            </div>
+          </Wrap>
+        </section>
+
+        <section className="py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="grid gap-8 lg:grid-cols-[.82fr_1.18fr]">
+              <div className="max-w-[560px]">
+                <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Кому подходит</div>
+                <h2
+                  className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                  style={{ fontFeatureSettings: '"ss03"' }}
+                >
+                  Для команд, которые регулярно закупают зарубежное ПО
+                </h2>
               </div>
-              <h3 className="text-[26px] font-semibold tracking-[-.02em] text-[#222]">Удобный формат первого контакта</h3>
-              <p className="mt-3 text-[15px] leading-7 text-muted">
+
+              <div className="grid gap-4 md:grid-cols-3">
+                {audienceCards.map((item) => (
+                  <Card key={item.title} className="p-4">
+                    <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-2 text-[#505967]">
+                      {item.icon}
+                    </div>
+                    <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{item.text}</p>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </Wrap>
+        </section>
+
+        <section id="vendors" className="border-y border-[#e4e7ec] bg-white py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="max-w-[760px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Вендоры и сценарии</div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                Что можно закупать и продлевать
+              </h2>
+            </div>
+
+            <div className="mt-8 border-b border-[#d3d8df]">
+              <div className="flex flex-wrap gap-6">
+                {vendorGroups.map((group) => (
+                  <button
+                    key={group.id}
+                    type="button"
+                    onClick={() => setActiveVendorGroup(group.id)}
+                    className={`border-b-2 px-0 pb-3 text-[15px] font-medium tracking-[-0.15px] transition-colors ${
+                      activeVendorGroup === group.id
+                        ? 'border-[#1c1d1f] text-[#1c1d1f]'
+                        : 'border-transparent text-[#6f7988] hover:text-[#1c1d1f]'
+                    }`}
+                  >
+                    {group.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <Card className="mt-6 p-4">
+              <div className="grid gap-4 lg:grid-cols-[300px_1fr]">
+                <div>
+                  <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">Категория</div>
+                  <div className="mt-2 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                    {activeGroup.label}
+                  </div>
+                  <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
+                    Подбираем маршрут под конкретный вендор и формат лицензирования.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {activeGroup.items.map((item) => (
+                    <div key={item} className="rounded-[4px] border border-[#d3d8df] bg-[#f3f4f6] px-3 py-2 text-[14px] text-[#1c1d1f]">
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          </Wrap>
+        </section>
+
+        <section id="process" className="bg-[#f3f4f6] py-[80px] md:py-[96px]">
+          <Wrap>
+            <div className="max-w-[720px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Процесс</div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                От запроса до поставки
+              </h2>
+            </div>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {steps.map((step) => (
+                <Card key={step.title} className="p-4">
+                  <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{step.title}</div>
+                  <p className="mt-3 text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{step.text}</p>
+                </Card>
+              ))}
+            </div>
+          </Wrap>
+        </section>
+
+        <section className="py-[80px] md:py-[96px]">
+          <Wrap className="grid gap-4 lg:grid-cols-2">
+            <Card className="p-4">
+              <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-2 text-[#505967]">
+                <MessageSquare className="h-4 w-4" />
+              </div>
+              <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                Материалы для согласования
+              </h3>
+              <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
+                Подготовим презентацию и коммерческие материалы для CFO, CIO, закупки и ИБ.
+              </p>
+              <SecondaryButton onClick={() => handleCta('procurement_materials')} className="mt-6">
+                Получить презентацию
+                <ChevronRight className="h-4 w-4" />
+              </SecondaryButton>
+            </Card>
+
+            <Card className="p-4">
+              <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-2 text-[#505967]">
+                <Globe className="h-4 w-4" />
+              </div>
+              <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                Первый контакт
+              </h3>
+              <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
                 Можно отправить запрос через форму, почту или Telegram.
               </p>
-              <div className="mt-7 flex flex-wrap gap-3.5">
+              <div className="mt-6 flex flex-wrap gap-3">
                 <a
                   href="mailto:info@2rm.ru"
                   onClick={() => trackCTAClick('procurement_email')}
-                  className="inline-flex items-center gap-2 rounded-full border border-line bg-soft px-5 py-3 text-[14px] font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+                  className="inline-flex items-center rounded-[10px] border border-[#d3d8df] px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6]"
                 >
                   info@2rm.ru
                 </a>
@@ -477,92 +544,91 @@ export default function ForeignSoftwareProcurementPage() {
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => trackCTAClick('procurement_telegram')}
-                  className="inline-flex items-center gap-2 rounded-full bg-blue px-5 py-3 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
+                  className="inline-flex items-center gap-2 rounded-[10px] border border-[#1c1d1f] bg-[#1c1d1f] px-3 py-2 text-[14px] font-medium text-white transition-colors hover:bg-black"
                 >
                   Telegram
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
-            </article>
+            </Card>
           </Wrap>
         </section>
 
-        <section id="faq" className="bg-soft py-20">
+        <section id="faq" className="border-y border-[#e4e7ec] bg-[#f3f4f6] py-[80px] md:py-[96px]">
           <Wrap>
-            <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-              FAQ
-            </span>
-            <h2 className="mb-3.5 text-[clamp(28px,3.4vw,42px)] font-semibold leading-[1.18] tracking-[-.015em] text-[#222]">
-              Частые вопросы
-            </h2>
-            <p className="max-w-[760px] text-[clamp(16px,1.6vw,19px)] text-muted">
-              Коротко о документах, продлениях и формате закупки.
-            </p>
-
-            <div className="mt-10 grid gap-4">
-              {faqItems.map((item) => (
-                <article key={item.question} className="rounded-card border border-line bg-white p-7 shadow-card">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="inline-flex rounded-full bg-soft p-2 text-blue">
-                      <MessageSquare className="h-4 w-4" />
-                    </div>
-                    <h3 className="text-[22px] font-semibold tracking-[-.02em] text-[#222]">{item.question}</h3>
-                  </div>
-                  <p className="text-[15px] leading-7 text-muted">{item.answer}</p>
-                </article>
-              ))}
-            </div>
-          </Wrap>
-        </section>
-
-        <section className="py-20">
-          <Wrap>
-            <div className="rounded-panel border border-line bg-white p-8 shadow-panel sm:p-10">
-              <span className="mb-3.5 block text-[13px] font-semibold uppercase tracking-[.12em] text-blue">
-                Запрос на закупку
-              </span>
-              <h2 className="max-w-[860px] text-[clamp(30px,3.8vw,46px)] font-semibold leading-[1.15] tracking-[-.02em] text-[#222]">
-                Нужно закупить зарубежное ПО?
+            <div className="max-w-[720px]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">FAQ</div>
+              <h2
+                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                style={{ fontFeatureSettings: '"ss03"' }}
+              >
+                Частые вопросы
               </h2>
-              <p className="mt-4 max-w-[760px] text-[17px] leading-8 text-muted">
-                Отправьте вендора, число лицензий и требования к документам. Подготовим расчёт и коммерческое предложение.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3.5">
-                <button
-                  type="button"
-                  onClick={() => handleCta('procurement_final_primary')}
-                  className="inline-flex items-center gap-2 rounded-full bg-blue px-7 py-[13px] text-[15.5px] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-blue-bright hover:shadow-cta"
-                >
-                  Получить маршрут закупки
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-                <Link
-                  href="/"
-                  onClick={() => trackCTAClick('procurement_back_home')}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-[13px] text-[15.5px] font-semibold text-ink transition-all duration-200 hover:border-blue hover:text-blue"
-                >
-                  Вернуться на главную
-                </Link>
-              </div>
             </div>
+
+            <Card className="mt-8 overflow-hidden">
+              {faqItems.map((item, index) => (
+                <details key={item.question} className={`${index !== 0 ? 'border-t border-[#e4e7ec]' : ''} group`}>
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-[16px] font-medium tracking-[-0.24px] text-[#1c1d1f]">
+                    <span>{item.question}</span>
+                    <span className="text-[#6f7988] transition-transform group-open:rotate-45">+</span>
+                  </summary>
+                  <div className="px-4 pb-4 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
+                    {item.answer}
+                  </div>
+                </details>
+              ))}
+            </Card>
+          </Wrap>
+        </section>
+
+        <section className="py-[80px] md:py-[96px]">
+          <Wrap>
+            <Card className="mx-auto max-w-[1120px] p-5 md:p-6">
+              <div className="max-w-[760px]">
+                <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Запрос на закупку</div>
+                <h2
+                  className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                  style={{ fontFeatureSettings: '"ss03"' }}
+                >
+                  Отправьте список ПО на расчёт
+                </h2>
+                <p className="mt-3 text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988]">
+                  Пришлите вендора, число лицензий и требования к документам. Подготовим расчёт и коммерческое предложение.
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <PrimaryButton onClick={() => handleCta('procurement_final_primary')}>
+                  Отправить список ПО
+                  <ArrowRight className="h-4 w-4" />
+                </PrimaryButton>
+                <SecondaryButton onClick={() => handleCta('procurement_final_secondary')}>
+                  Получить презентацию
+                </SecondaryButton>
+              </div>
+            </Card>
           </Wrap>
         </section>
       </main>
 
-      <footer className="border-t border-line bg-soft py-[38px] text-[14.5px] text-dim">
-        <Wrap className="flex flex-wrap items-center justify-between gap-[18px]">
+      <footer className="bg-[#000000] py-12 text-[14px]">
+        <Wrap className="grid gap-10 md:grid-cols-[1.1fr_.9fr]">
           <div>
-            <div className="font-semibold text-ink">ТехКаталист</div>
-            <div className="mt-1">Закупка зарубежного ПО для юридических лиц</div>
+            <div className="text-[14px] font-medium text-white">ТехКаталист</div>
+            <p className="mt-3 max-w-[440px] text-[14px] leading-[1.43] tracking-[-0.14px] text-[#8f99a8]">
+              Закупка зарубежного ПО для юридических лиц: AI-сервисы, SaaS и корпоративные лицензии.
+            </p>
           </div>
-          <div className="flex flex-wrap items-center gap-4">
-            <a href="mailto:info@2rm.ru" className="text-blue hover:underline">
+
+          <div className="grid gap-2 md:justify-end">
+            <a href="mailto:info@2rm.ru" className="text-[#8f99a8] transition-colors hover:text-white">
               info@2rm.ru
             </a>
-            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-blue hover:underline">
+            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-[#8f99a8] transition-colors hover:text-white">
               Telegram
             </a>
-            <span>© 2026 ТехКаталист. Все права защищены.</span>
+            <span className="text-[#8f99a8]">© 2026 ТехКаталист. Все права защищены.</span>
           </div>
         </Wrap>
       </footer>
@@ -574,6 +640,6 @@ export default function ForeignSoftwareProcurementPage() {
         language="ru"
         variant="procurement"
       />
-    </>
+    </div>
   );
 }

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const rubik = Rubik({
+const inter = Inter({
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
@@ -11,29 +11,29 @@ const rubik = Rubik({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techcatalyst.ru'),
-  title: "Tech Catalyst - Unified API for 100+ AI Models",
-  description: "ChatGPT, Claude, Gemini, Grok and hundreds of other AI models in one API. Pay in rubles. Works without VPN. Single API key, single endpoint.",
-  keywords: "AI API, ChatGPT API, Claude API, Gemini API, AI models, unified API, OpenAI alternative, AI aggregation, pay as you go, Russian AI API",
+  title: "ТехКаталист — единый API для AI-моделей и корпоративной закупки",
+  description: "ChatGPT, Claude, Gemini, Grok и другие AI-модели в одном API. Маршрутизация, биллинг в рублях, доступ для команд и корпоративная закупка.",
+  keywords: "AI API, ChatGPT API, Claude API, Gemini API, unified API, LLM gateway, AI models, ТехКаталист, корпоративная закупка ПО",
   openGraph: {
-    title: "Tech Catalyst - Unified API for 100+ AI Models",
-    description: "ChatGPT, Claude, Gemini, Grok and hundreds of other AI models in one API. Pay in rubles. Works without VPN.",
+    title: "ТехКаталист — единый API для AI-моделей и корпоративной закупки",
+    description: "ChatGPT, Claude, Gemini, Grok и другие AI-модели в одном API. Маршрутизация, биллинг и доступ для команд.",
     type: "website",
     url: "https://techcatalyst.ru",
-    locale: "en_US",
+    locale: "ru_RU",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Tech Catalyst - Unified API Platform for AI Models",
+        alt: "ТехКаталист — единый API для AI-моделей",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tech Catalyst - Unified API for 100+ AI Models",
-    description: "ChatGPT, Claude, Gemini, Grok and hundreds of other AI models in one API",
-    images: ["/og-image.png"],
+    title: "ТехКаталист — единый API для AI-моделей и корпоративной закупки",
+    description: "ChatGPT, Claude, Gemini, Grok и другие AI-модели в одном API",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -46,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className="scroll-smooth">
-      <body className={`${rubik.className} antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         {children}
         <Script id="yandex-metrika" strategy="afterInteractive">
           {`
