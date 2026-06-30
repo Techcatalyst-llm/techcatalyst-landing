@@ -32,18 +32,18 @@ const lora = Lora({
 
 const overviewCards = [
   {
-    title: 'Счёт и договор',
-    text: 'Документы для корпоративной закупки и внутреннего согласования.',
+    title: 'Счёт, договор, закрывающие',
+    text: 'Готовим пакет документов для оплаты и внутреннего согласования.',
     icon: <FileText className="h-4 w-4" />,
   },
   {
-    title: 'Прозрачное КП',
-    text: 'Стоимость вендора и сервисная комиссия показаны отдельно.',
+    title: 'Прозрачная стоимость',
+    text: 'Сразу показываем цену вендора и нашу комиссию отдельными строками.',
     icon: <Wallet className="h-4 w-4" />,
   },
   {
     title: 'Продление лицензий',
-    text: 'Подходит для первичной закупки и повторных продлений.',
+    text: 'Помогаем и с первой закупкой, и с продлением действующих лицензий.',
     icon: <BadgeCheck className="h-4 w-4" />,
   },
 ];
@@ -329,9 +329,9 @@ export default function ForeignSoftwareProcurementPage() {
 
                 <div className="grid gap-3">
                   {[
-                    ['Что входит', 'Маршрут закупки, расчёт стоимости и сопровождение сделки.'],
-                    ['Формат сделки', 'Коммерческое предложение с отдельной сервисной комиссией.'],
-                    ['Кому подходит', 'ИТ, финансы, закупка, юридическая функция.'],
+                    ['Что делаем', 'Подбираем схему закупки, считаем стоимость и сопровождаем сделку до поставки.'],
+                    ['Как выглядит КП', 'В предложении отдельно показываем стоимость лицензий, комиссию и пакет документов.'],
+                    ['Для кого', 'ИТ, финансы, закупка и юристы.'],
                   ].map(([title, text]) => (
                     <div key={title} className="rounded-[8px] border border-[#e4e7ec] bg-white p-4">
                       <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{title}</div>
@@ -347,12 +347,12 @@ export default function ForeignSoftwareProcurementPage() {
         <section className="py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[720px]">
-              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Что вы получаете</div>
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Что берем на себя</div>
               <h2
                 className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
               >
-                Компактный и понятный контур закупки
+                Закупка под ключ с понятной экономикой
               </h2>
             </div>
 
