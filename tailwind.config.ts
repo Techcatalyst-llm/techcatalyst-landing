@@ -9,11 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        blue: {
-          DEFAULT: "#1837da",
-          bright: "#0046f9",
-          soft: "#e2e2fd",
-        },
+        blue: { DEFAULT: "#1837da", bright: "#0046f9", soft: "#e2e2fd" },
         green: { DEFAULT: "#10bc10", deep: "#0c9a0c" },
         amber: "#ff6900",
         danger: "#d22e44",
@@ -22,6 +18,10 @@ const config: Config = {
         dim: "#979797",
         soft: "#f9fafc",
         line: "#edf0f7",
+      },
+      fontFamily: {
+        sans: ["var(--font-rubik)", "Arial", "sans-serif"],
+        mono: ["SF Mono", "JetBrains Mono", "Menlo", "ui-monospace", "monospace"],
       },
       boxShadow: {
         card: "0 16px 40px rgba(30,40,90,.08)",

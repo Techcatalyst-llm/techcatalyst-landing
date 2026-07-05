@@ -3,18 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --color-white: #ffffff;
-  --color-ash: #f3f4f6;
-  --color-stone: #e4e7ec;
-  --color-slate: #d3d8df;
-  --color-lead: #b5bdc9;
-  --color-overcast: #8f99a8;
-  --color-metal: #6f7988;
-  --color-carbon: #505967;
-  --color-ink: #1c1d1f;
-  --color-abyss: #000000;
-  --color-action-blue: #407ff2;
-  --color-focus-blue: #94b9ff;
+  --blue: #1837da;
+  --blue-bright: #0046f9;
+  --blue-soft: #e2e2fd;
+  --text: #313131;
+  --muted: #63666a;
+  --border: #edf0f7;
 }
 
 html {
@@ -22,13 +16,14 @@ html {
 }
 
 body {
-  background: var(--color-white);
-  color: var(--color-ink);
+  background: #ffffff;
+  color: var(--text);
+  font-family: var(--font-rubik), Arial, sans-serif;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: rgba(148, 185, 255, 0.4);
+  background: var(--blue-soft);
 }
 
 a,

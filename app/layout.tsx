@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Rubik } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const inter = Inter({
+const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700"],
+  variable: "--font-rubik",
   display: "swap",
 });
 
@@ -45,8 +46,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="scroll-smooth">
-      <body className={`${inter.className} antialiased`}>
+    <html lang="ru" className={`${rubik.variable} scroll-smooth`}>
+      <body className="font-sans antialiased">
         {children}
         <Script id="yandex-metrika" strategy="afterInteractive">
           {`

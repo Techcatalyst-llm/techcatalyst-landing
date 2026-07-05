@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Inter, Lora } from 'next/font/google';
 import {
   ArrowRight,
   BadgeCheck,
@@ -28,18 +27,6 @@ import ApplicationModal from '@/components/Modal/ApplicationModal';
 
 type Language = 'en' | 'ru';
 type ModelTab = 'all' | 'text' | 'multimodal' | 'image';
-
-const inter = Inter({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-});
-
-const lora = Lora({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500'],
-  display: 'swap',
-});
 
 const navItems = [
   { href: '#platform', key: 'platform' },
@@ -277,16 +264,13 @@ response = client.chat.completions.create(
 )`;
 
 function Wrap({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <div className={`mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-10 ${className}`}>{children}</div>;
+  return <div className={`mx-auto max-w-[1140px] px-6 max-sm:px-[18px] ${className}`}>{children}</div>;
 }
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
     <div
-      className={`rounded-[8px] border border-[#e4e7ec] bg-white ${className}`}
-      style={{
-        boxShadow: 'rgba(28, 40, 64, 0.1) 0px 2px 3px -2px, rgba(28, 40, 64, 0.04) 0px 4px 6px -2px',
-      }}
+      className={`rounded-[20px] border border-[#edf0f7] bg-white transition duration-200 hover:-translate-y-0.5 hover:shadow-card ${className}`}
     >
       {children}
     </div>
@@ -306,7 +290,7 @@ function PrimaryButton({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center gap-2 rounded-[10px] border border-[#1c1d1f] bg-[#1c1d1f] px-3 py-2 text-[14px] font-medium text-white transition-colors hover:bg-black ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full border border-[#1837da] bg-[#1837da] px-7 py-3 text-[15px] font-semibold text-white transition hover:-translate-y-px hover:border-[#0046f9] hover:bg-[#0046f9] hover:shadow-cta ${className}`}
     >
       {children}
     </button>
@@ -326,7 +310,7 @@ function SecondaryButton({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center gap-2 rounded-[10px] border border-[#d3d8df] bg-white px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6] ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-3 text-[15px] font-semibold text-[#313131] transition hover:border-[#1837da] hover:text-[#1837da] ${className}`}
     >
       {children}
     </button>
@@ -396,11 +380,12 @@ export default function TechCatalystLanding() {
   };
 
   return (
-    <div className={`${inter.className} bg-white text-[#1c1d1f]`} style={{ fontFeatureSettings: '"ss03"' }}>
-      <header className="sticky top-0 z-50 border-b border-[#e4e7ec] bg-white/92 backdrop-blur-md">
-        <Wrap className="flex min-h-[72px] items-center gap-6">
-          <Link href="/" className="text-[16px] font-semibold tracking-[-0.01em] text-[#1c1d1f]">
-            {t.brand}
+    <div className="bg-white text-[#222]">
+      <header className="sticky top-0 z-50 border-b border-[#edf0f7] bg-white/90 backdrop-blur-md">
+        <Wrap className="flex min-h-[68px] items-center gap-7 max-sm:min-h-[58px]">
+          <Link href="/" className="flex items-center gap-2 text-[18px] font-bold tracking-[-0.01em] text-[#222]">
+            <span className="text-[#1837da]">▲</span>
+            <span>{t.brand}</span>
           </Link>
 
           <nav className="ml-auto hidden items-center gap-2 md:flex">
@@ -409,7 +394,7 @@ export default function TechCatalystLanding() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                  className="px-1 py-2 text-[15px] font-medium text-[#63666a] transition-colors hover:text-[#1837da]"
                 >
                   {t.nav[item.key]}
                 </Link>
@@ -417,7 +402,7 @@ export default function TechCatalystLanding() {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                  className="px-1 py-2 text-[15px] font-medium text-[#63666a] transition-colors hover:text-[#1837da]"
                 >
                   {t.nav[item.key]}
                 </a>
@@ -425,7 +410,7 @@ export default function TechCatalystLanding() {
             )}
             <a
               href="https://docs.techcatalyst.ru"
-              className="rounded-[10px] px-[10px] py-[6px] text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+              className="px-1 py-2 text-[15px] font-medium text-[#63666a] transition-colors hover:text-[#1837da]"
             >
               {t.nav.docs}
             </a>
@@ -434,7 +419,7 @@ export default function TechCatalystLanding() {
           <button
             type="button"
             onClick={() => setLanguage(language === 'ru' ? 'en' : 'ru')}
-            className="hidden rounded-[10px] border border-[#d3d8df] px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6] md:inline-flex"
+            className="hidden rounded-full border border-[#d6dcec] px-3 py-2 text-[13px] font-medium text-[#313131] transition-colors hover:border-[#1837da] hover:text-[#1837da] md:inline-flex"
           >
             {t.nav.language}
           </button>
@@ -446,7 +431,7 @@ export default function TechCatalystLanding() {
           <button
             type="button"
             onClick={handleMenuToggle}
-            className="ml-auto inline-flex rounded-[10px] border border-[#d3d8df] p-2 text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6] md:hidden"
+            className="ml-auto inline-flex rounded-full border border-[#d6dcec] p-2 text-[#313131] transition-colors hover:border-[#1837da] md:hidden"
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
           >
@@ -462,14 +447,14 @@ export default function TechCatalystLanding() {
               className="absolute inset-0 bg-[rgba(28,29,31,.16)]"
               onClick={() => setIsMenuOpen(false)}
             />
-            <div className="absolute inset-x-4 top-4 rounded-[12px] border border-[#e4e7ec] bg-white p-4 shadow-[rgba(28,40,64,0.1)_0px_10px_20px_-12px,rgba(28,40,64,0.08)_0px_16px_32px_-16px]">
+            <div className="absolute inset-x-4 top-4 rounded-[12px] border border-[#edf0f7] bg-white p-4 shadow-[rgba(28,40,64,0.1)_0px_10px_20px_-12px,rgba(28,40,64,0.08)_0px_16px_32px_-16px]">
               <div className="flex flex-col gap-3">
                 {navItems.map((item) =>
                   item.href.startsWith('/') ? (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="rounded-[10px] px-3 py-2 text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                      className="rounded-[8px] px-3 py-2 text-[14px] font-medium text-[#63666a] transition-colors hover:bg-[#f9fafc] hover:text-[#222222]"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {t.nav[item.key]}
@@ -478,7 +463,7 @@ export default function TechCatalystLanding() {
                     <a
                       key={item.href}
                       href={item.href}
-                      className="rounded-[10px] px-3 py-2 text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                      className="rounded-[8px] px-3 py-2 text-[14px] font-medium text-[#63666a] transition-colors hover:bg-[#f9fafc] hover:text-[#222222]"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {t.nav[item.key]}
@@ -487,13 +472,13 @@ export default function TechCatalystLanding() {
                 )}
                 <a
                   href="https://docs.techcatalyst.ru"
-                  className="rounded-[10px] px-3 py-2 text-[14px] font-medium text-[#6f7988] transition-colors hover:bg-[#f3f4f6] hover:text-[#1c1d1f]"
+                  className="rounded-[8px] px-3 py-2 text-[14px] font-medium text-[#63666a] transition-colors hover:bg-[#f9fafc] hover:text-[#222222]"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {t.nav.docs}
                 </a>
               </div>
-              <div className="mt-4 flex gap-3 border-t border-[#e4e7ec] pt-4">
+              <div className="mt-4 flex gap-3 border-t border-[#edf0f7] pt-4">
                 <SecondaryButton
                   onClick={() => {
                     setLanguage(language === 'ru' ? 'en' : 'ru');
@@ -519,19 +504,19 @@ export default function TechCatalystLanding() {
       </header>
 
       <main>
-        <section className="border-b border-[#e4e7ec]">
-          <Wrap className="py-[80px] md:py-[100px]">
+        <section className="relative overflow-hidden border-b border-[#edf0f7] bg-[radial-gradient(900px_460px_at_82%_-12%,rgba(24,55,218,.07),transparent_60%)]">
+          <Wrap className="relative py-[80px] md:py-[96px]">
             <div className="mx-auto max-w-[980px] text-center">
-              <div className="mb-4 text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+              <div className="mb-4 text-[13px] font-semibold uppercase tracking-[0.12em] text-[#1837da]">
                 {t.hero.kicker}
               </div>
               <h1
-                className={`${lora.className} mx-auto max-w-[920px] text-[40px] font-medium leading-[1.1] tracking-[-0.6px] text-[#1c1d1f] md:text-[56px] md:tracking-[-1.12px]`}
+                className="mx-auto max-w-[14ch] text-[clamp(36px,5vw,54px)] font-bold leading-[1.12] tracking-[-0.02em] text-[#222]"
                 style={{ fontFeatureSettings: '"ss03"' }}
               >
                 {t.hero.title}
               </h1>
-              <p className="mx-auto mt-5 max-w-[760px] text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988] md:text-[20px] md:leading-[1.3] md:tracking-[-0.4px]">
+              <p className="mx-auto mt-5 max-w-[760px] text-[17px] leading-[1.6] text-[#63666a] md:text-[19px]">
                 {t.hero.lead}
               </p>
 
@@ -543,40 +528,40 @@ export default function TechCatalystLanding() {
                 <a
                   href="https://docs.techcatalyst.ru"
                   onClick={() => trackCTAClick('hero_docs')}
-                  className="inline-flex items-center gap-2 rounded-[10px] border border-[#d3d8df] bg-white px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6]"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#d6dcec] bg-white px-7 py-3 text-[15px] font-semibold text-[#313131] transition hover:border-[#1837da] hover:text-[#1837da]"
                 >
                   {t.hero.secondary}
                 </a>
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
                 {t.hero.bullets.map((item) => (
-                  <span key={item} className="rounded-[4px] border border-[#e4e7ec] bg-white px-2 py-1">
+                  <span key={item} className="rounded-full border border-[#edf0f7] bg-[#f9fafc] px-3.5 py-1.5 text-[13px] font-medium text-[#63666a] before:mr-2 before:text-[9px] before:text-[#10bc10] before:content-['●']">
                     {item}
                   </span>
                 ))}
               </div>
             </div>
 
-            <Card className="mx-auto mt-12 max-w-[1120px] p-4 md:p-5">
+            <div className="relative mx-auto mt-12 max-w-[1080px] rounded-[20px] border border-[#edf0f7] bg-white p-4 shadow-panel md:p-5">
               <div className="grid gap-4 lg:grid-cols-[1.1fr_.9fr]">
-                <div className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-4">
-                  <div className="flex items-center justify-between border-b border-[#d3d8df] pb-3">
+                <div className="overflow-hidden rounded-[16px] border border-[#edf0f7] bg-white">
+                  <div className="flex items-center justify-between border-b border-[#edf0f7] bg-[#f9fafc] p-4">
                     <div>
-                      <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">
+                      <div className="font-mono text-[11px] font-medium uppercase tracking-[0.09em] text-[#979797]">
                         {language === 'ru' ? 'API-контур' : 'API frame'}
                       </div>
-                      <div className="mt-1 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                      <div className="mt-1 text-[20px] font-semibold leading-[1.3] tracking-[-0.4px] text-[#222]">
                         {t.hero.frameTitle}
                       </div>
                     </div>
-                    <div className="rounded-[4px] border border-[#d3d8df] bg-white px-2 py-1 text-[12px] text-[#6f7988]">
+                    <div className="rounded-full border border-[#d6dcec] bg-white px-3 py-1 text-[11px] font-medium text-[#63666a]">
                       {t.hero.frameTag}
                     </div>
                   </div>
 
-                  <div className="mt-4 rounded-[8px] border border-[#e4e7ec] bg-white p-4">
-                    <pre className="overflow-x-auto text-[13px] leading-[1.5] tracking-[-0.14px] text-[#505967]">
+                  <div className="p-5">
+                    <pre className="overflow-x-auto font-mono text-[12px] leading-[1.7] text-[#63666a]">
                       <code>{codeSample}</code>
                     </pre>
                   </div>
@@ -584,14 +569,14 @@ export default function TechCatalystLanding() {
 
                 <div className="grid gap-3">
                   {t.hero.frameCards.map(([label, value]) => (
-                    <div key={label} className="rounded-[8px] border border-[#e4e7ec] bg-white p-4">
-                      <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{label}</div>
-                      <div className="mt-2 text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{value}</div>
+                    <div key={label} className="rounded-[20px] border border-[#edf0f7] bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-card">
+                      <div className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#1837da]">{label}</div>
+                      <div className="mt-2 text-[15px] leading-[1.5] text-[#313131]">{value}</div>
                     </div>
                   ))}
                 </div>
               </div>
-            </Card>
+            </div>
           </Wrap>
         </section>
 
@@ -600,22 +585,22 @@ export default function TechCatalystLanding() {
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {t.stats.map(([value, label]) => (
                 <Card key={label} className="p-4">
-                  <div className="text-[32px] font-medium leading-[1.1] tracking-[-0.64px] text-[#1c1d1f]">{value}</div>
-                  <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{label}</div>
+                  <div className="text-[32px] font-medium leading-[1.1] tracking-[-0.64px] text-[#222222]">{value}</div>
+                  <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">{label}</div>
                 </Card>
               ))}
             </div>
           </Wrap>
         </section>
 
-        <section id="platform" className="border-y border-[#e4e7ec] bg-[#f3f4f6] py-[80px] md:py-[96px]">
+        <section id="platform" className="border-y border-[#edf0f7] bg-[#f9fafc] py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[760px]">
-              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#1837da]">
                 {t.platform.kicker}
               </div>
               <h2
-                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                className={`mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#222222] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
               >
                 {t.platform.title}
@@ -625,13 +610,13 @@ export default function TechCatalystLanding() {
             <div className="mt-8 grid gap-4 md:grid-cols-3">
               {t.platform.cards.map(([title, text, icon]) => (
                 <Card key={title} className="p-4">
-                  <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-white p-2 text-[#505967]">
+                  <div className="inline-flex rounded-[8px] border border-[#edf0f7] bg-white p-2 text-[#63666a]">
                     {icon}
                   </div>
-                  <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                  <h3 className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#222222]">
                     {title}
                   </h3>
-                  <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{text}</p>
+                  <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">{text}</p>
                 </Card>
               ))}
             </div>
@@ -641,22 +626,22 @@ export default function TechCatalystLanding() {
         <section className="py-[80px] md:py-[96px]">
           <Wrap className="grid gap-6 lg:grid-cols-[.88fr_1.12fr]">
             <div className="max-w-[560px]">
-              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#1837da]">
                 {t.workflow.kicker}
               </div>
               <h2
-                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                className={`mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#222222] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
               >
                 {t.workflow.title}
               </h2>
               <div className="mt-6 grid gap-3">
                 {t.workflow.points.map((item) => (
-                  <div key={item} className="flex gap-3 rounded-[8px] border border-[#e4e7ec] bg-white p-4">
-                    <div className="mt-[2px] text-[#407ff2]">
+                  <div key={item} className="flex gap-3 rounded-[8px] border border-[#edf0f7] bg-white p-4">
+                    <div className="mt-[2px] text-[#1837da]">
                       <BadgeCheck className="h-4 w-4" />
                     </div>
-                    <div className="text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{item}</div>
+                    <div className="text-[15px] leading-[1.47] tracking-[-0.15px] text-[#222222]">{item}</div>
                   </div>
                 ))}
               </div>
@@ -669,14 +654,14 @@ export default function TechCatalystLanding() {
                   [language === 'ru' ? 'Команды' : 'Teams', language === 'ru' ? 'Лимиты, ключи и биллинг по ролям.' : 'Limits, keys and billing by role.', <Building2 className="h-4 w-4" />],
                   [language === 'ru' ? 'Расчёты' : 'Billing', t.workflow.sideText, <CreditCard className="h-4 w-4" />],
                 ].map(([title, text, icon]) => (
-                  <div key={String(title)} className="rounded-[8px] border border-[#e4e7ec] bg-[#f3f4f6] p-4">
-                    <div className="inline-flex rounded-[8px] border border-[#d3d8df] bg-white p-2 text-[#505967]">
+                  <div key={String(title)} className="rounded-[8px] border border-[#edf0f7] bg-[#f9fafc] p-4">
+                    <div className="inline-flex rounded-[8px] border border-[#edf0f7] bg-white p-2 text-[#63666a]">
                       {icon}
                     </div>
-                    <div className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                    <div className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#222222]">
                       {title}
                     </div>
-                    <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{text}</div>
+                    <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">{text}</div>
                   </div>
                 ))}
               </div>
@@ -684,21 +669,21 @@ export default function TechCatalystLanding() {
           </Wrap>
         </section>
 
-        <section id="models" className="border-y border-[#e4e7ec] bg-white py-[80px] md:py-[96px]">
+        <section id="models" className="border-y border-[#edf0f7] bg-white py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[760px]">
-              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#1837da]">
                 {t.models.kicker}
               </div>
               <h2
-                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                className={`mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#222222] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
               >
                 {t.models.title}
               </h2>
             </div>
 
-            <div className="mt-8 border-b border-[#d3d8df]">
+            <div className="mt-8 border-b border-[#edf0f7]">
               <div className="flex flex-wrap gap-6">
                 {(['all', 'text', 'multimodal', 'image'] as const).map((tab) => (
                   <button
@@ -707,8 +692,8 @@ export default function TechCatalystLanding() {
                     onClick={() => handleTabChange(tab)}
                     className={`border-b-2 px-0 pb-3 text-[15px] font-medium tracking-[-0.15px] transition-colors ${
                       activeTab === tab
-                        ? 'border-[#1c1d1f] text-[#1c1d1f]'
-                        : 'border-transparent text-[#6f7988] hover:text-[#1c1d1f]'
+                        ? 'border-[#222222] text-[#222222]'
+                        : 'border-transparent text-[#63666a] hover:text-[#222222]'
                     }`}
                   >
                     {t.models.tabs[tab]}
@@ -720,26 +705,26 @@ export default function TechCatalystLanding() {
             <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {filteredModels.map((model) => (
                 <Card key={model.name} className="p-4">
-                  <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#8f99a8]">{model.provider}</div>
-                  <div className="mt-3 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                  <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#979797]">{model.provider}</div>
+                  <div className="mt-3 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#222222]">
                     {model.name}
                   </div>
-                  <div className="mt-6 text-[15px] leading-[1.47] tracking-[-0.15px] text-[#1c1d1f]">{model.price}</div>
-                  <div className="mt-1 text-[12px] leading-[1.5] tracking-[-0.14px] text-[#8f99a8]">{t.models.suffix}</div>
+                  <div className="mt-6 text-[15px] leading-[1.47] tracking-[-0.15px] text-[#222222]">{model.price}</div>
+                  <div className="mt-1 text-[12px] leading-[1.5] tracking-[-0.14px] text-[#979797]">{t.models.suffix}</div>
                 </Card>
               ))}
             </div>
           </Wrap>
         </section>
 
-        <section id="commercial" className="bg-[#f3f4f6] py-[80px] md:py-[96px]">
+        <section id="commercial" className="bg-[#f9fafc] py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[760px]">
-              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#1837da]">
                 {t.commercial.kicker}
               </div>
               <h2
-                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                className={`mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#222222] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
               >
                 {t.commercial.title}
@@ -749,11 +734,11 @@ export default function TechCatalystLanding() {
             <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_1fr_.9fr]">
               {t.commercial.cards.map((card) => (
                 <Card key={card.title} className="p-4">
-                  <div className="text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">{card.title}</div>
+                  <div className="text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#222222]">{card.title}</div>
                   <ul className="mt-4 space-y-3">
                     {card.items.map((item) => (
-                      <li key={item} className="flex gap-3 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
-                        <span className="mt-[2px] text-[#407ff2]">
+                      <li key={item} className="flex gap-3 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">
+                        <span className="mt-[2px] text-[#1837da]">
                           <BadgeCheck className="h-4 w-4" />
                         </span>
                         <span>{item}</span>
@@ -777,19 +762,19 @@ export default function TechCatalystLanding() {
               ))}
 
               <Card className="p-4">
-                <div className="inline-flex rounded-[8px] border border-[#e4e7ec] bg-white p-2 text-[#505967]">
+                <div className="inline-flex rounded-[8px] border border-[#edf0f7] bg-white p-2 text-[#63666a]">
                   <Wallet className="h-4 w-4" />
                 </div>
-                <div className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#1c1d1f]">
+                <div className="mt-4 text-[20px] font-medium leading-[1.3] tracking-[-0.4px] text-[#222222]">
                   {t.commercial.procurementTitle}
                 </div>
-                <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">
+                <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">
                   {t.commercial.procurementText}
                 </p>
                 <Link
                   href="/zakupka-zarubezhnogo-po"
                   onClick={() => trackCTAClick('home_procurement_link')}
-                  className="mt-6 inline-flex items-center gap-2 rounded-[10px] border border-[#d3d8df] bg-white px-3 py-2 text-[14px] font-medium text-[#1c1d1f] transition-colors hover:bg-[#f3f4f6]"
+                  className="mt-6 inline-flex items-center gap-2 rounded-[8px] border border-[#edf0f7] bg-white px-3 py-2 text-[14px] font-medium text-[#222222] transition-colors hover:bg-[#f9fafc]"
                 >
                   {t.commercial.procurementButton}
                   <ChevronRight className="h-4 w-4" />
@@ -802,11 +787,11 @@ export default function TechCatalystLanding() {
         <section className="py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[760px]">
-              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+              <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#1837da]">
                 {t.proof.kicker}
               </div>
               <h2
-                className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                className={`mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#222222] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
               >
                 {t.proof.title}
@@ -816,28 +801,28 @@ export default function TechCatalystLanding() {
             <div className="mt-8 grid gap-4 lg:grid-cols-3">
               {t.proof.quotes.map(([quote, author]) => (
                 <Card key={quote} className="p-4">
-                  <p className="text-[16px] leading-[1.5] tracking-[-0.24px] text-[#1c1d1f]">“{quote}”</p>
-                  <div className="mt-4 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#6f7988]">{author}</div>
+                  <p className="text-[16px] leading-[1.5] tracking-[-0.24px] text-[#222222]">“{quote}”</p>
+                  <div className="mt-4 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">{author}</div>
                 </Card>
               ))}
             </div>
           </Wrap>
         </section>
 
-        <section className="border-t border-[#e4e7ec] py-[80px] md:py-[96px]">
+        <section className="border-t border-[#edf0f7] py-[80px] md:py-[96px]">
           <Wrap>
             <Card className="mx-auto max-w-[1120px] p-5 md:p-6">
               <div className="max-w-[760px]">
-                <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">
+                <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#1837da]">
                   {t.cta.kicker}
                 </div>
                 <h2
-                  className={`${lora.className} mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
+                  className={`mt-4 text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#222222] md:text-[40px] md:leading-[1.1] md:tracking-[-0.6px]`}
                   style={{ fontFeatureSettings: '"ss03"' }}
                 >
                   {t.cta.title}
                 </h2>
-                <p className="mt-3 text-[16px] leading-[1.5] tracking-[-0.24px] text-[#6f7988]">{t.cta.lead}</p>
+                <p className="mt-3 text-[16px] leading-[1.5] tracking-[-0.24px] text-[#63666a]">{t.cta.lead}</p>
               </div>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -854,29 +839,29 @@ export default function TechCatalystLanding() {
         </section>
       </main>
 
-      <footer className="bg-[#000000] py-12 text-[14px]">
+      <footer className="border-t border-[#edf0f7] bg-[#f9fafc] py-12 text-[14px]">
         <Wrap className="grid gap-10 md:grid-cols-[1.1fr_.9fr]">
           <div>
-            <div className="text-[14px] font-medium text-white">{t.brand}</div>
-            <p className="mt-3 max-w-[440px] text-[14px] leading-[1.43] tracking-[-0.14px] text-[#8f99a8]">
+            <div className="text-[14px] font-semibold text-[#222]">{t.brand}</div>
+            <p className="mt-3 max-w-[440px] text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">
               {t.footer.note}
             </p>
           </div>
 
           <div className="grid gap-2 md:justify-end">
-            <a href="mailto:info@2rm.ru" className="text-[#8f99a8] transition-colors hover:text-white">
+            <a href="mailto:info@2rm.ru" className="text-[#63666a] transition-colors hover:text-[#1837da]">
               info@2rm.ru
             </a>
-            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-[#8f99a8] transition-colors hover:text-white">
+            <a href="https://t.me/pillardev" target="_blank" rel="noreferrer" className="text-[#63666a] transition-colors hover:text-[#1837da]">
               Telegram
             </a>
-            <Link href="/privacy" className="text-[#8f99a8] transition-colors hover:text-white">
+            <Link href="/privacy" className="text-[#63666a] transition-colors hover:text-[#1837da]">
               Политика конфиденциальности
             </Link>
-            <Link href="/cookie" className="text-[#8f99a8] transition-colors hover:text-white">
+            <Link href="/cookie" className="text-[#63666a] transition-colors hover:text-[#1837da]">
               Политика cookie
             </Link>
-            <span className="text-[#8f99a8]">{t.footer.rights}</span>
+            <span className="text-[#979797]">{t.footer.rights}</span>
           </div>
         </Wrap>
       </footer>
