@@ -25,7 +25,7 @@ const overviewCards = [
   },
   {
     title: 'Прозрачная стоимость',
-    text: 'Сразу показываем цену вендора и нашу комиссию отдельными строками.',
+    text: 'Сразу показываем цену поставщика и нашу комиссию отдельными строками.',
     icon: <Wallet className="h-4 w-4" />,
   },
   {
@@ -44,7 +44,7 @@ const trustStats = [
 
 const painRows = [
   {
-    title: 'Доступ к вендору',
+    title: 'Доступ к поставщику',
     problem: 'Прямой платёж не проходит, команда остаётся без лицензий, а запуск или продление сдвигаются.',
     answer:
       'Проводим закупку через нашу зарубежную инфраструктуру и в стандартном сценарии поставляем доступ в течение 7 рабочих дней после оплаты.',
@@ -120,7 +120,7 @@ const vendorCloudItems = [
 const steps = [
   {
     title: '1. Запрос',
-    text: 'Вы присылаете вендора, число лицензий и требования к документам.',
+    text: 'Вы присылаете название поставщика, число лицензий и требования к документам.',
   },
   {
     title: '2. Расчёт',
@@ -180,17 +180,17 @@ const faqItems = [
   {
     question: 'Какой срок поставки?',
     answer:
-      'В стандартном сценарии поставка занимает до 7 рабочих дней после оплаты. Если у конкретного вендора или типа лицензии есть дополнительные условия, фиксируем срок в коммерческом предложении заранее.',
+      'В стандартном сценарии поставка занимает до 7 рабочих дней после оплаты. Если у конкретного поставщика или типа лицензии есть дополнительные условия, фиксируем срок в коммерческом предложении заранее.',
   },
   {
     question: 'Как подтверждается подлинность лицензии?',
     answer:
-      'Поставка идёт в официальный кабинет, рабочий тенант или аккаунт клиента. На этапе передачи вместе с вами проверяем доступ, активацию и состав лицензий.',
+      'Поставка идёт в официальный кабинет, рабочее пространство или учётную запись клиента. На этапе передачи вместе с вами проверяем доступ, активацию и состав лицензий.',
   },
   {
-    question: 'Что происходит, если вендор меняет условия или поставка стопорится?',
+    question: 'Что происходит, если поставщик меняет условия или поставка задерживается?',
     answer:
-      'До оплаты согласуем маршрут закупки и формат поставки. Если по ходу сделки условия вендора меняются, сразу предлагаем альтернативный сценарий и повторно согласуем его с вашей командой.',
+      'До оплаты согласуем порядок закупки и формат поставки. Если по ходу сделки условия поставщика меняются, сразу предлагаем другой вариант и повторно согласуем его с вашей командой.',
   },
   {
     question: 'Можно ли продлевать действующие лицензии?',
@@ -198,7 +198,7 @@ const faqItems = [
   },
   {
     question: 'Что нужно для расчёта?',
-    answer: 'Обычно достаточно вендора, числа лицензий, срока, требований к документам и контактного лица со стороны компании.',
+    answer: 'Обычно достаточно названия поставщика, числа лицензий, срока, требований к документам и контактного лица со стороны компании.',
   },
 ];
 
@@ -289,7 +289,7 @@ export default function ForeignSoftwareProcurementPage() {
               href="#vendors"
               className="px-1 py-2 text-[15px] font-medium text-[#63666a] transition-colors hover:text-[#1837da]"
             >
-              Вендоры
+              Поставщики
             </a>
             <a
               href="#process"
@@ -382,7 +382,7 @@ export default function ForeignSoftwareProcurementPage() {
 
                   <div className="mt-4 grid gap-3 md:grid-cols-3">
                     {[
-                      ['Вендоры', 'OpenAI, Claude, Microsoft 365'],
+                      ['Поставщики', 'OpenAI, Claude, Microsoft 365'],
                       ['Документы', 'Счёт, договор, закрывающие'],
                       ['Сценарии', 'Закупка и продление лицензий'],
                     ].map(([label, value]) => (
@@ -500,7 +500,7 @@ export default function ForeignSoftwareProcurementPage() {
         <section className="border-y border-[#edf0f7] bg-[#f9fafc] py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[780px]">
-              <div className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#1837da]">Кейсы и компании</div>
+              <div className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#1837da]">Опыт и компании</div>
               <h2
                 className={`mt-4 text-[clamp(27px,3.4vw,40px)] font-semibold leading-[1.18] tracking-[-0.015em] text-[#222]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
@@ -549,7 +549,7 @@ export default function ForeignSoftwareProcurementPage() {
         <section id="vendors" className="border-y border-[#edf0f7] bg-white py-[80px] md:py-[96px]">
           <Wrap>
             <div className="max-w-[760px]">
-              <div className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#1837da]">Вендоры и сценарии</div>
+              <div className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#1837da]">Поставщики и сценарии</div>
               <h2
                 className={`mt-4 text-[clamp(27px,3.4vw,40px)] font-semibold leading-[1.18] tracking-[-0.015em] text-[#222]`}
                 style={{ fontFeatureSettings: '"ss03"' }}
@@ -561,7 +561,7 @@ export default function ForeignSoftwareProcurementPage() {
             <Card className="mt-8 hidden overflow-hidden p-3 md:block md:p-4">
               <Image
                 src="/procurement-vendors-cloud.svg"
-                alt="Логотипы и названия вендоров: Cursor, OpenAI, Claude, Microsoft 365, Adobe, Atlassian, Figma, Autodesk, Notion, Google Workspace"
+                alt="Логотипы и названия поставщиков: Cursor, OpenAI, Claude, Microsoft 365, Adobe, Atlassian, Figma, Autodesk, Notion, Google Workspace"
                 width={1440}
                 height={360}
                 className="h-auto w-full rounded-[8px] border border-[#edf0f7]"
@@ -607,7 +607,7 @@ export default function ForeignSoftwareProcurementPage() {
                     {activeGroup.label}
                   </div>
                   <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">
-                    Подбираем маршрут под конкретный вендор и формат лицензирования.
+                    Подбираем порядок закупки под конкретного поставщика и формат лицензирования.
                   </p>
                 </div>
 
@@ -737,7 +737,7 @@ export default function ForeignSoftwareProcurementPage() {
                   Отправьте список ПО на расчёт
                 </h2>
                 <p className="mt-3 text-[16px] leading-[1.5] tracking-[-0.24px] text-[#63666a]">
-                  Пришлите вендора, число лицензий и требования к документам. Подготовим расчёт, коммерческое предложение и срок поставки до 7 рабочих дней в стандартном сценарии.
+                  Пришлите название поставщика, число лицензий и требования к документам. Подготовим расчёт, коммерческое предложение и срок поставки до 7 рабочих дней в стандартном сценарии.
                 </p>
               </div>
 
