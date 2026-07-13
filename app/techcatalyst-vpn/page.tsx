@@ -5,11 +5,11 @@ import ProductLandingPage from '@/components/ProductLandingPage';
 export const metadata: Metadata = {
   title: 'TechCatalyst VPN — корпоративный VPN и серверная инфраструктура',
   description:
-    'VPN под ключ, выделенный сервер с root-доступом и централизованная панель управления индивидуальными профилями, egress IP и доступами.',
+    'VPN под ключ, выделенный сервер с административным доступом и централизованная панель управления индивидуальными профилями, выходными IP-адресами и доступами.',
   alternates: { canonical: '/techcatalyst-vpn' },
   openGraph: {
     title: 'TechCatalyst VPN — корпоративный VPN и серверная инфраструктура',
-    description: 'От управляемого VPN-сервиса до self-service управления доступами.',
+    description: 'От управляемого VPN-сервиса до самостоятельного управления доступами.',
     url: 'https://techcatalyst.ru/techcatalyst-vpn',
     type: 'website',
     locale: 'ru_RU',

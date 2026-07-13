@@ -4,11 +4,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techcatalyst.ru'),
-  title: "TechCatalyst — зарубежное ПО, AI, Guard и корпоративный VPN",
-  description: "Поставка зарубежного ПО, корпоративный AI и интеграция, безопасное рабочее место разработчика TechCatalyst Guard и управляемая VPN-инфраструктура.",
-  keywords: "TechCatalyst, поставка зарубежного ПО, интеграция AI, корпоративный AI, безопасное рабочее место разработчика, TechCatalyst Guard, корпоративный VPN",
+  title: "TechCatalyst — зарубежное ПО, ИИ, Guard и корпоративный VPN",
+  description: "Поставка зарубежного ПО, корпоративный ИИ и интеграция, безопасное рабочее место разработчика TechCatalyst Guard и управляемая VPN-инфраструктура.",
+  keywords: "TechCatalyst, поставка зарубежного ПО, интеграция ИИ, корпоративный ИИ, безопасное рабочее место разработчика, TechCatalyst Guard, корпоративный VPN",
   openGraph: {
-    title: "TechCatalyst — зарубежное ПО, AI, Guard и корпоративный VPN",
+    title: "TechCatalyst — зарубежное ПО, ИИ, Guard и корпоративный VPN",
     description: "Единая продуктовая линейка для корпоративного доступа, внедрения и безопасности.",
     type: "website",
     url: "https://techcatalyst.ru",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "TechCatalyst — зарубежное ПО, AI, Guard и корпоративный VPN",
+    title: "TechCatalyst — зарубежное ПО, ИИ, Guard и корпоративный VPN",
     description: "Корпоративные технологии, поставка и интеграция под ключ",
     images: ["/opengraph-image"],
   },

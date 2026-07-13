@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'TechCatalyst — зарубежное ПО, AI, Guard и корпоративный VPN';
+export const alt = 'TechCatalyst — зарубежное ПО, ИИ, Guard и корпоративный VPN';
 export const size = {
   width: 1200,
   height: 630,
@@ -75,12 +75,12 @@ export default function OpengraphImage() {
               Доступ, внедрение и безопасность в одном контуре
             </div>
             <div style={{ fontSize: 28, lineHeight: 1.3, color: '#6f7988', maxWidth: 980 }}>
-              Поставка зарубежного ПО, корпоративный AI, безопасное рабочее место разработчика и VPN-инфраструктура.
+              Поставка зарубежного ПО, корпоративный ИИ, безопасное рабочее место разработчика и VPN-инфраструктура.
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {['Зарубежное ПО', 'AI и интеграция', 'TechCatalyst Guard', 'TechCatalyst VPN'].map((item) => (
+            {['Зарубежное ПО', 'ИИ и интеграция', 'TechCatalyst Guard', 'TechCatalyst VPN'].map((item) => (
               <div
                 key={item}
                 style={{

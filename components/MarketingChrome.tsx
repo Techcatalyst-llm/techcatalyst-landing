@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const products = [
   { href: '/zakupka-zarubezhnogo-po', label: 'Зарубежное ПО' },
-  { href: '/postavka-i-integraciya-ai', label: 'AI и интеграция' },
+  { href: '/postavka-i-integraciya-ai', label: 'ИИ и интеграция' },
   { href: '/techcatalyst-vpn', label: 'TechCatalyst VPN' },
 ];
 
