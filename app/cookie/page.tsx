@@ -16,7 +16,7 @@ export default function CookiePage() {
     <LegalPage
       title="Политика cookie"
       subtitle="Какие cookie использует сайт ТехКаталист, для чего они нужны и как их отключить."
-      updatedAt="30 июня 2026 года"
+      updatedAt="13 июля 2026 года"
     >
       <h2>1. Что такое cookie</h2>
       <p>

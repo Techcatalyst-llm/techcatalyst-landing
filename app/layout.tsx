@@ -1,23 +1,15 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const rubik = Rubik({
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-rubik",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techcatalyst.ru'),
-  title: "ТехКаталист — единый API для ИИ-моделей и корпоративной закупки",
-  description: "ChatGPT, Claude, Gemini, Grok и другие ИИ-модели в одном API. Маршрутизация, биллинг в рублях, доступ для команд и корпоративная закупка.",
-  keywords: "AI API, ChatGPT API, Claude API, Gemini API, unified API, LLM gateway, AI models, ТехКаталист, корпоративная закупка ПО",
+  title: "TechCatalyst — зарубежное ПО, AI, Guard и корпоративный VPN",
+  description: "Поставка зарубежного ПО, корпоративный AI и интеграция, безопасное рабочее место разработчика TechCatalyst Guard и управляемая VPN-инфраструктура.",
+  keywords: "TechCatalyst, поставка зарубежного ПО, интеграция AI, корпоративный AI, безопасное рабочее место разработчика, TechCatalyst Guard, корпоративный VPN",
   openGraph: {
-    title: "ТехКаталист — единый API для ИИ-моделей и корпоративной закупки",
-    description: "ChatGPT, Claude, Gemini, Grok и другие ИИ-модели в одном API. Маршрутизация, биллинг и доступ для команд.",
+    title: "TechCatalyst — зарубежное ПО, AI, Guard и корпоративный VPN",
+    description: "Единая продуктовая линейка для корпоративного доступа, внедрения и безопасности.",
     type: "website",
     url: "https://techcatalyst.ru",
     locale: "ru_RU",
@@ -26,14 +18,14 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "ТехКаталист — единый API для ИИ-моделей",
+        alt: "TechCatalyst — корпоративные технологические решения",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ТехКаталист — единый API для ИИ-моделей и корпоративной закупки",
-    description: "ChatGPT, Claude, Gemini, Grok и другие ИИ-модели в одном API",
+    title: "TechCatalyst — зарубежное ПО, AI, Guard и корпоративный VPN",
+    description: "Корпоративные технологии, поставка и интеграция под ключ",
     images: ["/opengraph-image"],
   },
 };
@@ -46,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${rubik.variable} scroll-smooth`}>
+    <html lang="ru" className="scroll-smooth">
       <body className="font-sans antialiased">
         {children}
         <Script id="yandex-metrika" strategy="afterInteractive">

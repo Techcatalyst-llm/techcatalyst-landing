@@ -1,17 +1,4 @@
 import Link from 'next/link';
-import { Inter, Lora } from 'next/font/google';
-
-const inter = Inter({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-});
-
-const lora = Lora({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500'],
-  display: 'swap',
-});
 
 interface LegalPageProps {
   title: string;
@@ -22,11 +9,11 @@ interface LegalPageProps {
 
 export default function LegalPage({ title, subtitle, updatedAt, children }: LegalPageProps) {
   return (
-    <div className={`${inter.className} min-h-screen bg-white text-[#1c1d1f]`} style={{ fontFeatureSettings: '"ss03"' }}>
+    <div className="min-h-screen bg-white font-sans text-[#1c1d1f]" style={{ fontFeatureSettings: '"ss03"' }}>
       <header className="border-b border-[#e4e7ec] bg-white">
         <div className="mx-auto flex max-w-[1040px] items-center justify-between px-6 py-5 sm:px-8">
           <Link href="/" className="text-[16px] font-semibold tracking-[-0.01em] text-[#1c1d1f]">
-            ТехКаталист
+            TechCatalyst
           </Link>
           <div className="flex items-center gap-4 text-[14px] text-[#6f7988]">
             <Link href="/privacy" className="transition-colors hover:text-[#1c1d1f]">
@@ -43,7 +30,7 @@ export default function LegalPage({ title, subtitle, updatedAt, children }: Lega
         <div className="max-w-[760px]">
           <div className="text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">Юридические документы</div>
           <h1
-            className={`${lora.className} mt-4 text-[36px] font-medium leading-[1.08] tracking-[-0.7px] text-[#1c1d1f] sm:text-[48px]`}
+            className="mt-4 text-[36px] font-medium leading-[1.08] tracking-[-0.7px] text-[#1c1d1f] sm:text-[48px]"
             style={{ fontFeatureSettings: '"ss03"' }}
           >
             {title}

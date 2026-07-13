@@ -2,27 +2,14 @@
 
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { Inter, Lora } from 'next/font/google';
 import { X } from 'lucide-react';
-
-const inter = Inter({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-});
-
-const lora = Lora({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500'],
-  display: 'swap',
-});
 
 interface ApplicationModalProps {
   isOpen: boolean;
   onClose: () => void;
   source?: string;
   language?: 'en' | 'ru';
-  variant?: 'default' | 'procurement';
+  variant?: 'default' | 'business' | 'procurement' | 'ai' | 'vpn';
 }
 
 export default function ApplicationModal({
@@ -81,6 +68,54 @@ export default function ApplicationModal({
         requireCompany: false,
       },
     },
+    business: {
+      en: {
+        badge: 'Business request',
+        title: 'Discuss your task with',
+        highlight: 'TechCatalyst',
+        subtitle: 'Tell us which product, users and target result you need. We will suggest the next working step.',
+        name: 'Name *',
+        company: 'Company *',
+        email: 'Email *',
+        telegram: 'Telegram',
+        useCase: 'Task *',
+        placeholder: {
+          name: 'John',
+          company: 'Example Inc.',
+          email: 'john@example.com',
+          telegram: '@username',
+          useCase: 'Software procurement, AI integration, developer workstation security or corporate VPN.',
+        },
+        submitting: 'Submitting...',
+        submit: 'Send request',
+        success: 'Request submitted. We will contact you shortly.',
+        error: 'Request failed. Please try again.',
+        requireCompany: true,
+      },
+      ru: {
+        badge: 'Корпоративный запрос',
+        title: 'Обсудить задачу с',
+        highlight: 'TechCatalyst',
+        subtitle: 'Укажите продукт, число пользователей и желаемый результат. Предложим следующий рабочий шаг.',
+        name: 'Имя *',
+        company: 'Компания *',
+        email: 'Эл. почта *',
+        telegram: 'Telegram',
+        useCase: 'Задача *',
+        placeholder: {
+          name: 'Иван',
+          company: 'ООО «Компания»',
+          email: 'ivan@company.ru',
+          telegram: '@username',
+          useCase: 'Поставка ПО, AI-интеграция, безопасное рабочее место разработчика или корпоративный VPN.',
+        },
+        submitting: 'Отправка...',
+        submit: 'Отправить запрос',
+        success: 'Запрос отправлен. Мы свяжемся с вами в ближайшее время.',
+        error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
+        requireCompany: true,
+      },
+    },
     procurement: {
       en: {
         badge: 'Procurement request',
@@ -129,6 +164,102 @@ export default function ApplicationModal({
         submitting: 'Отправка...',
         submit: 'Получить расчёт закупки',
         success: 'Запрос отправлен. Подготовим маршрут закупки и свяжемся с вами.',
+        error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
+        requireCompany: true,
+      },
+    },
+    ai: {
+      en: {
+        badge: 'AI delivery and integration',
+        title: 'Build an AI scope with',
+        highlight: 'TechCatalyst',
+        subtitle: 'Describe users, target systems, providers and the business result you need.',
+        name: 'Name *',
+        company: 'Company *',
+        email: 'Email *',
+        telegram: 'Telegram',
+        useCase: 'AI task *',
+        placeholder: {
+          name: 'John',
+          company: 'Example Inc.',
+          email: 'john@example.com',
+          telegram: '@username',
+          useCase: 'For example: 50 users, unified API, provider routing, limits and integration with an internal product.',
+        },
+        submitting: 'Submitting...',
+        submit: 'Discuss AI project',
+        success: 'Request submitted. We will contact you shortly.',
+        error: 'Request failed. Please try again.',
+        requireCompany: true,
+      },
+      ru: {
+        badge: 'Поставка и интеграция AI',
+        title: 'Собрать AI-контур с',
+        highlight: 'TechCatalyst',
+        subtitle: 'Опишите пользователей, целевые системы, поставщиков и бизнес-результат.',
+        name: 'Имя *',
+        company: 'Компания *',
+        email: 'Эл. почта *',
+        telegram: 'Telegram',
+        useCase: 'AI-задача *',
+        placeholder: {
+          name: 'Иван',
+          company: 'ООО «Компания»',
+          email: 'ivan@company.ru',
+          telegram: '@username',
+          useCase: 'Например: 50 пользователей, единый API, маршрутизация, лимиты и интеграция с внутренним продуктом.',
+        },
+        submitting: 'Отправка...',
+        submit: 'Обсудить AI-проект',
+        success: 'Запрос отправлен. Мы свяжемся с вами в ближайшее время.',
+        error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
+        requireCompany: true,
+      },
+    },
+    vpn: {
+      en: {
+        badge: 'Corporate VPN',
+        title: 'Select a VPN scope with',
+        highlight: 'TechCatalyst',
+        subtitle: 'Tell us the user count, devices, locations, egress IP and administration model.',
+        name: 'Name *',
+        company: 'Company *',
+        email: 'Email *',
+        telegram: 'Telegram',
+        useCase: 'VPN requirements *',
+        placeholder: {
+          name: 'John',
+          company: 'Example Inc.',
+          email: 'john@example.com',
+          telegram: '@username',
+          useCase: 'For example: 80 users, managed VPN, dedicated egress IP, macOS and Windows.',
+        },
+        submitting: 'Submitting...',
+        submit: 'Request VPN scope',
+        success: 'Request submitted. We will contact you shortly.',
+        error: 'Request failed. Please try again.',
+        requireCompany: true,
+      },
+      ru: {
+        badge: 'Корпоративный VPN',
+        title: 'Подобрать VPN-контур с',
+        highlight: 'TechCatalyst',
+        subtitle: 'Укажите число пользователей, устройства, географию, egress IP и модель администрирования.',
+        name: 'Имя *',
+        company: 'Компания *',
+        email: 'Эл. почта *',
+        telegram: 'Telegram',
+        useCase: 'Требования к VPN *',
+        placeholder: {
+          name: 'Иван',
+          company: 'ООО «Компания»',
+          email: 'ivan@company.ru',
+          telegram: '@username',
+          useCase: 'Например: 80 пользователей, managed VPN, выделенный egress IP, macOS и Windows.',
+        },
+        submitting: 'Отправка...',
+        submit: 'Получить схему VPN',
+        success: 'Запрос отправлен. Мы свяжемся с вами в ближайшее время.',
         error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
         requireCompany: true,
       },
@@ -196,7 +327,7 @@ export default function ApplicationModal({
   if (!isOpen) return null;
 
   return (
-    <div className={`${inter.className} fixed inset-0 z-[100] flex items-center justify-center p-4`} style={{ fontFeatureSettings: '"ss03"' }}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-sans" style={{ fontFeatureSettings: '"ss03"' }}>
       <div className="absolute inset-0 bg-[rgba(28,29,31,.42)] backdrop-blur-sm" onClick={onClose} />
 
       <div
@@ -217,7 +348,7 @@ export default function ApplicationModal({
         <div className="mb-6 pr-10">
           <div className="mb-3 text-[12px] font-medium uppercase tracking-[0.08em] text-[#407ff2]">{translations.badge}</div>
           <h3
-            className={`${lora.className} text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f]`}
+            className="text-[28px] font-medium leading-[1.23] tracking-[-0.42px] text-[#1c1d1f]"
             style={{ fontFeatureSettings: '"ss03"' }}
           >
             {translations.title} <span>{translations.highlight}</span>

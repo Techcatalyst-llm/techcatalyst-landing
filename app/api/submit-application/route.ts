@@ -8,7 +8,7 @@ interface ApplicationData {
   telegram: string;
   mvpDescription: string;
   source: string;
-  type?: 'default' | 'procurement';
+  type?: 'default' | 'business' | 'procurement' | 'ai' | 'vpn';
 }
 
 export async function POST(request: NextRequest) {
@@ -24,9 +24,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Format Telegram message
-    const requestType = data.type === 'procurement' ? 'procurement' : 'default';
+    const requestType = data.type || 'default';
+    const requestLabels: Record<string, string> = {
+      default: '🚀 <b>New TechCatalyst Application</b>',
+      business: '🏢 <b>New TechCatalyst Business Request</b>',
+      procurement: '🧾 <b>New Software Procurement Request</b>',
+      ai: '🤖 <b>New AI Delivery & Integration Request</b>',
+      vpn: '🔐 <b>New TechCatalyst VPN Request</b>',
+    };
     const message = `
-${requestType === 'procurement' ? '🧾 <b>New Software Procurement Request</b>' : '🚀 <b>New Tech Catalyst Application</b>'}
+${requestLabels[requestType] || requestLabels.default}
 
 👤 <b>Name:</b> ${escapeHtml(data.firstName)}
 🏢 <b>Company:</b> ${escapeHtml(data.company || 'Not provided')}

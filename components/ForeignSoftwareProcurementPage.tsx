@@ -758,7 +758,7 @@ export default function ForeignSoftwareProcurementPage() {
       <footer className="border-t border-[#edf0f7] bg-[#f9fafc] py-12 text-[14px]">
         <Wrap className="grid gap-10 md:grid-cols-[1.1fr_.9fr]">
           <div>
-            <div className="text-[14px] font-semibold text-[#222]">ТехКаталист</div>
+            <div className="text-[14px] font-semibold text-[#222]">TechCatalyst</div>
             <p className="mt-3 max-w-[440px] text-[14px] leading-[1.43] tracking-[-0.14px] text-[#63666a]">
               Закупка зарубежного ПО для юридических лиц: ИИ-сервисы, облачные продукты и корпоративные лицензии с поставкой от 7 рабочих дней.
             </p>

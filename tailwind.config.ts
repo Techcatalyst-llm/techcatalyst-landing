@@ -20,7 +20,7 @@ const config: Config = {
         line: "#edf0f7",
       },
       fontFamily: {
-        sans: ["var(--font-rubik)", "Arial", "sans-serif"],
+        sans: ["Inter", "Segoe UI", "Arial", "sans-serif"],
         mono: ["SF Mono", "JetBrains Mono", "Menlo", "ui-monospace", "monospace"],
       },
       boxShadow: {

@@ -59,6 +59,8 @@ const jsonLd = {
         '@type': 'Organization',
         name: 'ТехКаталист',
         legalName: 'ИП Борисов Иван Анатольевич',
+        taxID: '575307745402',
+        identifier: 'ОГРНИП 320574900010615',
         url: 'https://techcatalyst.ru',
       },
       audience: {

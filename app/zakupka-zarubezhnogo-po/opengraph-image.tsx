@@ -41,7 +41,7 @@ export default function OpengraphImage() {
                 background: '#ffffff',
               }}
             >
-              ТехКаталист
+              ▲ TechCatalyst
             </div>
           </div>
 

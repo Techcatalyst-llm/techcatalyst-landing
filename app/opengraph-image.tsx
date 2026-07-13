@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'ТехКаталист — единый API для ИИ-моделей';
+export const alt = 'TechCatalyst — зарубежное ПО, AI, Guard и корпоративный VPN';
 export const size = {
   width: 1200,
   height: 630,
@@ -49,7 +49,7 @@ export default function OpengraphImage() {
                 background: '#ffffff',
               }}
             >
-              ТехКаталист
+              ▲ TechCatalyst
             </div>
           </div>
 
@@ -69,18 +69,18 @@ export default function OpengraphImage() {
                 alignSelf: 'flex-start',
               }}
             >
-              Единый доступ к ИИ
+              Корпоративные технологии
             </div>
             <div style={{ fontSize: 62, lineHeight: 1.02, fontWeight: 500, letterSpacing: '-1.2px' }}>
-              Один API для ведущих ИИ-моделей
+              Доступ, внедрение и безопасность в одном контуре
             </div>
             <div style={{ fontSize: 28, lineHeight: 1.3, color: '#6f7988', maxWidth: 980 }}>
-              ChatGPT, Claude, Gemini, Grok и другие провайдеры. Маршрутизация, биллинг и доступ для команд.
+              Поставка зарубежного ПО, корпоративный AI, безопасное рабочее место разработчика и VPN-инфраструктура.
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {['OpenAI', 'Claude', 'Gemini', 'Оплата в рублях', 'Управление командой', 'Закупка ПО'].map((item) => (
+            {['Зарубежное ПО', 'AI и интеграция', 'TechCatalyst Guard', 'TechCatalyst VPN'].map((item) => (
               <div
                 key={item}
                 style={{
