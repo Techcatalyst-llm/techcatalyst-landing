@@ -186,7 +186,7 @@ function Wrap({ children, className = '' }: { children: React.ReactNode; classNa
 }
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <div className={`rounded-[20px] border border-[#edf0f7] bg-white ${className}`}>{children}</div>;
+  return <div className={`rounded-[14px] border border-[#e4e8f4] bg-white ${className}`}>{children}</div>;
 }
 
 export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
@@ -199,42 +199,43 @@ export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
   };
 
   return (
-    <div className="bg-white text-[#222]">
+    <div className="bg-white text-[#0d1326]">
       <MarketingHeader />
       <main>
-        <section className="overflow-hidden border-b border-[#edf0f7] bg-[radial-gradient(900px_520px_at_83%_-12%,rgba(24,55,218,.12),transparent_62%)]">
-          <Wrap className="grid items-center gap-12 py-[78px] lg:grid-cols-[1.04fr_.96fr] lg:py-[104px]">
+        <section className="relative overflow-hidden border-b border-[#e4e8f4] bg-[radial-gradient(900px_520px_at_83%_-12%,rgba(43,70,240,.09),transparent_62%)]">
+          <div className="bg-grid-light absolute inset-0" aria-hidden="true" />
+          <Wrap className="relative grid items-center gap-12 py-[78px] lg:grid-cols-[1.04fr_.96fr] lg:py-[104px]">
             <div>
-              <div className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[#1837da]">{config.kicker}</div>
+              <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">{config.kicker}</div>
               <h1 className="mt-5 text-[clamp(38px,5.1vw,62px)] font-bold leading-[1.06] tracking-[-0.035em]">{config.title}</h1>
-              <p className="mt-6 max-w-[760px] text-[17px] leading-[1.62] text-[#63666a] md:text-[19px]">{config.lead}</p>
+              <p className="mt-6 max-w-[760px] text-[17px] leading-[1.62] text-[#565e78] md:text-[19px]">{config.lead}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <button type="button" onClick={() => openModal('hero')} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1837da] px-7 py-3 text-[15px] font-semibold text-white transition hover:-translate-y-px hover:bg-[#0046f9]">
+                <button type="button" onClick={() => openModal('hero')} className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-[#2b46f0] px-7 py-3 text-[15px] font-semibold text-white transition hover:-translate-y-px hover:bg-[#1c33d4]">
                   {config.cta} <ArrowRight className="h-4 w-4" />
                 </button>
-                <a href="#solutions" className="inline-flex items-center justify-center rounded-full border border-[#d6dcec] bg-white px-7 py-3 text-[15px] font-semibold text-[#313131] transition hover:border-[#1837da] hover:text-[#1837da]">
+                <a href="#solutions" className="inline-flex items-center justify-center rounded-[10px] border border-[#c9d2ea] bg-white px-7 py-3 text-[15px] font-semibold text-[#232a42] transition hover:border-[#2b46f0] hover:text-[#2b46f0]">
                   Смотреть состав решения
                 </a>
               </div>
               <div className="mt-7 flex flex-wrap gap-2.5">
                 {config.chips.map((chip) => (
-                  <span key={chip} className="rounded-full border border-[#edf0f7] bg-white px-3.5 py-1.5 text-[13px] font-medium text-[#63666a] before:mr-2 before:text-[9px] before:text-[#10bc10] before:content-['●']">{chip}</span>
+                  <span key={chip} className="rounded-[10px] border border-[#e4e8f4] bg-white px-3.5 py-1.5 text-[13px] font-medium text-[#565e78] before:mr-2 before:text-[9px] before:text-[#0aa34f] before:content-['●']">{chip}</span>
                 ))}
               </div>
             </div>
 
             <Card className="p-5 shadow-[rgba(28,40,64,.08)_0_18px_45px_-22px] sm:p-6">
-              <div className="flex items-center justify-between border-b border-[#edf0f7] pb-5">
+              <div className="flex items-center justify-between border-b border-[#e4e8f4] pb-5">
                 <div className="text-[22px] font-semibold tracking-[-0.02em]">{config.heroTitle}</div>
-                {kind === 'ai' ? <Bot className="h-6 w-6 text-[#1837da]" /> : <Network className="h-6 w-6 text-[#1837da]" />}
+                {kind === 'ai' ? <Bot className="h-6 w-6 text-[#2b46f0]" /> : <Network className="h-6 w-6 text-[#2b46f0]" />}
               </div>
               <div className="mt-5 grid gap-3">
                 {config.heroItems.map(([number, title, text]) => (
-                  <div key={number} className="grid grid-cols-[48px_1fr] gap-3 rounded-[14px] border border-[#edf0f7] bg-[#f9fafc] p-4">
-                    <div className="font-mono text-[13px] font-semibold text-[#1837da]">{number}</div>
+                  <div key={number} className="grid grid-cols-[48px_1fr] gap-3 rounded-[14px] border border-[#e4e8f4] bg-[#f6f8fc] p-4">
+                    <div className="font-mono text-[13px] font-semibold text-[#2b46f0]">{number}</div>
                     <div>
                       <div className="text-[17px] font-semibold">{title}</div>
-                      <div className="mt-1 text-[13px] text-[#63666a]">{text}</div>
+                      <div className="mt-1 text-[13px] text-[#565e78]">{text}</div>
                     </div>
                   </div>
                 ))}
@@ -246,7 +247,7 @@ export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
         <section id="solutions" className="py-[82px] lg:py-[100px]">
           <Wrap>
             <div className="max-w-[850px]">
-              <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Линейка решения</div>
+              <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Линейка решения</div>
               <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.025em] md:text-[46px]">{config.sectionTitle}</h2>
             </div>
             <div className="mt-10 grid gap-5 lg:grid-cols-2">
@@ -254,12 +255,12 @@ export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
                 const Icon = offer.icon;
                 return (
                   <Card key={offer.title} className="p-6 sm:p-7">
-                    <Icon className="h-6 w-6 text-[#1837da]" />
+                    <Icon className="h-6 w-6 text-[#2b46f0]" />
                     <h3 className="mt-5 text-[27px] font-semibold leading-[1.15] tracking-[-0.02em]">{offer.title}</h3>
-                    <p className="mt-3 text-[15px] leading-[1.6] text-[#63666a]">{offer.text}</p>
+                    <p className="mt-3 text-[15px] leading-[1.6] text-[#565e78]">{offer.text}</p>
                     <ul className="mt-5 space-y-2.5">
                       {offer.items.map((item) => (
-                        <li key={item} className="flex gap-2.5 text-[14px] text-[#313131]"><BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#1837da]" />{item}</li>
+                        <li key={item} className="flex gap-2.5 text-[14px] text-[#232a42]"><BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#2b46f0]" />{item}</li>
                       ))}
                     </ul>
                   </Card>
@@ -269,18 +270,18 @@ export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
           </Wrap>
         </section>
 
-        <section className="border-y border-[#edf0f7] bg-[#f9fafc] py-[82px] lg:py-[100px]">
+        <section className="border-y border-[#e4e8f4] bg-[#f6f8fc] py-[82px] lg:py-[100px]">
           <Wrap>
             <div className="max-w-[860px]">
-              <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Ценность</div>
+              <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Ценность</div>
               <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.025em] md:text-[44px]">{config.valueTitle}</h2>
             </div>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {config.values.map(([title, text, Icon]) => (
                 <Card key={String(title)} className="p-5">
-                  <Icon className="h-5 w-5 text-[#1837da]" />
+                  <Icon className="h-5 w-5 text-[#2b46f0]" />
                   <h3 className="mt-4 text-[20px] font-semibold">{String(title)}</h3>
-                  <p className="mt-2 text-[14px] leading-[1.55] text-[#63666a]">{String(text)}</p>
+                  <p className="mt-2 text-[14px] leading-[1.55] text-[#565e78]">{String(text)}</p>
                 </Card>
               ))}
             </div>
@@ -290,17 +291,17 @@ export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
         <section className="py-[82px] lg:py-[100px]">
           <Wrap className="grid gap-10 lg:grid-cols-[.78fr_1.22fr]">
             <div>
-              <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Процесс</div>
+              <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Процесс</div>
               <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.025em] md:text-[44px]">От запроса до рабочего контура</h2>
-              <p className="mt-4 text-[15px] leading-[1.6] text-[#63666a]">Сроки и состав каждого этапа зависят от поставщика, масштаба и интеграций и фиксируются в коммерческом предложении.</p>
+              <p className="mt-4 text-[15px] leading-[1.6] text-[#565e78]">Сроки и состав каждого этапа зависят от поставщика, масштаба и интеграций и фиксируются в коммерческом предложении.</p>
             </div>
             <div className="grid gap-3">
               {config.process.map(([title, text], index) => (
-                <div key={title} className="grid grid-cols-[48px_1fr] gap-4 rounded-[16px] border border-[#edf0f7] p-5">
-                  <div className="font-mono text-[12px] font-semibold text-[#1837da]">0{index + 1}</div>
+                <div key={title} className="grid grid-cols-[48px_1fr] gap-4 rounded-[14px] border border-[#e4e8f4] p-5">
+                  <div className="font-mono text-[12px] font-semibold text-[#2b46f0]">0{index + 1}</div>
                   <div>
                     <h3 className="text-[19px] font-semibold">{title}</h3>
-                    <p className="mt-1 text-[14px] leading-[1.55] text-[#63666a]">{text}</p>
+                    <p className="mt-1 text-[14px] leading-[1.55] text-[#565e78]">{text}</p>
                   </div>
                 </div>
               ))}
@@ -308,16 +309,16 @@ export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
           </Wrap>
         </section>
 
-        <section className="border-y border-[#edf0f7] bg-[#f9fafc] py-[82px] lg:py-[100px]">
+        <section className="border-y border-[#e4e8f4] bg-[#f6f8fc] py-[82px] lg:py-[100px]">
           <Wrap>
-            <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Сценарии</div>
+            <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Сценарии</div>
             <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.025em] md:text-[44px]">{config.useTitle}</h2>
             <div className="mt-9 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {config.useCases.map(([title, text]) => (
                 <Card key={title} className="p-5">
-                  <div className="flex items-center gap-2 text-[#1837da]"><Check className="h-4 w-4" /><span className="text-[11px] font-semibold uppercase tracking-[0.08em]">сценарий</span></div>
+                  <div className="flex items-center gap-2 text-[#2b46f0]"><Check className="h-4 w-4" /><span className="text-[11px] font-semibold uppercase tracking-[0.08em]">сценарий</span></div>
                   <h3 className="mt-4 text-[20px] font-semibold">{title}</h3>
-                  <p className="mt-2 text-[14px] leading-[1.55] text-[#63666a]">{text}</p>
+                  <p className="mt-2 text-[14px] leading-[1.55] text-[#565e78]">{text}</p>
                 </Card>
               ))}
             </div>
@@ -327,30 +328,30 @@ export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
         <section className="py-[82px] lg:py-[100px]">
           <Wrap>
             <div className="max-w-[800px]">
-              <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Доказательная база</div>
+              <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Доказательная база</div>
               <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.025em] md:text-[44px]">{config.proofTitle}</h2>
             </div>
             <div className="mt-9 grid gap-4 lg:grid-cols-3">
               {config.proofs.map(([title, text]) => (
                 <Card key={title} className="p-5">
-                  <FileCheck2 className="h-5 w-5 text-[#1837da]" />
+                  <FileCheck2 className="h-5 w-5 text-[#2b46f0]" />
                   <h3 className="mt-4 text-[20px] font-semibold">{title}</h3>
-                  <p className="mt-2 text-[14px] leading-[1.55] text-[#63666a]">{text}</p>
+                  <p className="mt-2 text-[14px] leading-[1.55] text-[#565e78]">{text}</p>
                 </Card>
               ))}
             </div>
           </Wrap>
         </section>
 
-        <section className="border-y border-[#edf0f7] bg-[#f9fafc] py-[82px] lg:py-[100px]">
+        <section className="border-y border-[#e4e8f4] bg-[#f6f8fc] py-[82px] lg:py-[100px]">
           <Wrap>
-            <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Вопросы и ответы</div>
+            <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Вопросы и ответы</div>
             <h2 className="mt-4 text-[32px] font-semibold tracking-[-0.025em] md:text-[44px]">Частые вопросы</h2>
             <div className="mt-9 grid gap-3">
               {config.faq.map(([question, answer]) => (
-                <details key={question} className="rounded-[16px] border border-[#edf0f7] bg-white px-5 open:border-[#dfe5ff]">
+                <details key={question} className="rounded-[14px] border border-[#e4e8f4] bg-white px-5 open:border-[#e3e9ff]">
                   <summary className="cursor-pointer list-none py-5 text-[17px] font-semibold">{question}</summary>
-                  <p className="max-w-[900px] pb-5 text-[14px] leading-[1.6] text-[#63666a]">{answer}</p>
+                  <p className="max-w-[900px] pb-5 text-[14px] leading-[1.6] text-[#565e78]">{answer}</p>
                 </details>
               ))}
             </div>
@@ -359,12 +360,12 @@ export default function ProductLandingPage({ kind }: { kind: ProductKind }) {
 
         <section id="contact" className="py-[82px] lg:py-[100px]">
           <Wrap>
-            <Card className="bg-[radial-gradient(700px_280px_at_95%_0%,rgba(24,55,218,.13),transparent_62%)] p-6 sm:p-9">
+            <Card className="bg-[radial-gradient(700px_280px_at_95%_0%,rgba(43,70,240,.13),transparent_62%)] p-6 sm:p-9">
               <div className="max-w-[780px]">
-                <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">ТехКаталист · договор и документы</div>
+                <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">ТехКаталист · договор и документы</div>
                 <h2 className="mt-4 text-[32px] font-semibold leading-[1.14] tracking-[-0.025em] md:text-[46px]">Соберём решение под ваш масштаб и требования</h2>
-                <p className="mt-4 text-[16px] leading-[1.6] text-[#63666a]">Опишите число пользователей, текущую инфраструктуру и желаемый результат. Подготовим вопросы для обследования и предложим формат поставки.</p>
-                <button type="button" onClick={() => openModal('final')} className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#1837da] px-7 py-3 text-[15px] font-semibold text-white transition hover:-translate-y-px hover:bg-[#0046f9]">
+                <p className="mt-4 text-[16px] leading-[1.6] text-[#565e78]">Опишите число пользователей, текущую инфраструктуру и желаемый результат. Подготовим вопросы для обследования и предложим формат поставки.</p>
+                <button type="button" onClick={() => openModal('final')} className="mt-7 inline-flex items-center gap-2 rounded-[10px] bg-[#2b46f0] px-7 py-3 text-[15px] font-semibold text-white transition hover:-translate-y-px hover:bg-[#1c33d4]">
                   {config.cta} <ArrowRight className="h-4 w-4" />
                 </button>
               </div>

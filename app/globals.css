@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --blue: #1837da;
-  --blue-bright: #0046f9;
-  --blue-soft: #e2e2fd;
-  --text: #313131;
-  --muted: #63666a;
-  --border: #edf0f7;
+  --blue: #2b46f0;
+  --blue-bright: #1c33d4;
+  --blue-soft: #e3e9ff;
+  --text: #232a42;
+  --heading: #0d1326;
+  --muted: #565e78;
+  --border: #e4e8f4;
 }
 
 html {
@@ -20,6 +21,7 @@ body {
   color: var(--text);
   font-family: Inter, "Segoe UI", Arial, sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
@@ -40,9 +42,18 @@ input:focus-visible,
 textarea:focus-visible,
 summary:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(148, 185, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(43, 70, 240, 0.28);
 }
 
 summary::-webkit-details-marker {
   display: none;
+}
+
+/* engineering grid backdrop for hero sections */
+.bg-grid-light {
+  background-image: linear-gradient(rgba(13, 19, 38, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 19, 38, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(640px 380px at 82% -8%, #000 30%, transparent 72%);
+  mask-image: radial-gradient(640px 380px at 82% -8%, #000 30%, transparent 72%);
 }

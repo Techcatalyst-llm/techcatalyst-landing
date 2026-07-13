@@ -94,7 +94,7 @@ function Wrap({ children, className = '' }: { children: React.ReactNode; classNa
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-[20px] border border-[#edf0f7] bg-white shadow-[rgba(28,40,64,.06)_0_4px_18px_-8px] ${className}`}>
+    <div className={`rounded-[14px] border border-[#e4e8f4] bg-white shadow-[rgba(28,40,64,.06)_0_4px_18px_-8px] ${className}`}>
       {children}
     </div>
   );
@@ -111,20 +111,21 @@ export default function PortfolioLandingPage() {
   };
 
   return (
-    <div className="bg-white text-[#222]">
+    <div className="bg-white text-[#0d1326]">
       <MarketingHeader />
 
       <main>
-        <section className="relative overflow-hidden border-b border-[#edf0f7] bg-[radial-gradient(900px_500px_at_84%_-10%,rgba(24,55,218,.12),transparent_60%)]">
-          <Wrap className="grid items-center gap-12 py-[78px] lg:grid-cols-[1.05fr_.95fr] lg:py-[104px]">
+        <section className="relative overflow-hidden border-b border-[#e4e8f4] bg-[radial-gradient(900px_500px_at_84%_-10%,rgba(43,70,240,.09),transparent_60%)]">
+          <div className="bg-grid-light absolute inset-0" aria-hidden="true" />
+          <Wrap className="relative grid items-center gap-12 py-[78px] lg:grid-cols-[1.05fr_.95fr] lg:py-[104px]">
             <div>
-              <div className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[#1837da]">
+              <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">
                 Продуктовая линейка TechCatalyst
               </div>
-              <h1 className="mt-5 max-w-[780px] text-[clamp(38px,5.2vw,64px)] font-bold leading-[1.06] tracking-[-0.035em] text-[#222]">
+              <h1 className="mt-5 max-w-[780px] text-[clamp(38px,5.2vw,64px)] font-bold leading-[1.06] tracking-[-0.035em] text-[#0d1326]">
                 Технологический контур для работы с зарубежным ПО и ИИ
               </h1>
-              <p className="mt-6 max-w-[740px] text-[17px] leading-[1.62] text-[#63666a] md:text-[19px]">
+              <p className="mt-6 max-w-[740px] text-[17px] leading-[1.62] text-[#565e78] md:text-[19px]">
                 Поставляем лицензии, подключаем и интегрируем ИИ, защищаем рабочие места разработчиков и разворачиваем управляемую VPN-инфраструктуру. Один подрядчик — от коммерческой схемы до работающего технического контура.
               </p>
 
@@ -132,13 +133,13 @@ export default function PortfolioLandingPage() {
                 <button
                   type="button"
                   onClick={() => openModal('portfolio_hero')}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#1837da] bg-[#1837da] px-7 py-3 text-[15px] font-semibold text-white transition hover:-translate-y-px hover:bg-[#0046f9]"
+                  className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-[#2b46f0] bg-[#2b46f0] px-7 py-3 text-[15px] font-semibold text-white shadow-cta transition hover:-translate-y-px hover:border-[#1c33d4] hover:bg-[#1c33d4]"
                 >
                   Обсудить задачу <ArrowRight className="h-4 w-4" />
                 </button>
                 <a
                   href="#products"
-                  className="inline-flex items-center justify-center rounded-full border border-[#d6dcec] bg-white px-7 py-3 text-[15px] font-semibold text-[#313131] transition hover:border-[#1837da] hover:text-[#1837da]"
+                  className="inline-flex items-center justify-center rounded-[10px] border border-[#c9d2ea] bg-white px-7 py-3 text-[15px] font-semibold text-[#232a42] transition hover:border-[#2b46f0] hover:text-[#2b46f0]"
                 >
                   Смотреть продукты
                 </a>
@@ -146,7 +147,7 @@ export default function PortfolioLandingPage() {
 
               <div className="mt-7 flex flex-wrap gap-2.5">
                 {['ИП · договор и документы', 'Корпоративная поставка', 'Документы для бухгалтерии', 'Инженерное внедрение'].map((item) => (
-                  <span key={item} className="rounded-full border border-[#edf0f7] bg-white px-3.5 py-1.5 text-[13px] font-medium text-[#63666a] before:mr-2 before:text-[9px] before:text-[#10bc10] before:content-['●']">
+                  <span key={item} className="rounded-[10px] border border-[#e4e8f4] bg-white px-3.5 py-1.5 text-[13px] font-medium text-[#565e78] before:mr-2 before:text-[9px] before:text-[#0aa34f] before:content-['●']">
                     {item}
                   </span>
                 ))}
@@ -154,12 +155,12 @@ export default function PortfolioLandingPage() {
             </div>
 
             <Card className="overflow-hidden p-5 sm:p-6">
-              <div className="flex items-center justify-between border-b border-[#edf0f7] pb-5">
+              <div className="flex items-center justify-between border-b border-[#e4e8f4] pb-5">
                 <div>
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Единый портфель</div>
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#2b46f0]">Единый портфель</div>
                   <div className="mt-2 text-[24px] font-semibold tracking-[-0.02em]">4 продукта — одна ответственность</div>
                 </div>
-                <Boxes className="h-7 w-7 text-[#1837da]" />
+                <Boxes className="h-7 w-7 text-[#2b46f0]" />
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {[
@@ -168,14 +169,14 @@ export default function PortfolioLandingPage() {
                   ['Guard', 'Безопасная разработка', ShieldCheck],
                   ['VPN', 'Доступ и инфраструктура', Network],
                 ].map(([title, text, Icon]) => (
-                  <div key={String(title)} className="rounded-[14px] border border-[#edf0f7] bg-[#f9fafc] p-4">
-                    <Icon className="h-5 w-5 text-[#1837da]" />
+                  <div key={String(title)} className="rounded-[14px] border border-[#e4e8f4] bg-[#f6f8fc] p-4">
+                    <Icon className="h-5 w-5 text-[#2b46f0]" />
                     <div className="mt-4 text-[18px] font-semibold">{String(title)}</div>
-                    <div className="mt-1 text-[13px] leading-[1.5] text-[#63666a]">{String(text)}</div>
+                    <div className="mt-1 text-[13px] leading-[1.5] text-[#565e78]">{String(text)}</div>
                   </div>
                 ))}
               </div>
-              <div className="mt-5 rounded-[14px] border border-[#dfe5ff] bg-[#f4f6ff] p-4 text-[14px] leading-[1.55] text-[#313131]">
+              <div className="mt-5 rounded-[14px] border border-[#e3e9ff] bg-[#f2f5ff] p-4 text-[14px] leading-[1.55] text-[#232a42]">
                 Коммерческая поставка, внедрение и поддержка собираются в один понятный план с зафиксированными границами ответственности.
               </div>
             </Card>
@@ -185,11 +186,11 @@ export default function PortfolioLandingPage() {
         <section id="products" className="py-[82px] lg:py-[100px]">
           <Wrap>
             <div className="max-w-[820px]">
-              <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Продукты</div>
+              <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Продукты</div>
               <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.025em] md:text-[46px]">
                 Закрываем доступ, внедрение и безопасность как одну систему
               </h2>
-              <p className="mt-4 text-[17px] leading-[1.6] text-[#63666a]">
+              <p className="mt-4 text-[17px] leading-[1.6] text-[#565e78]">
                 Каждый продукт можно купить отдельно. Вместе они образуют полный контур: от закупки лицензии и доступа к ИИ до управляемой сети и защиты рабочего места.
               </p>
             </div>
@@ -198,24 +199,24 @@ export default function PortfolioLandingPage() {
               {products.map((product) => {
                 const Icon = product.icon;
                 const card = (
-                  <Card className="group h-full p-6 transition hover:-translate-y-1 hover:border-[#dfe5ff] hover:shadow-[rgba(24,55,218,.12)_0_14px_30px_-18px] sm:p-7">
+                  <Card className="group h-full p-6 transition hover:-translate-y-1 hover:border-[#e3e9ff] hover:shadow-[rgba(43,70,240,.12)_0_14px_30px_-18px] sm:p-7">
                     <div className="flex items-center justify-between gap-4">
-                      <span className="font-mono text-[12px] font-semibold tracking-[0.08em] text-[#979797]">{product.number}</span>
-                      <span className="inline-flex rounded-[10px] border border-[#edf0f7] bg-[#f9fafc] p-2.5 text-[#1837da]">
+                      <span className="font-mono text-[12px] font-semibold tracking-[0.08em] text-[#8d93ab]">{product.number}</span>
+                      <span className="inline-flex rounded-[10px] border border-[#e4e8f4] bg-[#f6f8fc] p-2.5 text-[#2b46f0]">
                         <Icon className="h-5 w-5" />
                       </span>
                     </div>
-                    <div className="mt-6 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#1837da]">{product.line}</div>
+                    <div className="mt-6 font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">{product.line}</div>
                     <h3 className="mt-3 text-[29px] font-semibold leading-[1.12] tracking-[-0.025em]">{product.name}</h3>
-                    <p className="mt-4 text-[15px] leading-[1.62] text-[#63666a]">{product.description}</p>
+                    <p className="mt-4 text-[15px] leading-[1.62] text-[#565e78]">{product.description}</p>
                     <ul className="mt-5 grid gap-2.5">
                       {product.points.map((point) => (
-                        <li key={point} className="flex items-center gap-2.5 text-[14px] text-[#313131]">
-                          <BadgeCheck className="h-4 w-4 shrink-0 text-[#1837da]" /> {point}
+                        <li key={point} className="flex items-center gap-2.5 text-[14px] text-[#232a42]">
+                          <BadgeCheck className="h-4 w-4 shrink-0 text-[#2b46f0]" /> {point}
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-7 inline-flex items-center gap-2 text-[14px] font-semibold text-[#1837da]">
+                    <div className="mt-7 inline-flex items-center gap-2 text-[14px] font-semibold text-[#2b46f0]">
                       {product.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </div>
                   </Card>
@@ -235,24 +236,24 @@ export default function PortfolioLandingPage() {
           </Wrap>
         </section>
 
-        <section className="border-y border-[#edf0f7] bg-[#f9fafc] py-[82px] lg:py-[100px]">
+        <section className="border-y border-[#e4e8f4] bg-[#f6f8fc] py-[82px] lg:py-[100px]">
           <Wrap>
             <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
               <div>
-                <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Как работаем</div>
+                <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Как работаем</div>
                 <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.025em] md:text-[44px]">
                   От набора сервисов к законченному результату
                 </h2>
-                <p className="mt-4 text-[16px] leading-[1.6] text-[#63666a]">
+                <p className="mt-4 text-[16px] leading-[1.6] text-[#565e78]">
                   До оплаты заказчик понимает, что именно получит, кто отвечает за каждый участок и по каким признакам работа будет принята.
                 </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {delivery.map((item, index) => (
                   <Card key={item.title} className="p-5">
-                    <div className="font-mono text-[11px] font-semibold tracking-[0.1em] text-[#1837da]">0{index + 1}</div>
+                    <div className="font-mono text-[11px] font-semibold tracking-[0.1em] text-[#2b46f0]">0{index + 1}</div>
                     <h3 className="mt-3 text-[21px] font-semibold tracking-[-0.01em]">{item.title}</h3>
-                    <p className="mt-2 text-[14px] leading-[1.55] text-[#63666a]">{item.text}</p>
+                    <p className="mt-2 text-[14px] leading-[1.55] text-[#565e78]">{item.text}</p>
                   </Card>
                 ))}
               </div>
@@ -264,7 +265,7 @@ export default function PortfolioLandingPage() {
           <Wrap>
             <div className="grid items-start gap-10 lg:grid-cols-[1fr_1fr]">
               <div>
-                <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Единый контур</div>
+                <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Единый контур</div>
                 <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.025em] md:text-[44px]">
                   Один подрядчик для четырёх связанных рисков
                 </h2>
@@ -276,11 +277,11 @@ export default function PortfolioLandingPage() {
                   [ShieldCheck, 'Безопасность', 'Политики, индивидуальные доступы, аудит и контуры заказчика.'],
                   [KeyRound, 'Эксплуатация', 'Выдача, ротация, отзыв, продление и поддержка.'],
                 ].map(([Icon, title, text]) => (
-                  <div key={String(title)} className="flex gap-4 rounded-[16px] border border-[#edf0f7] p-5">
-                    <Icon className="mt-0.5 h-5 w-5 shrink-0 text-[#1837da]" />
+                  <div key={String(title)} className="flex gap-4 rounded-[14px] border border-[#e4e8f4] p-5">
+                    <Icon className="mt-0.5 h-5 w-5 shrink-0 text-[#2b46f0]" />
                     <div>
                       <div className="text-[17px] font-semibold">{String(title)}</div>
-                      <div className="mt-1 text-[14px] leading-[1.5] text-[#63666a]">{String(text)}</div>
+                      <div className="mt-1 text-[14px] leading-[1.5] text-[#565e78]">{String(text)}</div>
                     </div>
                   </div>
                 ))}
@@ -289,20 +290,20 @@ export default function PortfolioLandingPage() {
           </Wrap>
         </section>
 
-        <section className="border-y border-[#edf0f7] bg-[#f9fafc] py-[70px]">
+        <section className="border-y border-[#e4e8f4] bg-[#f6f8fc] py-[70px]">
           <Wrap>
-            <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Опыт команды</div>
+            <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Опыт команды</div>
             <h2 className="mt-4 max-w-[760px] text-[30px] font-semibold leading-[1.2] tracking-[-0.02em] md:text-[40px]">
               ИИ, инфраструктура и корпоративные поставки для продуктовых команд
             </h2>
             <div className="mt-8 flex flex-wrap gap-3">
               {experience.map((name) => (
-                <span key={name} className="rounded-full border border-[#d6dcec] bg-white px-4 py-2 text-[14px] font-medium text-[#313131]">
+                <span key={name} className="rounded-[10px] border border-[#c9d2ea] bg-white px-4 py-2 text-[14px] font-medium text-[#232a42]">
                   {name}
                 </span>
               ))}
             </div>
-            <p className="mt-5 max-w-[820px] text-[13px] leading-[1.55] text-[#979797]">
+            <p className="mt-5 max-w-[820px] text-[13px] leading-[1.55] text-[#8d93ab]">
               Перечень отражает опыт команды в поставках, разработке и инфраструктурных проектах; состав конкретных работ различается по договору.
             </p>
           </Wrap>
@@ -310,19 +311,19 @@ export default function PortfolioLandingPage() {
 
         <section id="contact" className="py-[82px] lg:py-[100px]">
           <Wrap>
-            <Card className="overflow-hidden bg-[radial-gradient(700px_280px_at_95%_0%,rgba(24,55,218,.13),transparent_62%)] p-6 sm:p-9">
+            <Card className="overflow-hidden bg-[radial-gradient(700px_280px_at_95%_0%,rgba(43,70,240,.13),transparent_62%)] p-6 sm:p-9">
               <div className="max-w-[820px]">
-                <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1837da]">Следующий шаг</div>
+                <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">Следующий шаг</div>
                 <h2 className="mt-4 text-[32px] font-semibold leading-[1.14] tracking-[-0.025em] md:text-[46px]">
                   Опишите задачу — соберём продуктовую схему и границы поставки
                 </h2>
-                <p className="mt-4 max-w-[720px] text-[16px] leading-[1.6] text-[#63666a]">
+                <p className="mt-4 max-w-[720px] text-[16px] leading-[1.6] text-[#565e78]">
                   Достаточно назвать продукт, число пользователей, желаемый срок и требования вашей ИБ или закупки. Вернёмся с уточнениями и предложением по формату работы.
                 </p>
                 <button
                   type="button"
                   onClick={() => openModal('portfolio_final')}
-                  className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#1837da] px-7 py-3 text-[15px] font-semibold text-white transition hover:-translate-y-px hover:bg-[#0046f9]"
+                  className="mt-7 inline-flex items-center gap-2 rounded-[10px] bg-[#2b46f0] px-7 py-3 text-[15px] font-semibold text-white transition hover:-translate-y-px hover:bg-[#1c33d4]"
                 >
                   Обсудить задачу <ArrowRight className="h-4 w-4" />
                 </button>

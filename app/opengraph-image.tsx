@@ -16,7 +16,7 @@ export default function OpengraphImage() {
           width: '100%',
           height: '100%',
           background: '#ffffff',
-          color: '#1c1d1f',
+          color: '#0d1326',
           padding: '48px 56px',
           fontFamily: 'Arial, sans-serif',
           position: 'relative',
@@ -43,7 +43,7 @@ export default function OpengraphImage() {
             <div
               style={{
                 display: 'flex',
-                border: '1px solid #d3d8df',
+                border: '1px solid #ccd5ea',
                 borderRadius: 10,
                 padding: '8px 12px',
                 background: '#ffffff',
@@ -59,9 +59,9 @@ export default function OpengraphImage() {
                 display: 'flex',
                 padding: '8px 12px',
                 borderRadius: 10,
-                border: '1px solid #d3d8df',
+                border: '1px solid #ccd5ea',
                 background: '#ffffff',
-                color: '#6f7988',
+                color: '#565e78',
                 fontSize: 20,
                 fontWeight: 500,
                 textTransform: 'uppercase',
@@ -74,7 +74,7 @@ export default function OpengraphImage() {
             <div style={{ fontSize: 62, lineHeight: 1.02, fontWeight: 500, letterSpacing: '-1.2px' }}>
               Доступ, внедрение и безопасность в одном контуре
             </div>
-            <div style={{ fontSize: 28, lineHeight: 1.3, color: '#6f7988', maxWidth: 980 }}>
+            <div style={{ fontSize: 28, lineHeight: 1.3, color: '#565e78', maxWidth: 980 }}>
               Поставка зарубежного ПО, корпоративный ИИ, безопасное рабочее место разработчика и VPN-инфраструктура.
             </div>
           </div>
@@ -87,10 +87,10 @@ export default function OpengraphImage() {
                   display: 'flex',
                   padding: '10px 14px',
                   borderRadius: 4,
-                  border: '1px solid #d3d8df',
-                  background: '#f3f4f6',
+                  border: '1px solid #ccd5ea',
+                  background: '#eef1f8',
                   fontSize: 20,
-                  color: '#505967',
+                  color: '#454d68',
                 }}
               >
                 {item}
