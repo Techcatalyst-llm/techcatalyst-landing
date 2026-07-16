@@ -233,6 +233,18 @@ export default function PortfolioLandingPage() {
                 );
               })}
             </div>
+
+            <div className="mt-7 flex flex-col gap-4 border border-[#e4e8f4] bg-[#f6f8fc] p-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="text-[20px] font-semibold">Тарифы на модели ИИ</h3>
+                <p className="mt-1 text-[14px] leading-[1.55] text-[#565e78]">
+                  Отдельная таблица цен на языковые модели, генерацию, embedding, речь и сервисы.
+                </p>
+              </div>
+              <Link href="/tarify" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-[10px] border border-[#2b46f0] bg-white px-5 py-3 text-[14px] font-semibold text-[#2b46f0] transition hover:bg-[#2b46f0] hover:text-white">
+                Открыть тарифы <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </Wrap>
         </section>
 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 const products = [
   { href: '/zakupka-zarubezhnogo-po', label: 'Зарубежное ПО' },
   { href: '/postavka-i-integraciya-ai', label: 'ИИ и интеграция' },
+  { href: '/tarify', label: 'Тарифы' },
   { href: '/techcatalyst-vpn', label: 'TechCatalyst VPN' },
 ];
 
