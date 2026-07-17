@@ -1,0 +1,72 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hero — светлый (techcatalyst.ru)</title>
+<style>
+:root{
+  --brand-600:#2b46f0; --brand-700:#1c33d4; --brand-100:#e3e9ff; --brand-050:#f2f5ff;
+  --ink-900:#0d1326; --ink-700:#232a42; --ink-500:#565e78; --ink-400:#8d93ab;
+  --line:#e4e8f4; --line-strong:#c9d2ea; --surface:#f6f8fc;
+  --navy-950:#070b1d; --navy-900:#0c1228; --navy-800:#141b38; --navy-line:#26305c; --navy-text:#aab3d6;
+  --green:#0aa34f; --green-deep:#087a3c; --amber:#e07c00; --danger:#d92d47;
+  --font-sans:Inter,"Segoe UI",Arial,sans-serif;
+  --font-mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow-card:0 1px 2px rgba(13,19,38,.04),0 8px 24px -12px rgba(13,19,38,.10);
+  --shadow-panel:0 1px 2px rgba(13,19,38,.05),0 24px 48px -20px rgba(13,19,38,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-sans);color:var(--ink-700);background:#fff;padding:28px;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.kicker{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--brand-600)}
+.note{font-size:12.5px;color:var(--ink-400);margin-top:6px}
+h3.sec{font-size:13px;font-weight:600;color:var(--ink-500);margin:26px 0 12px;
+  text-transform:uppercase;letter-spacing:.08em}
+h3.sec:first-of-type{margin-top:0}
+
+body{padding:0}
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(720px 420px at 88% -12%, rgba(43,70,240,.09), transparent 62%),
+    linear-gradient(#fff,#fff)}
+.grid-bg{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(13,19,38,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(13,19,38,.045) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(640px 380px at 82% -8%,#000 30%,transparent 72%)}
+.in{position:relative;max-width:760px;padding:72px 40px}
+h1{margin-top:18px;font-size:clamp(36px,5vw,56px);font-weight:700;line-height:1.06;
+  letter-spacing:-.035em;color:var(--ink-900)}
+.in>p{margin-top:20px;font-size:17.5px;line-height:1.62;color:var(--ink-500);max-width:640px}
+.btns{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 26px;
+  font-size:15px;font-weight:600;text-decoration:none;border:1px solid transparent;
+  transition:all .18s}
+.bp{background:var(--brand-600);color:#fff;box-shadow:0 8px 20px -8px rgba(43,70,240,.45)}
+.bp:hover{background:var(--brand-700)}
+.bg{background:#fff;border-color:var(--line-strong);color:var(--ink-700)}
+.bg:hover{border-color:var(--brand-600);color:var(--brand-600)}
+.chips{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+.chips span{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+  background:#fff;border-radius:8px;padding:7px 13px;font-size:13px;font-weight:500;
+  color:var(--ink-500)}
+.chips i{width:7px;height:7px;border-radius:50%;background:var(--green)}
+</style></head>
+<body>
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="in">
+    <div class="kicker">// Продуктовая линейка TechCatalyst</div>
+    <h1>Технологический контур для работы с зарубежным ПО и ИИ</h1>
+    <p>Поставляем лицензии, подключаем и интегрируем ИИ, защищаем рабочие места разработчиков.
+    Один подрядчик — от коммерческой схемы до работающего контура.</p>
+    <div class="btns">
+      <a class="btn bp" href="#">Обсудить задачу →</a>
+      <a class="btn bg" href="#">Смотреть продукты</a>
+    </div>
+    <div class="chips">
+      <span><i></i>ИП · договор и документы</span><span><i></i>Корпоративная поставка</span>
+      <span><i></i>Инженерное внедрение</span>
+    </div>
+  </div>
+</section>
+</body></html>

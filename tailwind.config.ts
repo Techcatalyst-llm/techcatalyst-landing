@@ -34,8 +34,9 @@ const config: Config = {
         "line-strong": "#c9d2ea",
       },
       fontFamily: {
-        sans: ["Inter", "Segoe UI", "Arial", "sans-serif"],
+        sans: ["var(--font-inter)", "Inter", "Segoe UI", "Arial", "sans-serif"],
         mono: [
+          "var(--font-jbmono)",
           "JetBrains Mono",
           "SF Mono",
           "ui-monospace",
@@ -44,14 +45,28 @@ const config: Config = {
           "monospace",
         ],
       },
+      letterSpacing: {
+        kicker: ".16em",
+      },
+      keyframes: {
+        "tc-blink": {
+          "50%": { opacity: "0" },
+        },
+      },
+      animation: {
+        caret: "tc-blink 1s steps(1) infinite",
+      },
       boxShadow: {
         card: "0 1px 2px rgba(13,19,38,.04), 0 8px 24px -12px rgba(13,19,38,.10)",
         panel: "0 1px 2px rgba(13,19,38,.05), 0 24px 48px -20px rgba(13,19,38,.16)",
         cta: "0 8px 20px -8px rgba(43,70,240,.45)",
       },
       borderRadius: {
+        btn: "10px",
         card: "14px",
         panel: "18px",
+        chip: "8px",
+        badge: "6px",
       },
     },
   },
