@@ -6,7 +6,6 @@ import {
   ArrowRight,
   BadgeCheck,
   Bot,
-  Boxes,
   Code2,
   FileCheck2,
   Globe2,
@@ -16,6 +15,7 @@ import {
 } from 'lucide-react';
 
 import ApplicationModal from '@/components/Modal/ApplicationModal';
+import { ContourPanel, HeroScanOverlay } from '@/components/HeroLoop';
 import { MarketingFooter, MarketingHeader } from '@/components/MarketingChrome';
 import { trackCTAClick } from '@/lib/analytics';
 
@@ -115,71 +115,49 @@ export default function PortfolioLandingPage() {
       <MarketingHeader />
 
       <main>
-        <section className="relative overflow-hidden border-b border-[#e4e8f4] bg-[radial-gradient(900px_500px_at_84%_-10%,rgba(43,70,240,.09),transparent_60%)]">
+        <section className="relative overflow-hidden border-b border-[#e4e8f4] bg-[radial-gradient(760px_460px_at_90%_-14%,rgba(43,70,240,.10),transparent_62%)]">
           <div className="bg-grid-light absolute inset-0" aria-hidden="true" />
-          <Wrap className="relative grid items-center gap-12 py-[78px] lg:grid-cols-[1.05fr_.95fr] lg:py-[104px]">
+          <HeroScanOverlay />
+          <Wrap className="relative grid items-center gap-12 py-[78px] lg:grid-cols-[1.35fr_1fr] lg:py-[104px]">
             <div>
-              <div className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.16em] before:mr-2 before:content-['//'] text-[#2b46f0]">
+              <div className="flex items-center font-mono text-[12px] font-semibold uppercase tracking-[2.1px] text-[#2b46f0] before:mr-2 before:content-['//']">
                 Продуктовая линейка TechCatalyst
+                <span aria-hidden className="ml-1 inline-block h-[15px] w-[9px] animate-caret bg-[#2b46f0]" />
               </div>
-              <h1 className="mt-5 max-w-[780px] text-[clamp(38px,5.2vw,64px)] font-bold leading-[1.06] tracking-[-0.035em] text-[#0d1326]">
-                Технологический контур для работы с зарубежным ПО и ИИ
+              <h1 className="mt-5 max-w-[780px] text-balance text-[clamp(34px,4.4vw,45px)] font-bold leading-[1.08] tracking-[-0.035em] text-[#0d1326]">
+                Технологический контур для зарубежного ПО и ИИ
               </h1>
-              <p className="mt-6 max-w-[740px] text-[17px] leading-[1.62] text-[#565e78] md:text-[19px]">
-                Поставляем лицензии, подключаем и интегрируем ИИ, защищаем рабочие места разработчиков и разворачиваем управляемую VPN-инфраструктуру. Один подрядчик — от коммерческой схемы до работающего технического контура.
+              <p className="mt-[22px] max-w-[540px] text-[17.5px] leading-[1.62] text-[#565e78]">
+                Лицензии, интеграция ИИ и защита рабочих мест разработчиков. Один подрядчик — от коммерческой схемы до работающего контура.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <div className="mt-[30px] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <button
                   type="button"
                   onClick={() => openModal('portfolio_hero')}
-                  className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-[#2b46f0] bg-[#2b46f0] px-7 py-3 text-[15px] font-semibold text-white shadow-cta transition hover:-translate-y-px hover:border-[#1c33d4] hover:bg-[#1c33d4]"
+                  className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-[#2b46f0] bg-[#2b46f0] px-[26px] py-[13px] text-[15px] font-semibold text-white shadow-cta transition hover:-translate-y-px hover:border-[#1c33d4] hover:bg-[#1c33d4]"
                 >
                   Обсудить задачу <ArrowRight className="h-4 w-4" />
                 </button>
                 <a
                   href="#products"
-                  className="inline-flex items-center justify-center rounded-[10px] border border-[#c9d2ea] bg-white px-7 py-3 text-[15px] font-semibold text-[#232a42] transition hover:border-[#2b46f0] hover:text-[#2b46f0]"
+                  className="inline-flex items-center justify-center rounded-[10px] border border-[#c9d2ea] bg-white px-[26px] py-[13px] text-[15px] font-semibold text-[#232a42] transition hover:border-[#2b46f0] hover:text-[#2b46f0]"
                 >
                   Смотреть продукты
                 </a>
               </div>
 
               <div className="mt-7 flex flex-wrap gap-2.5">
-                {['ИП · договор и документы', 'Корпоративная поставка', 'Документы для бухгалтерии', 'Инженерное внедрение'].map((item) => (
-                  <span key={item} className="rounded-[10px] border border-[#e4e8f4] bg-white px-3.5 py-1.5 text-[13px] font-medium text-[#565e78] before:mr-2 before:text-[9px] before:text-[#0aa34f] before:content-['●']">
+                {['ИП · договор и документы', 'Корпоративная поставка', 'Инженерное внедрение'].map((item) => (
+                  <span key={item} className="inline-flex items-center gap-2 rounded-[8px] border border-[#e4e8f4] bg-white px-[13px] py-2 text-[13.5px] font-medium text-[#565e78]">
+                    <i aria-hidden className="h-[7px] w-[7px] shrink-0 rounded-full bg-[#0aa34f]" />
                     {item}
                   </span>
                 ))}
               </div>
             </div>
 
-            <Card className="overflow-hidden p-5 sm:p-6">
-              <div className="flex items-center justify-between border-b border-[#e4e8f4] pb-5">
-                <div>
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#2b46f0]">Единый портфель</div>
-                  <div className="mt-2 text-[24px] font-semibold tracking-[-0.02em]">4 продукта — одна ответственность</div>
-                </div>
-                <Boxes className="h-7 w-7 text-[#2b46f0]" />
-              </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {[
-                  ['ПО', 'Поставка и продление', Globe2],
-                  ['ИИ', 'Доступ и интеграция', Bot],
-                  ['Guard', 'Безопасная разработка', ShieldCheck],
-                  ['VPN', 'Доступ и инфраструктура', Network],
-                ].map(([title, text, Icon]) => (
-                  <div key={String(title)} className="rounded-[14px] border border-[#e4e8f4] bg-[#f6f8fc] p-4">
-                    <Icon className="h-5 w-5 text-[#2b46f0]" />
-                    <div className="mt-4 text-[18px] font-semibold">{String(title)}</div>
-                    <div className="mt-1 text-[13px] leading-[1.5] text-[#565e78]">{String(text)}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-5 rounded-[14px] border border-[#e3e9ff] bg-[#f2f5ff] p-4 text-[14px] leading-[1.55] text-[#232a42]">
-                Коммерческая поставка, внедрение и поддержка собираются в один понятный план с зафиксированными границами ответственности.
-              </div>
-            </Card>
+            <ContourPanel />
           </Wrap>
         </section>
 
