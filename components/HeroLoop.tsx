@@ -90,7 +90,7 @@ export function HeroScanOverlay() {
 
 const NODES = [
   { title: 'Поставка ПО', sub: 'лицензии · договор' },
-  { title: 'Интеграция ИИ', sub: 'модели · API · контур' },
+  { title: 'Takt · Доступ к ИИ', sub: '100+ моделей · API · 152-ФЗ' },
   { title: 'Guard · Защита', sub: 'рабочие места DEV' },
 ];
 
