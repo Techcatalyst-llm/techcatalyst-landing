@@ -1,0 +1,24 @@
+/* TechCatalyst design tokens — source of truth. Import into your global CSS. */
+/* Fonts: Inter + JetBrains Mono. Replace with self-hosted @font-face in production. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{
+  /* Brand */
+  --brand-600:#2b46f0; --brand-700:#1c33d4; --brand-100:#e3e9ff; --brand-050:#f2f5ff;
+  /* Ink — cold navy-grey neutrals */
+  --ink-900:#0d1326; --ink-700:#232a42; --ink-500:#565e78; --ink-400:#8d93ab;
+  /* Lines & surface */
+  --line:#e4e8f4; --line-strong:#c9d2ea; --surface:#f6f8fc;
+  /* Dark surfaces — Guard, terminal, footer */
+  --navy-950:#070b1d; --navy-900:#0c1228; --navy-800:#141b38; --navy-line:#26305c; --navy-text:#aab3d6;
+  /* Status */
+  --green:#0aa34f; --green-deep:#087a3c; --amber:#e07c00; --danger:#d92d47;
+  /* Type */
+  --font-sans:Inter,"Segoe UI",Arial,sans-serif;
+  --font-mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  /* Radius */
+  --radius-btn:10px; --radius-card:14px; --radius-panel:16px; --radius-chip:8px; --radius-badge:6px;
+  /* Elevation */
+  --shadow-card:0 1px 2px rgba(13,19,38,.04),0 8px 24px -12px rgba(13,19,38,.10);
+  --shadow-panel:0 1px 2px rgba(13,19,38,.05),0 24px 48px -20px rgba(13,19,38,.16);
+  --ring-focus:0 0 0 3px rgba(43,70,240,.28);
+}

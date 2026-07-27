@@ -1,0 +1,86 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Цвета</title>
+<style>
+:root{
+  --brand-600:#2b46f0; --brand-700:#1c33d4; --brand-100:#e3e9ff; --brand-050:#f2f5ff;
+  --ink-900:#0d1326; --ink-700:#232a42; --ink-500:#565e78; --ink-400:#8d93ab;
+  --line:#e4e8f4; --line-strong:#c9d2ea; --surface:#f6f8fc;
+  --navy-950:#070b1d; --navy-900:#0c1228; --navy-800:#141b38; --navy-line:#26305c; --navy-text:#aab3d6;
+  --green:#0aa34f; --green-deep:#087a3c; --amber:#e07c00; --danger:#d92d47;
+  --font-sans:Inter,"Segoe UI",Arial,sans-serif;
+  --font-mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow-card:0 1px 2px rgba(13,19,38,.04),0 8px 24px -12px rgba(13,19,38,.10);
+  --shadow-panel:0 1px 2px rgba(13,19,38,.05),0 24px 48px -20px rgba(13,19,38,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-sans);color:var(--ink-700);background:#fff;padding:28px;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.kicker{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--brand-600)}
+.note{font-size:12.5px;color:var(--ink-400);margin-top:6px}
+h3.sec{font-size:13px;font-weight:600;color:var(--ink-500);margin:26px 0 12px;
+  text-transform:uppercase;letter-spacing:.08em}
+h3.sec:first-of-type{margin-top:0}
+
+.row{display:flex;flex-wrap:wrap;gap:14px}
+.sw{width:132px;font-size:12px}
+.sw i{display:block;height:64px;border-radius:10px;margin-bottom:7px}
+.sw b{display:block;font-weight:600;color:var(--ink-700);font-size:12px}
+.sw code{font-family:var(--font-mono);font-size:11px;color:var(--ink-400)}
+</style></head>
+<body>
+<h3 class="sec">Бренд</h3>
+<div class="row">
+<div class="sw"><i style="background:#2b46f0;"></i>
+<b>brand-600 · основной</b><code>#2b46f0</code></div>
+<div class="sw"><i style="background:#1c33d4;"></i>
+<b>brand-700 · hover</b><code>#1c33d4</code></div>
+
+<div class="sw"><i style="background:#e3e9ff;border:1px solid var(--line)"></i>
+<b>brand-100 · заливка</b><code>#e3e9ff</code></div>
+<div class="sw"><i style="background:#f2f5ff;border:1px solid var(--line)"></i>
+<b>brand-050 · фон-тон</b><code>#f2f5ff</code></div></div>
+<h3 class="sec">Нейтрали (холодный navy-грей)</h3>
+<div class="row">
+<div class="sw"><i style="background:#0d1326;"></i>
+<b>ink-900 · заголовки</b><code>#0d1326</code></div>
+<div class="sw"><i style="background:#232a42;"></i>
+<b>ink-700 · текст</b><code>#232a42</code></div>
+
+<div class="sw"><i style="background:#565e78;"></i>
+<b>ink-500 · muted</b><code>#565e78</code></div>
+<div class="sw"><i style="background:#8d93ab;border:1px solid var(--line)"></i>
+<b>ink-400 · dim</b><code>#8d93ab</code></div>
+
+<div class="sw"><i style="background:#e4e8f4;border:1px solid var(--line)"></i>
+<b>line · рамки</b><code>#e4e8f4</code></div>
+<div class="sw"><i style="background:#c9d2ea;border:1px solid var(--line)"></i>
+<b>line-strong</b><code>#c9d2ea</code></div>
+<div class="sw"><i style="background:#f6f8fc;border:1px solid var(--line)"></i>
+<b>surface · фон</b><code>#f6f8fc</code></div></div>
+<h3 class="sec">Тёмные поверхности (Guard, терминал, футер)</h3>
+<div class="row">
+<div class="sw"><i style="background:#070b1d;"></i>
+<b>navy-950 · страница</b><code>#070b1d</code></div>
+<div class="sw"><i style="background:#0c1228;"></i>
+<b>navy-900 · панель</b><code>#0c1228</code></div>
+
+<div class="sw"><i style="background:#141b38;"></i>
+<b>navy-800 · raised</b><code>#141b38</code></div>
+<div class="sw"><i style="background:#26305c;"></i>
+<b>navy-line</b><code>#26305c</code></div>
+<div class="sw"><i style="background:#aab3d6;border:1px solid var(--line)"></i>
+<b>navy-text</b><code>#aab3d6</code></div></div>
+<h3 class="sec">Статусы</h3>
+<div class="row">
+<div class="sw"><i style="background:#0aa34f;"></i>
+<b>green</b><code>#0aa34f</code></div>
+<div class="sw"><i style="background:#087a3c;"></i>
+<b>green-deep</b><code>#087a3c</code></div>
+
+<div class="sw"><i style="background:#e07c00;"></i>
+<b>amber</b><code>#e07c00</code></div>
+<div class="sw"><i style="background:#d92d47;"></i>
+<b>danger</b><code>#d92d47</code></div></div>
+</body></html>

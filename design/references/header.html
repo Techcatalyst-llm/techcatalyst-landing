@@ -1,0 +1,60 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Шапка</title>
+<style>
+:root{
+  --brand-600:#2b46f0; --brand-700:#1c33d4; --brand-100:#e3e9ff; --brand-050:#f2f5ff;
+  --ink-900:#0d1326; --ink-700:#232a42; --ink-500:#565e78; --ink-400:#8d93ab;
+  --line:#e4e8f4; --line-strong:#c9d2ea; --surface:#f6f8fc;
+  --navy-950:#070b1d; --navy-900:#0c1228; --navy-800:#141b38; --navy-line:#26305c; --navy-text:#aab3d6;
+  --green:#0aa34f; --green-deep:#087a3c; --amber:#e07c00; --danger:#d92d47;
+  --font-sans:Inter,"Segoe UI",Arial,sans-serif;
+  --font-mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow-card:0 1px 2px rgba(13,19,38,.04),0 8px 24px -12px rgba(13,19,38,.10);
+  --shadow-panel:0 1px 2px rgba(13,19,38,.05),0 24px 48px -20px rgba(13,19,38,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-sans);color:var(--ink-700);background:#fff;padding:28px;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.kicker{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--brand-600)}
+.note{font-size:12.5px;color:var(--ink-400);margin-top:6px}
+h3.sec{font-size:13px;font-weight:600;color:var(--ink-500);margin:26px 0 12px;
+  text-transform:uppercase;letter-spacing:.08em}
+h3.sec:first-of-type{margin-top:0}
+
+body{background:var(--surface)}
+.hdr{display:flex;align-items:center;gap:26px;min-height:64px;padding:0 24px;border-radius:12px;
+  border:1px solid var(--line);background:rgba(255,255,255,.92);margin-bottom:14px}
+.logo{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;
+  letter-spacing:-.01em;color:var(--ink-900);text-decoration:none}
+.logo .mark{color:var(--brand-600)}
+.logo em{font-style:normal;font-family:var(--font-mono);font-size:12px;font-weight:600;
+  color:var(--brand-600);background:var(--brand-050);border-radius:5px;padding:2px 7px}
+nav{margin-left:auto;display:flex;gap:20px}
+nav a{font-size:14px;font-weight:500;color:var(--ink-500);text-decoration:none}
+nav a:hover{color:var(--brand-600)}
+nav a.act{color:var(--brand-600);font-weight:600}
+.cta{display:inline-flex;border-radius:10px;background:var(--brand-600);color:#fff;
+  padding:9px 18px;font-size:14px;font-weight:600;text-decoration:none}
+.cta:hover{background:var(--brand-700)}
+.hdr.dark{background:rgba(7,11,29,.92);border-color:var(--navy-line)}
+.hdr.dark .logo{color:#fff}
+.hdr.dark nav a{color:var(--navy-text)}
+.hdr.dark nav a:hover{color:#aab8ff}
+.hdr.dark .logo em{background:rgba(84,104,255,.16);color:#aab8ff}
+</style></head>
+<body>
+<div class="hdr light">
+  <a class="logo" href="#"><span class="mark">▲</span>TechCatalyst</a>
+  <nav><a href="#">Продукты</a><a href="#">Зарубежное ПО</a><a href="#">ИИ и интеграция</a>
+  <a href="#" class="act">Guard</a><a href="#">Документация</a></nav>
+  <a class="cta" href="#">Обсудить задачу</a>
+</div>
+<p class="note">Светлая: белая с blur, hairline line. Ниже — тёмная для Guard.</p>
+<div class="hdr dark">
+  <a class="logo" href="#"><span class="mark">▲</span>TechCatalyst <em>Guard</em></a>
+  <nav><a href="#">Возможности</a><a href="#">Архитектура</a><a href="#">Внедрение</a></nav>
+  <a class="cta" href="#">Запросить пилот</a>
+</div>
+</body></html>
