@@ -87,7 +87,7 @@ export const NeuroTailorLogo: React.FC<LogoProps> = ({
               fontFamily="Inter, system-ui, sans-serif"
               fontSize="8"
               fontWeight="400"
-              fill="#9ca3af"
+              fill="#8d93ab"
               letterSpacing="1"
             >
               AI-POWERED MVP
@@ -261,7 +261,7 @@ export const NeuroTailorLogo: React.FC<LogoProps> = ({
             letterSpacing="-0.5"
           >
             <tspan x="0" y="0" fill="url(#horizGrad1)">Neuro</tspan>
-            <tspan x="65" y="0" fill="#e5e7eb">Tailor</tspan>
+            <tspan x="65" y="0" fill="#e4e8f4">Tailor</tspan>
           </text>
           <text
             x="0"
@@ -269,7 +269,7 @@ export const NeuroTailorLogo: React.FC<LogoProps> = ({
             fontFamily="Inter, system-ui, sans-serif"
             fontSize="11"
             fontWeight="400"
-            fill="#9ca3af"
+            fill="#8d93ab"
             letterSpacing="2"
           >
             AI-POWERED MVP PLATFORM

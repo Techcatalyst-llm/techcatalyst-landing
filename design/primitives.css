@@ -1,0 +1,49 @@
+/* TechCatalyst primitives — adapt into your components. Values come from tokens.css. */
+
+/* Kicker — mono label with // prefix */
+.tc-kicker{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-600)}
+.tc-kicker::before{content:"// "}
+
+/* Buttons — radius 10px, not pill */
+.tc-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;border-radius:var(--radius-btn);padding:12px 26px;font:600 15px/1 var(--font-sans);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:all .18s ease}
+.tc-btn--sm{padding:9px 18px;font-size:14px}
+.tc-btn--primary{background:var(--brand-600);border-color:var(--brand-600);color:#fff;box-shadow:0 8px 20px -8px rgba(43,70,240,.45)}
+.tc-btn--primary:hover{background:var(--brand-700);border-color:var(--brand-700);transform:translateY(-1px)}
+.tc-btn--ghost{background:#fff;border-color:var(--line-strong);color:var(--ink-700)}
+.tc-btn--ghost:hover{border-color:var(--brand-600);color:var(--brand-600)}
+.tc-btn--dark-ghost{background:transparent;border-color:var(--navy-line);color:#e6eaff}
+.tc-btn--dark-ghost:hover{border-color:#5468ff;color:#aab8ff}
+.tc-btn:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+
+/* Card — radius 14px */
+.tc-card{border:1px solid var(--line);border-radius:var(--radius-card);background:#fff;padding:26px;box-shadow:var(--shadow-card);transition:border-color .18s,transform .18s}
+.tc-card:hover{border-color:var(--line-strong);transform:translateY(-2px)}
+
+/* Chip & badge */
+.tc-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:var(--radius-chip);padding:7px 13px;font:500 13px var(--font-sans);color:var(--ink-500)}
+.tc-chip i{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.tc-badge{display:inline-flex;font:600 11px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--brand-600);background:var(--brand-050);border-radius:var(--radius-badge);padding:5px 10px}
+.tc-badge--amber{color:var(--amber);background:rgba(224,124,0,.08)}
+
+/* Input */
+.tc-input{display:block;width:100%;border:1px solid var(--line-strong);border-radius:var(--radius-btn);padding:11px 13px;font:15px var(--font-sans);color:var(--ink-900);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+.tc-input:focus{border-color:var(--brand-600);box-shadow:0 0 0 3px rgba(43,70,240,.16)}
+.tc-input::placeholder{color:var(--ink-400)}
+
+/* ——— Formes & lines (engineering look) ——— */
+/* Blueprint grid, masked toward a corner */
+.tc-grid-bg{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(13,19,38,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(13,19,38,.045) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(680px 420px at 80% -10%,#000 25%,transparent 70%);mask-image:radial-gradient(680px 420px at 80% -10%,#000 25%,transparent 70%)}
+.tc-grid-bg--dark{background-image:linear-gradient(rgba(124,140,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(124,140,255,.07) 1px,transparent 1px)}
+/* Radial brand glow */
+.tc-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(720px 420px at 85% -14%,rgba(43,70,240,.09),transparent 62%)}
+.tc-glow--dark{background:radial-gradient(720px 420px at 85% -14%,rgba(84,104,255,.22),transparent 62%)}
+/* Hairline connector line */
+.tc-hairline{height:1px;background:var(--line);border:0}
+
+/* ——— Reveal on scroll (pairs with reveal.js) ——— */
+.tc-reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)}
+.tc-reveal.is-in{opacity:1;transform:none}
+.tc-reveal[data-delay="1"]{transition-delay:.08s}
+.tc-reveal[data-delay="2"]{transition-delay:.16s}
+.tc-reveal[data-delay="3"]{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){.tc-reveal{opacity:1;transform:none;transition:none}}

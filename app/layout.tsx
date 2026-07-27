@@ -1,39 +1,45 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
 import Script from "next/script";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const rubik = Rubik({
+const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
+  variable: "--font-inter",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  variable: "--font-jbmono",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techcatalyst.ru'),
-  title: "Tech Catalyst - Unified API for 100+ AI Models",
-  description: "ChatGPT, Claude, Gemini, Grok and hundreds of other AI models in one API. Pay in rubles. Works without VPN. Single API key, single endpoint.",
-  keywords: "AI API, ChatGPT API, Claude API, Gemini API, AI models, unified API, OpenAI alternative, AI aggregation, pay as you go, Russian AI API",
+  title: "TechCatalyst — зарубежное ПО, ИИ, Guard и корпоративный VPN",
+  description: "Поставка зарубежного ПО, корпоративный ИИ и интеграция, безопасное рабочее место разработчика TechCatalyst Guard и управляемая VPN-инфраструктура.",
+  keywords: "TechCatalyst, поставка зарубежного ПО, интеграция ИИ, корпоративный ИИ, безопасное рабочее место разработчика, TechCatalyst Guard, корпоративный VPN",
   openGraph: {
-    title: "Tech Catalyst - Unified API for 100+ AI Models",
-    description: "ChatGPT, Claude, Gemini, Grok and hundreds of other AI models in one API. Pay in rubles. Works without VPN.",
+    title: "TechCatalyst — зарубежное ПО, ИИ, Guard и корпоративный VPN",
+    description: "Единая продуктовая линейка для корпоративного доступа, внедрения и безопасности.",
     type: "website",
     url: "https://techcatalyst.ru",
-    locale: "en_US",
+    locale: "ru_RU",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Tech Catalyst - Unified API Platform for AI Models",
+        alt: "TechCatalyst — корпоративные технологические решения",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tech Catalyst - Unified API for 100+ AI Models",
-    description: "ChatGPT, Claude, Gemini, Grok and hundreds of other AI models in one API",
-    images: ["/og-image.png"],
+    title: "TechCatalyst — зарубежное ПО, ИИ, Guard и корпоративный VPN",
+    description: "Корпоративные технологии, поставка и интеграция под ключ",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -45,8 +51,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="scroll-smooth">
-      <body className={`${rubik.className} antialiased`}>
+    <html lang="ru" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="font-sans antialiased">
         {children}
         <Script id="yandex-metrika" strategy="afterInteractive">
           {`

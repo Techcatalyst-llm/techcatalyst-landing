@@ -1,0 +1,54 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Типографика</title>
+<style>
+:root{
+  --brand-600:#2b46f0; --brand-700:#1c33d4; --brand-100:#e3e9ff; --brand-050:#f2f5ff;
+  --ink-900:#0d1326; --ink-700:#232a42; --ink-500:#565e78; --ink-400:#8d93ab;
+  --line:#e4e8f4; --line-strong:#c9d2ea; --surface:#f6f8fc;
+  --navy-950:#070b1d; --navy-900:#0c1228; --navy-800:#141b38; --navy-line:#26305c; --navy-text:#aab3d6;
+  --green:#0aa34f; --green-deep:#087a3c; --amber:#e07c00; --danger:#d92d47;
+  --font-sans:Inter,"Segoe UI",Arial,sans-serif;
+  --font-mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow-card:0 1px 2px rgba(13,19,38,.04),0 8px 24px -12px rgba(13,19,38,.10);
+  --shadow-panel:0 1px 2px rgba(13,19,38,.05),0 24px 48px -20px rgba(13,19,38,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-sans);color:var(--ink-700);background:#fff;padding:28px;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.kicker{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--brand-600)}
+.note{font-size:12.5px;color:var(--ink-400);margin-top:6px}
+h3.sec{font-size:13px;font-weight:600;color:var(--ink-500);margin:26px 0 12px;
+  text-transform:uppercase;letter-spacing:.08em}
+h3.sec:first-of-type{margin-top:0}
+
+h1{font-size:44px;font-weight:700;line-height:1.06;letter-spacing:-.035em;color:var(--ink-900);
+  max-width:640px;margin-top:14px}
+h2{font-size:32px;font-weight:650;line-height:1.15;letter-spacing:-.025em;color:var(--ink-900);
+  margin-top:30px}
+.lead{margin-top:14px;font-size:17px;line-height:1.62;color:var(--ink-500);max-width:600px}
+.body{margin-top:12px;font-size:15.5px;line-height:1.6;max-width:600px}
+code{font-family:var(--font-mono);font-size:13px;background:var(--brand-050);color:var(--brand-600);
+  padding:1px 6px;border-radius:5px}
+.spec{margin-top:28px;border-top:1px solid var(--line);padding-top:16px;display:grid;gap:8px;
+  font-size:13px;color:var(--ink-500)}
+.spec b{display:inline-block;width:64px;color:var(--ink-900)}
+</style></head>
+<body>
+<div class="kicker">// Продуктовая линейка TechCatalyst</div>
+<h1>Технологический контур для работы с зарубежным ПО и ИИ</h1>
+<p class="lead">Лид-абзац: Inter 17–19px, line-height 1.62, цвет ink-500. Максимальная ширина 740px,
+чтобы строка держала 65–75 знаков.</p>
+<h2>Заголовок второго уровня, 32–42px</h2>
+<p class="body">Основной текст: Inter 16px / 1.6, ink-700. Моноширинный акцент для
+<code>технических значений</code> и терминов конфигурации.</p>
+<div class="spec">
+<div><b>H1</b> Inter 700 · clamp(36→58px) · lh 1.06 · tracking −0.035em · ink-900</div>
+<div><b>H2</b> Inter 650 · clamp(30→42px) · lh 1.15 · tracking −0.025em · ink-900</div>
+<div><b>Kicker</b> JetBrains Mono 600 · 11.5px · UPPERCASE · tracking 0.16em · brand-600 · префикс «//»</div>
+<div><b>Lead</b> Inter 400 · 17–19px · lh 1.62 · ink-500</div>
+<div><b>Body</b> Inter 400 · 15–16px · lh 1.6 · ink-700</div>
+<div><b>Mono</b> JetBrains Mono · 13–13.5px · для терминала, кода, чисел</div>
+</div>
+</body></html>
