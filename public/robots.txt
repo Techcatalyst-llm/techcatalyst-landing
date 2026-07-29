@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /test
+Disallow: /design-system
+Disallow: /logo-showcase
+
+Sitemap: https://techcatalyst.ru/sitemap.xml
+Host: techcatalyst.ru

@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-export const YM_ID = process.env.NEXT_PUBLIC_YM_ID || "102447006";
+export const YM_ID = "111010243";
 
 /**
  * Отправить событие в Яндекс.Метрику
