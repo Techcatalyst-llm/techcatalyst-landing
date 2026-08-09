@@ -28,6 +28,16 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# real env files — .env*.local above does not match these, and .env.production
+# holds a live bot token. Only .env.example belongs in the repository.
+.env
+.env.*
+!.env.example
+
+# runtime-captured form submissions: personal data (name, email, telegram) and
+# the applicant's own project description. Never belongs in version control.
+/data/
+
 # vercel
 .vercel
 
