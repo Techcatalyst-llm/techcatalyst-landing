@@ -52,6 +52,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
+      <head>
+        <link rel="describedby" href="/llms.txt" />
+      </head>
       <body className="font-sans antialiased">
         {children}
         <Script id="yandex-metrika" strategy="afterInteractive">
